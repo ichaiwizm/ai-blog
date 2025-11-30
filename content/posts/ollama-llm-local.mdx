@@ -1,0 +1,167 @@
+---
+title: "Ollama : LLM en local"
+description: "Faites tourner des modeles de langage sur votre machine avec Ollama"
+date: "2024-11-13"
+tags: ["ia", "ollama", "tutorial", "local"]
+image: "https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=800&q=80"
+published: true
+category: "tutoriels"
+---
+
+# Ollama : LLM en local
+
+**Ollama** permet de faire tourner des LLM directement sur votre machine. Plus besoin d'API externe !
+
+## Pourquoi utiliser Ollama ?
+
+- **Gratuit** - Pas de couts API
+- **Prive** - Vos donnees restent locales
+- **Rapide** - Pas de latence reseau
+- **Offline** - Fonctionne sans internet
+
+## Installation
+
+### macOS / Linux
+```bash
+curl -fsSL https://ollama.com/install.sh | sh
+```
+
+### Windows
+Telecharger l'installateur sur [ollama.com](https://ollama.com)
+
+## Premiers pas
+
+### Telecharger un modele
+```bash
+# Llama 2 (7B)
+ollama pull llama2
+
+# Mistral (7B)
+ollama pull mistral
+
+# Code Llama
+ollama pull codellama
+
+# Phi-2 (leger)
+ollama pull phi
+```
+
+### Lancer une conversation
+```bash
+ollama run llama2
+>>> Bonjour, comment ca va ?
+```
+
+## Modeles disponibles
+
+| Modele | Taille | RAM requise | Usage |
+|--------|--------|-------------|-------|
+| phi | 2.7B | 4GB | Conversations legeres |
+| mistral | 7B | 8GB | General purpose |
+| llama2 | 7B | 8GB | General purpose |
+| codellama | 7B | 8GB | Code |
+| mixtral | 47B | 32GB | Haute qualite |
+
+## Utilisation via API
+
+Ollama expose une API REST locale :
+
+```python
+import requests
+
+response = requests.post(
+    "http://localhost:11434/api/generate",
+    json={
+        "model": "mistral",
+        "prompt": "Explique le machine learning en 3 phrases",
+        "stream": False
+    }
+)
+
+print(response.json()["response"])
+```
+
+### Avec le SDK Python
+
+```bash
+pip install ollama
+```
+
+```python
+import ollama
+
+response = ollama.chat(
+    model="mistral",
+    messages=[
+        {"role": "user", "content": "Bonjour !"}
+    ]
+)
+
+print(response["message"]["content"])
+```
+
+## Integration avec LangChain
+
+```python
+from langchain_community.llms import Ollama
+
+llm = Ollama(model="mistral")
+
+response = llm.invoke("Quelle est la capitale de la France ?")
+print(response)
+```
+
+## Creer un modele personnalise
+
+### Modelfile
+```dockerfile
+FROM mistral
+
+# Prompt systeme
+SYSTEM Tu es un assistant specialise en cuisine francaise. Tu reponds toujours en incluant une anecdote culinaire.
+
+# Parametres
+PARAMETER temperature 0.7
+PARAMETER num_ctx 4096
+```
+
+### Creer le modele
+```bash
+ollama create chef-cuisine -f Modelfile
+ollama run chef-cuisine
+```
+
+## Performance
+
+### GPU
+Ollama utilise automatiquement le GPU si disponible (NVIDIA, Apple Silicon).
+
+### Optimisation
+```bash
+# Voir les modeles charges
+ollama ps
+
+# Limiter la memoire
+OLLAMA_MAX_LOADED_MODELS=1 ollama serve
+```
+
+## Cas d'usage
+
+1. **Developpement** - Tester sans couts API
+2. **Donnees sensibles** - Garder les donnees locales
+3. **Hors-ligne** - Environnements deconnectes
+4. **Experimentation** - Tester differents modeles
+
+## Comparaison avec les APIs cloud
+
+| Critere | Ollama | API Cloud |
+|---------|--------|-----------|
+| Cout | Gratuit | Pay per use |
+| Latence | ~100ms | ~500ms |
+| Qualite | Bonne | Excellente |
+| Confidentialite | Totale | Partagee |
+| Maintenance | Vous | Provider |
+
+## Conclusion
+
+Ollama democratise l'acces aux LLM. C'est l'outil parfait pour experimenter, prototyper, ou traiter des donnees sensibles localement.
