@@ -10,11 +10,11 @@ export const metadata: Metadata = {
     default: "AI Blog",
     template: "%s | AI Blog",
   },
-  description: "Explorations et reflexions sur l'intelligence artificielle",
+  description: "Guides et bonnes pratiques pour développer avec l'intelligence artificielle",
   metadataBase: new URL(baseUrl),
   openGraph: {
     title: "AI Blog",
-    description: "Explorations et reflexions sur l'intelligence artificielle",
+    description: "Guides et bonnes pratiques pour développer avec l'intelligence artificielle",
     type: "website",
     siteName: "AI Blog",
     locale: "fr_FR",
