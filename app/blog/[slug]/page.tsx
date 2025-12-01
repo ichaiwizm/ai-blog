@@ -20,6 +20,8 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import AuthorBio from "@/components/AuthorBio";
 import SeriesNavigation from "@/components/SeriesNavigation";
 import Prerequisites from "@/components/Prerequisites";
+import ArticleTracker from "@/components/ArticleTracker";
+import ArticleActions from "@/components/ArticleActions";
 
 interface Props {
   params: { slug: string };
@@ -79,7 +81,7 @@ export default async function PostPage({ params }: Props) {
   const articleUrl = `${baseUrl}/blog/${params.slug}`;
 
   return (
-    <>
+    <ArticleTracker slug={params.slug}>
       <ReadingProgress />
       <TableOfContents headings={headings} />
 
@@ -164,9 +166,9 @@ export default async function PostPage({ params }: Props) {
               </div>
             )}
 
-            {/* Share */}
+            {/* Actions (Favorite + Share) */}
             <div className="animate-fade-up stagger-5">
-              <ShareButtons title={post.title} url={articleUrl} />
+              <ArticleActions slug={params.slug} title={post.title} url={articleUrl} />
             </div>
           </div>
         </header>
@@ -252,7 +254,7 @@ export default async function PostPage({ params }: Props) {
           </footer>
         </div>
       </article>
-    </>
+    </ArticleTracker>
   );
 }
 
