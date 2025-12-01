@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useConcepts } from "@/contexts/ConceptsContext";
 import { ConceptMeta, CONCEPT_LEVELS } from "@/lib/concepts-types";
@@ -10,33 +11,65 @@ interface PrerequisitesProps {
 
 export default function Prerequisites({ concepts }: PrerequisitesProps) {
   const { isCompleted, isLoaded } = useConcepts();
+  const [isExpanded, setIsExpanded] = useState(true);
+
+  const completedCount = concepts.filter((c) => isCompleted(c.slug)).length;
+  const allCompleted = isLoaded && completedCount === concepts.length;
+  const progress = (completedCount / concepts.length) * 100;
+
+  // Auto-collapse when all completed
+  useEffect(() => {
+    if (isLoaded && allCompleted) {
+      setIsExpanded(false);
+    }
+  }, [isLoaded, allCompleted]);
 
   if (concepts.length === 0) return null;
 
-  const completedCount = concepts.filter((c) => isCompleted(c.slug)).length;
-  const allCompleted = completedCount === concepts.length;
-  const progress = (completedCount / concepts.length) * 100;
-
   return (
-    <div className="my-8 border-3 border-border bg-bg-secondary not-prose">
-      {/* Header */}
-      <div className="px-5 py-4 border-b-2 border-border bg-bg-tertiary">
+    <div className={`my-8 border-3 bg-bg-secondary not-prose transition-all ${
+      allCompleted ? "border-accent" : "border-border"
+    }`}>
+      {/* Header - Clickable */}
+      <button
+        onClick={() => setIsExpanded(!isExpanded)}
+        className={`w-full px-5 py-4 bg-bg-tertiary text-left transition-all hover:bg-bg-secondary ${
+          isExpanded ? "border-b-2 border-border" : ""
+        }`}
+      >
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-accent border-2 border-border flex items-center justify-center">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                className="text-text-inverse"
-              >
-                <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
-                <path d="M8 7h6" />
-                <path d="M8 11h8" />
-              </svg>
+            {/* Icon changes based on completion */}
+            <div className={`w-10 h-10 border-2 border-border flex items-center justify-center transition-colors ${
+              allCompleted ? "bg-accent" : "bg-accent"
+            }`}>
+              {allCompleted ? (
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  className="text-text-inverse"
+                >
+                  <path d="M20 6L9 17l-5-5" />
+                </svg>
+              ) : (
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  className="text-text-inverse"
+                >
+                  <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
+                  <path d="M8 7h6" />
+                  <path d="M8 11h8" />
+                </svg>
+              )}
             </div>
             <div>
               <h3 className="font-body font-bold text-text-primary text-lg">
@@ -44,50 +77,68 @@ export default function Prerequisites({ concepts }: PrerequisitesProps) {
               </h3>
               <p className="font-mono text-xs text-text-muted">
                 {allCompleted
-                  ? "Tu es prêt !"
+                  ? "Tu es prêt ! Tous les concepts sont maîtrisés"
                   : `${completedCount}/${concepts.length} concepts maîtrisés`}
               </p>
             </div>
           </div>
 
-          {/* Progress bar */}
-          {isLoaded && (
-            <div className="flex items-center gap-3">
-              <div className="w-32 h-2 bg-bg-primary border border-border">
-                <div
-                  className="h-full bg-accent transition-all duration-500"
-                  style={{ width: `${progress}%` }}
-                />
+          <div className="flex items-center gap-3">
+            {/* Progress bar */}
+            {isLoaded && (
+              <div className="flex items-center gap-3">
+                <div className="w-32 h-2 bg-bg-primary border border-border">
+                  <div
+                    className="h-full bg-accent transition-all duration-500"
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
               </div>
-              {allCompleted && (
-                <span className="text-lg" title="Tous les prérequis sont complétés">
-                  ✓
-                </span>
-              )}
+            )}
+
+            {/* Expand/Collapse icon */}
+            <div className={`w-8 h-8 flex items-center justify-center border-2 border-border bg-bg-secondary transition-transform ${
+              isExpanded ? "" : "rotate-180"
+            }`}>
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                className="text-text-muted"
+              >
+                <path d="M18 15l-6-6-6 6" />
+              </svg>
             </div>
-          )}
+          </div>
         </div>
-      </div>
+      </button>
 
-      {/* Concepts list */}
-      <div className="divide-y divide-border-light">
-        {concepts.map((concept) => (
-          <PrerequisiteItem
-            key={concept.slug}
-            concept={concept}
-            isCompleted={isLoaded && isCompleted(concept.slug)}
-          />
-        ))}
-      </div>
-
-      {/* Footer tip */}
-      {!allCompleted && (
-        <div className="px-5 py-3 border-t-2 border-border-light bg-accent-light">
-          <p className="font-mono text-xs text-text-muted">
-            <span className="font-semibold">Conseil :</span> Consulte les concepts que tu ne maîtrises pas encore avant de continuer.
-          </p>
+      {/* Concepts list - Collapsible */}
+      <div className={`overflow-hidden transition-all duration-300 ${
+        isExpanded ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
+      }`}>
+        <div className="divide-y divide-border-light">
+          {concepts.map((concept) => (
+            <PrerequisiteItem
+              key={concept.slug}
+              concept={concept}
+              isCompleted={isLoaded && isCompleted(concept.slug)}
+            />
+          ))}
         </div>
-      )}
+
+        {/* Footer tip */}
+        {!allCompleted && (
+          <div className="px-5 py-3 border-t-2 border-border-light bg-accent-light">
+            <p className="font-mono text-xs text-text-muted">
+              <span className="font-semibold">Conseil :</span> Consulte les concepts que tu ne maîtrises pas encore avant de continuer.
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
