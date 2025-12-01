@@ -1,9 +1,17 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ai-blog.vercel.app";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  themeColor: "#000000",
+};
 
 export const metadata: Metadata = {
   title: {
@@ -12,6 +20,15 @@ export const metadata: Metadata = {
   },
   description: "Guides et bonnes pratiques pour développer avec l'intelligence artificielle",
   metadataBase: new URL(baseUrl),
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "AI Blog",
+  },
+  formatDetection: {
+    telephone: false,
+  },
   openGraph: {
     title: "AI Blog",
     description: "Guides et bonnes pratiques pour développer avec l'intelligence artificielle",
@@ -30,6 +47,10 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+  },
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/icons/apple-touch-icon.png",
   },
 };
 
