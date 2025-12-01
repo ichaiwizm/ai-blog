@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import ThemeToggle from "./ThemeToggle";
+import PlatformSelector from "./PlatformSelector";
 
 export default function Header() {
   const pathname = usePathname();
@@ -64,6 +65,9 @@ export default function Header() {
           <NavLink href="/blog" active={pathname.startsWith("/blog")}>
             Articles
           </NavLink>
+          <NavLink href="/concepts" active={pathname.startsWith("/concepts")}>
+            Concepts
+          </NavLink>
           <a
             href="/feed.xml"
             target="_blank"
@@ -74,6 +78,7 @@ export default function Header() {
             RSS
           </a>
           <div className="w-px h-6 bg-border-light hidden md:block" />
+          <PlatformSelector />
           <ThemeToggle />
         </nav>
       </div>

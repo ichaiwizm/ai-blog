@@ -1,0 +1,237 @@
+---
+title: "Comprendre les prompts : l'art de parler aux LLMs"
+description: "Apprends à écrire des prompts efficaces pour obtenir les meilleurs résultats de tes outils IA."
+date: "2024-11-25"
+tags: ["Prompting", "LLM", "Bonnes pratiques", "IA"]
+published: true
+category: "tutoriels"
+prerequisites:
+  - modeles-ia
+---
+
+Le prompting est l'art de communiquer efficacement avec les modèles de langage. Un bon prompt peut faire la différence entre une réponse médiocre et une réponse exceptionnelle.
+
+## Les bases du prompting
+
+### 1. Sois spécifique
+
+Plus tu es précis, meilleure sera la réponse :
+
+```
+❌ Vague
+"Écris du code pour gérer les utilisateurs"
+
+✅ Spécifique
+"Écris une fonction TypeScript qui valide un email utilisateur.
+Elle doit :
+- Vérifier le format avec une regex
+- Retourner un objet { valid: boolean, error?: string }
+- Gérer les cas : vide, trop long (>254 chars), format invalide"
+```
+
+### 2. Donne du contexte
+
+Le contexte aide le modèle à comprendre tes besoins :
+
+```
+✅ Avec contexte
+"Je travaille sur une API REST en Node.js/Express.
+J'ai besoin d'un middleware d'authentification JWT.
+Notre structure actuelle utilise des controllers dans /src/controllers
+et des middlewares dans /src/middlewares.
+Le token JWT contient { userId, email, role }."
+```
+
+### 3. Précise le format de sortie
+
+Indique comment tu veux recevoir la réponse :
+
+```
+✅ Format précisé
+"Génère une documentation pour cette fonction.
+Format souhaité :
+- Description courte (1 ligne)
+- Paramètres (tableau markdown)
+- Valeur de retour
+- Exemple d'utilisation
+- Cas d'erreur possibles"
+```
+
+## Techniques avancées
+
+### Chain of Thought (CoT)
+
+Demande au modèle de raisonner étape par étape :
+
+```
+"Analyse ce bug et explique ton raisonnement étape par étape
+avant de proposer une solution :
+
+[code avec bug]
+
+1. Identifie d'abord le symptôme
+2. Liste les causes possibles
+3. Élimine les causes une par une
+4. Propose la correction"
+```
+
+### Few-shot prompting
+
+Donne des exemples pour guider le format :
+
+```
+"Convertis ces descriptions en noms de variables camelCase :
+
+Exemple 1: 'nombre d'utilisateurs actifs' → activeUsersCount
+Exemple 2: 'date de dernière connexion' → lastLoginDate
+Exemple 3: 'est administrateur' → isAdmin
+
+Maintenant convertis :
+- 'liste des produits favoris'
+- 'prix total avec taxes'
+- 'a accepté les conditions'"
+```
+
+### Role prompting
+
+Assigne un rôle pour orienter les réponses :
+
+```
+"Tu es un expert en sécurité web avec 15 ans d'expérience.
+Analyse ce code d'authentification et identifie :
+- Les vulnérabilités de sécurité
+- Les bonnes pratiques manquantes
+- Les recommandations prioritaires
+
+Sois critique et exhaustif."
+```
+
+## Prompts pour le développement
+
+### Revue de code
+
+```
+"Fais une code review de cette fonction. Évalue :
+
+1. **Lisibilité** : Nommage, structure, clarté
+2. **Performance** : Complexité, optimisations possibles
+3. **Sécurité** : Vulnérabilités potentielles
+4. **Maintenabilité** : Tests, documentation, couplage
+
+Pour chaque point, donne une note /5 et des suggestions concrètes.
+
+[ton code ici]"
+```
+
+### Debugging
+
+```
+"J'ai cette erreur : [message d'erreur]
+
+Contexte :
+- Fichier : [nom du fichier]
+- Ligne : [numéro]
+- Ce que je faisais : [action]
+- Ce que j'attendais : [comportement attendu]
+
+Stack trace :
+[stack trace]
+
+Analyse l'erreur et propose des solutions, de la plus probable à la moins probable."
+```
+
+### Génération de tests
+
+```
+"Génère des tests unitaires pour cette fonction avec Jest/Vitest.
+
+Couvre :
+- Le cas nominal (happy path)
+- Les edge cases (valeurs limites)
+- Les cas d'erreur
+- Les cas null/undefined
+
+Utilise describe/it et des noms de tests descriptifs en français.
+
+[ta fonction]"
+```
+
+## Anti-patterns à éviter
+
+### 1. Le prompt trop vague
+
+```
+❌ "Améliore ce code"
+```
+
+Améliorer comment ? Performance ? Lisibilité ? Sécurité ?
+
+### 2. Le prompt sans contexte
+
+```
+❌ "Pourquoi ça marche pas ?"
+```
+
+Le modèle ne peut pas deviner ton environnement, tes dépendances, etc.
+
+### 3. Le prompt contradictoire
+
+```
+❌ "Écris un code simple mais avec toutes les fonctionnalités
+   avancées et optimisé pour la performance mais aussi lisible"
+```
+
+Priorise tes besoins.
+
+## Template universel
+
+Voici un template que tu peux adapter :
+
+```markdown
+## Contexte
+[Décris ton projet, stack technique, contraintes]
+
+## Objectif
+[Ce que tu veux accomplir]
+
+## Input
+[Code actuel, données, fichiers concernés]
+
+## Output attendu
+[Format, structure, conventions à respecter]
+
+## Contraintes
+[Limites, choses à éviter, prérequis]
+```
+
+## Itération
+
+Le prompting est rarement parfait du premier coup. Itère :
+
+1. **Essaie** un prompt initial
+2. **Évalue** la réponse
+3. **Affine** en ajoutant des précisions
+4. **Répète** jusqu'à satisfaction
+
+```
+Prompt v1 : "Génère une API REST"
+→ Trop vague
+
+Prompt v2 : "Génère une API REST pour un blog avec articles et commentaires"
+→ Mieux, mais manque de détails
+
+Prompt v3 : "Génère une API REST en Express/TypeScript pour un blog.
+Routes : GET/POST/PUT/DELETE pour articles et commentaires.
+Validation avec Zod. Réponses JSON standardisées avec status codes appropriés."
+→ ✅ Précis et actionnable
+```
+
+## Conclusion
+
+Le prompting est une compétence qui s'améliore avec la pratique. Plus tu expérimentes, plus tu comprendras comment communiquer efficacement avec les LLMs.
+
+Retiens ces principes :
+- **Spécificité** > Généralité
+- **Contexte** = Meilleurs résultats
+- **Exemples** aident énormément
+- **Itération** est normale

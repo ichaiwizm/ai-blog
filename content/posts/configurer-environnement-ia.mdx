@@ -1,0 +1,262 @@
+---
+title: "Configurer son environnement de développement IA"
+description: "Prépare ton environnement pour tirer le maximum des outils de développement assistés par IA."
+date: "2024-11-28"
+tags: ["Setup", "Environnement", "Configuration", "IA"]
+published: true
+category: "tutoriels"
+prerequisites:
+  - terminal-basics
+  - git-basics
+---
+
+Un bon environnement de développement est la base de tout projet réussi. Avec l'arrivée des outils IA, quelques ajustements supplémentaires te permettront d'en tirer le maximum.
+
+## Éditeur de code
+
+### VS Code avec extensions IA
+
+VS Code reste l'éditeur le plus populaire et le mieux intégré avec les outils IA.
+
+<PlatformContent>
+<Mac>
+
+```bash
+# Installation via Homebrew
+brew install --cask visual-studio-code
+
+# Ou télécharge depuis https://code.visualstudio.com
+```
+
+</Mac>
+<Windows>
+
+```powershell
+# Installation via winget
+winget install Microsoft.VisualStudioCode
+
+# Ou télécharge depuis https://code.visualstudio.com
+```
+
+</Windows>
+<Linux>
+
+```bash
+# Ubuntu/Debian
+sudo apt update
+sudo apt install code
+
+# Ou via snap
+sudo snap install code --classic
+```
+
+</Linux>
+<WSL>
+
+VS Code s'installe sur Windows, mais l'extension **Remote - WSL** te permet de développer directement dans ton environnement WSL :
+
+```powershell
+# Sur Windows
+winget install Microsoft.VisualStudioCode
+```
+
+Puis installe l'extension "Remote - WSL" et ouvre un dossier WSL avec `code .` depuis ton terminal WSL.
+
+</WSL>
+</PlatformContent>
+
+### Extensions recommandées
+
+```bash
+# Extensions essentielles
+code --install-extension github.copilot
+code --install-extension github.copilot-chat
+code --install-extension ms-python.python
+code --install-extension esbenp.prettier-vscode
+```
+
+## Node.js et npm
+
+La plupart des outils CLI IA sont distribués via npm.
+
+<PlatformContent>
+<Mac>
+
+```bash
+# Via Homebrew (recommandé)
+brew install node
+
+# Ou via nvm pour gérer plusieurs versions
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+nvm install --lts
+```
+
+</Mac>
+<Windows>
+
+```powershell
+# Via winget
+winget install OpenJS.NodeJS.LTS
+
+# Ou via nvm-windows
+winget install CoreyButler.NVMforWindows
+nvm install lts
+nvm use lts
+```
+
+</Windows>
+<Linux>
+
+```bash
+# Via nvm (recommandé)
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+source ~/.bashrc
+nvm install --lts
+
+# Ou via apt (version peut être ancienne)
+sudo apt update
+sudo apt install nodejs npm
+```
+
+</Linux>
+<WSL>
+
+```bash
+# Dans WSL, utilise nvm comme sur Linux
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+source ~/.bashrc
+nvm install --lts
+```
+
+</WSL>
+</PlatformContent>
+
+## Variables d'environnement
+
+Configure tes clés API de manière sécurisée :
+
+<PlatformContent>
+<Mac>
+
+Ajoute dans `~/.zshrc` ou `~/.bash_profile` :
+
+```bash
+# Clés API (ne jamais commit ces valeurs !)
+export ANTHROPIC_API_KEY="sk-ant-xxxxx"
+export OPENAI_API_KEY="sk-xxxxx"
+```
+
+Puis recharge :
+```bash
+source ~/.zshrc
+```
+
+</Mac>
+<Windows>
+
+Via PowerShell (permanent) :
+
+```powershell
+[Environment]::SetEnvironmentVariable("ANTHROPIC_API_KEY", "sk-ant-xxxxx", "User")
+[Environment]::SetEnvironmentVariable("OPENAI_API_KEY", "sk-xxxxx", "User")
+```
+
+Ou via l'interface graphique : Paramètres > Système > À propos > Paramètres avancés > Variables d'environnement
+
+</Windows>
+<Linux>
+
+Ajoute dans `~/.bashrc` :
+
+```bash
+export ANTHROPIC_API_KEY="sk-ant-xxxxx"
+export OPENAI_API_KEY="sk-xxxxx"
+```
+
+Puis recharge :
+```bash
+source ~/.bashrc
+```
+
+</Linux>
+<WSL>
+
+Même configuration que Linux, dans `~/.bashrc` :
+
+```bash
+export ANTHROPIC_API_KEY="sk-ant-xxxxx"
+export OPENAI_API_KEY="sk-xxxxx"
+```
+
+**Note** : Les variables d'environnement Windows ne sont PAS automatiquement disponibles dans WSL.
+
+</WSL>
+</PlatformContent>
+
+## Fichier .gitignore
+
+Assure-toi de ne jamais commit tes secrets :
+
+```gitignore
+# Fichiers de configuration locale
+.env
+.env.local
+.env.*.local
+
+# Clés et secrets
+*.key
+*.pem
+secrets/
+
+# Logs et caches IA
+.claude/
+.copilot/
+```
+
+## Structure de projet recommandée
+
+```
+mon-projet/
+├── .env.example      # Template des variables (sans valeurs)
+├── .gitignore
+├── README.md
+├── src/
+│   └── ...
+├── tests/
+│   └── ...
+└── docs/
+    └── CLAUDE.md     # Instructions pour l'IA
+```
+
+### Le fichier CLAUDE.md
+
+Crée un fichier `CLAUDE.md` à la racine pour donner du contexte aux outils IA :
+
+```markdown
+# Instructions pour l'IA
+
+## Architecture
+Ce projet utilise Next.js 14 avec TypeScript et Tailwind CSS.
+
+## Conventions
+- Utiliser des composants fonctionnels avec hooks
+- Nommer les fichiers en PascalCase pour les composants
+- Tests avec Vitest
+
+## Ne pas modifier
+- Configuration ESLint
+- Fichiers dans /generated
+```
+
+## Vérification
+
+Vérifie que tout est bien installé :
+
+```bash
+node --version    # v18+ recommandé
+npm --version     # v9+ recommandé
+git --version     # v2+ recommandé
+code --version    # VS Code installé
+```
+
+Tu es maintenant prêt à utiliser les outils de développement assistés par IA !
