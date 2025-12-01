@@ -1,0 +1,59 @@
+---
+title: "Configurer un environnement de développement IA moderne"
+description: "Guide complet pour mettre en place un environnement de développement optimisé pour travailler avec l'intelligence artificielle."
+date: "2024-11-25"
+tags: ["IA", "DevOps", "Productivité", "Setup"]
+category: "tutoriels"
+published: true
+---
+
+## Introduction
+
+Développer avec l'IA nécessite un environnement bien configuré. Dans cet article, nous allons voir comment créer un setup optimal.
+
+## Prérequis système
+
+### Pour Windows
+
+Si vous êtes sous Windows, la première étape est d'installer <ArticleRef slug="wsl-guide">WSL (Windows Subsystem for Linux)</ArticleRef>. Cet outil vous permet d'avoir accès à un véritable environnement Linux sans quitter Windows.
+
+L'avantage principal de WSL est de pouvoir utiliser des outils comme Docker, Git, et Node.js dans leur environnement natif Linux.
+
+## Outils d'assistance IA
+
+### Claude Code
+
+Pour le développement assisté par IA, je recommande fortement <ArticleRef slug="claude-code-intro">Claude Code</ArticleRef>. C'est l'outil CLI officiel d'Anthropic qui s'intègre parfaitement dans votre workflow de développement.
+
+Avec Claude Code, vous pouvez :
+- Poser des questions sur votre code
+- Générer des fonctions automatiquement
+- Déboguer plus rapidement
+
+## Configuration recommandée
+
+Voici ma stack recommandée :
+
+1. **Système** : <ArticleRef slug="wsl-guide">WSL 2</ArticleRef> sous Windows ou Linux natif
+2. **Éditeur** : VS Code avec les extensions IA
+3. **Assistant** : <ArticleRef slug="claude-code-intro">Claude Code</ArticleRef> pour le terminal
+4. **Conteneurs** : Docker pour l'isolation
+
+## Exemple de workflow
+
+```bash
+# Créer un nouveau projet
+mkdir mon-projet && cd mon-projet
+
+# Initialiser avec Claude Code
+claude "Initialise un projet Node.js avec TypeScript"
+
+# Développer avec assistance
+claude "Crée un serveur Express basique"
+```
+
+## Conclusion
+
+Un bon environnement de développement IA combine la puissance de Linux (via <ArticleRef slug="wsl-guide">WSL</ArticleRef> si nécessaire) et des outils comme <ArticleRef slug="claude-code-intro">Claude Code</ArticleRef> pour maximiser votre productivité.
+
+L'investissement initial en configuration est largement rentabilisé par les gains de productivité au quotidien.

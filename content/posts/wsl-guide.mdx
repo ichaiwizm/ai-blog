@@ -1,0 +1,46 @@
+---
+title: "Guide complet WSL : Windows Subsystem for Linux"
+description: "Apprenez à installer et configurer WSL pour développer sous Linux directement depuis Windows. Un environnement de développement puissant et flexible."
+date: "2024-11-15"
+tags: ["WSL", "Linux", "Windows", "DevOps"]
+category: "tutoriels"
+published: true
+---
+
+## Introduction à WSL
+
+**Windows Subsystem for Linux** (WSL) est une fonctionnalité de Windows qui permet d'exécuter un environnement Linux directement sous Windows, sans machine virtuelle traditionnelle.
+
+WSL 2 utilise un véritable noyau Linux et offre des performances quasi-natives pour les opérations de fichiers et les appels système.
+
+## Installation
+
+Pour installer WSL, ouvrez PowerShell en administrateur :
+
+```powershell
+wsl --install
+```
+
+Cette commande installe WSL 2 avec Ubuntu par défaut.
+
+## Configuration recommandée
+
+Créez un fichier `.wslconfig` dans votre répertoire utilisateur Windows :
+
+```ini
+[wsl2]
+memory=8GB
+processors=4
+localhostForwarding=true
+```
+
+## Avantages pour le développement
+
+- **Docker** fonctionne nativement
+- Accès aux outils Linux (grep, sed, awk...)
+- Intégration VS Code seamless
+- Pas besoin de dual boot
+
+## Conclusion
+
+WSL transforme Windows en une plateforme de développement polyvalente, combinant le meilleur des deux mondes.
