@@ -33,24 +33,24 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isVisible ? "translate-y-0" : "-translate-y-full"
       } ${
         isScrolled
-          ? "bg-bg-primary border-b-3 border-border shadow-sm"
+          ? "bg-bg-primary/80 backdrop-blur-lg border-b border-border shadow-soft"
           : "bg-transparent"
       }`}
     >
       <div className="container-default h-20 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="group flex items-center gap-4">
-          <div className="w-12 h-12 bg-accent border-3 border-border flex items-center justify-center transition-all group-hover:translate-x-[-2px] group-hover:translate-y-[-2px] group-hover:shadow-brutal-sm">
-            <span className="font-body text-lg font-bold text-text-inverse tracking-tight">
+        {/* Logo - Organic & Modern */}
+        <Link href="/" className="group flex items-center gap-3">
+          <div className="relative w-12 h-12 bg-gradient-to-br from-accent to-accent-hover rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 shadow-glow">
+            <span className="font-display text-lg font-bold text-text-inverse tracking-tight">
               AI
             </span>
           </div>
           <div className="hidden sm:block">
-            <span className="font-display text-2xl text-text-primary">
+            <span className="font-display text-2xl font-semibold text-text-primary tracking-tight">
               Blog
             </span>
           </div>

@@ -3,25 +3,27 @@ import NewsletterForm from "./NewsletterForm";
 
 export default function Footer() {
   return (
-    <footer className="mt-24 border-t-3 border-border bg-bg-secondary">
+    <footer className="mt-32 border-t border-border bg-bg-secondary relative overflow-hidden">
+      {/* Decorative background */}
+      <div className="absolute inset-0 gradient-mesh opacity-20" />
+
       {/* Main Footer Content */}
-      <div className="container-default py-16">
+      <div className="container-default py-20 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8">
           {/* Brand Column */}
           <div className="lg:col-span-4">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-accent border-3 border-border flex items-center justify-center">
-                <span className="font-body text-sm font-bold text-text-inverse">
+              <div className="w-10 h-10 bg-gradient-to-br from-accent to-accent-hover rounded-xl flex items-center justify-center shadow-glow">
+                <span className="font-display text-sm font-bold text-text-inverse">
                   AI
                 </span>
               </div>
-              <span className="font-display text-2xl text-text-primary">
+              <span className="font-display text-2xl font-semibold text-text-primary">
                 Blog
               </span>
             </div>
-            <p className="text-text-muted text-base leading-relaxed mb-8 max-w-xs">
-              Intelligence artificielle decryptee. Analyses, tutoriels et
-              reflexions sur l&apos;avenir de la technologie.
+            <p className="text-text-muted text-base leading-relaxed mb-8 max-w-sm">
+              Intelligence artificielle décryptée. Analyses, tutoriels et réflexions sur l&apos;avenir de la technologie.
             </p>
             {/* Newsletter */}
             <div className="max-w-sm">
@@ -89,20 +91,20 @@ export default function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t-2 border-border-light">
-        <div className="container-default py-6">
+      <div className="border-t border-border-light relative z-10">
+        <div className="container-default py-8">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p className="font-mono text-xs text-text-muted">
-              &copy; {new Date().getFullYear()} AI Blog. Tous droits reserves.
+            <p className="font-mono text-sm text-text-muted">
+              &copy; {new Date().getFullYear()} AI Blog. Tous droits réservés.
             </p>
             <div className="flex items-center gap-6">
               <a
                 href="https://vercel.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-mono text-xs text-text-muted hover:text-accent transition-colors"
+                className="font-mono text-sm text-text-muted hover:text-accent transition-colors duration-300"
               >
-                Deploye sur Vercel
+                Déployé sur Vercel
               </a>
             </div>
           </div>

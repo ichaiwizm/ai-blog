@@ -15,21 +15,23 @@ export default function ArticleCard({
       style={{ animationDelay: `${(index % 6) * 0.1}s` }}
     >
       <Link href={`/blog/${post.slug}`} className="block h-full">
-        <div className="h-full border-3 border-border bg-bg-secondary transition-all duration-200 hover:translate-x-[-4px] hover:translate-y-[-4px] hover:shadow-brutal-hover">
+        <div className="h-full modern-card bg-bg-secondary overflow-hidden flex flex-col">
           {/* Image */}
           {post.image && (
-            <div className="relative w-full aspect-[16/10] overflow-hidden border-b-3 border-border">
+            <div className="relative w-full aspect-[16/10] overflow-hidden">
               <Image
                 src={post.image}
                 alt={post.title}
                 fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                className="object-cover transition-all duration-500 group-hover:scale-110"
                 sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
+              {/* Gradient overlay on hover */}
+              <div className="absolute inset-0 bg-gradient-to-t from-accent/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </div>
           )}
 
-          <div className="p-6">
+          <div className="p-6 flex flex-col flex-1">
             {/* Category */}
             {post.category && (
               <span className="category-badge mb-4 inline-block">
@@ -38,17 +40,20 @@ export default function ArticleCard({
             )}
 
             {/* Title */}
-            <h2 className="font-display text-xl sm:text-2xl text-text-primary mb-3 group-hover:text-accent transition-colors leading-tight">
+            <h2 className="font-display text-xl sm:text-2xl text-text-primary mb-3 group-hover:text-accent transition-colors duration-300 leading-tight">
               {post.title}
             </h2>
 
             {/* Description */}
-            <p className="text-text-muted text-base mb-5 line-clamp-2">
+            <p className="text-text-muted text-base mb-5 line-clamp-2 leading-relaxed">
               {post.description}
             </p>
 
+            {/* Spacer to push meta to bottom */}
+            <div className="flex-1" />
+
             {/* Meta */}
-            <div className="flex items-center justify-between pt-4 border-t-2 border-border-light">
+            <div className="flex items-center justify-between pt-4 border-t border-border-light">
               <div className="flex items-center gap-4 font-mono text-xs text-text-muted">
                 <time dateTime={post.date}>
                   {new Date(post.date).toLocaleDateString("fr-FR", {
@@ -57,14 +62,14 @@ export default function ArticleCard({
                     year: "numeric",
                   })}
                 </time>
-                <span className="flex items-center gap-1">
+                <span className="flex items-center gap-1.5">
                   <ClockIcon />
                   {post.readingTime}
                 </span>
               </div>
 
               {/* Arrow */}
-              <div className="text-accent opacity-0 group-hover:opacity-100 transform translate-x-[-8px] group-hover:translate-x-0 transition-all duration-200">
+              <div className="text-accent opacity-0 group-hover:opacity-100 transform translate-x-[-12px] group-hover:translate-x-0 transition-all duration-300">
                 <ArrowIcon />
               </div>
             </div>
@@ -75,7 +80,7 @@ export default function ArticleCard({
                 {post.tags.slice(0, 3).map((tag) => (
                   <span
                     key={tag}
-                    className="font-mono text-[10px] text-text-muted uppercase tracking-wider"
+                    className="px-2.5 py-1 text-[10px] font-mono text-text-muted bg-bg-tertiary rounded-full lowercase"
                   >
                     #{tag}
                   </span>

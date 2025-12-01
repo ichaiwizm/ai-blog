@@ -58,7 +58,7 @@ export default function NewsletterForm() {
       <p className="text-sm text-text-muted mb-4">
         Recevez les derniers articles dans votre boite mail.
       </p>
-      <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-0">
+      <form onSubmit={handleSubmit} className="flex gap-2">
         <input
           type="email"
           value={email}
@@ -66,12 +66,12 @@ export default function NewsletterForm() {
           placeholder="votre@email.com"
           required
           disabled={status === "loading"}
-          className="flex-1 brutal-input border-r-0 sm:border-r-0 disabled:opacity-50"
+          className="flex-1 modern-input disabled:opacity-50"
         />
         <button
           type="submit"
           disabled={status === "loading"}
-          className="brutal-btn whitespace-nowrap disabled:opacity-50"
+          className="modern-btn whitespace-nowrap disabled:opacity-50"
         >
           {status === "loading" ? (
             <span className="flex items-center gap-2">
