@@ -28,20 +28,20 @@ export default function NewsletterForm() {
 
       if (res.ok || res.status === 201) {
         setStatus("success");
-        setMessage("Merci ! Verifiez votre boite mail pour confirmer.");
+        setMessage("Merci ! Vérifiez votre boîte mail pour confirmer.");
         setEmail("");
       } else {
         const data = await res.json();
         if (data.code === "email_already_exists") {
           setStatus("success");
-          setMessage("Vous etes deja inscrit !");
+          setMessage("Vous êtes déjà inscrit !");
         } else {
           throw new Error(data.detail || "Une erreur est survenue");
         }
       }
     } catch {
       setStatus("error");
-      setMessage("Une erreur est survenue. Reessayez plus tard.");
+      setMessage("Une erreur est survenue. Réessayez plus tard.");
     }
 
     setTimeout(() => {
@@ -52,13 +52,10 @@ export default function NewsletterForm() {
 
   return (
     <div className="w-full">
-      <h4 className="font-body text-sm font-semibold text-text-primary uppercase tracking-wider mb-3">
-        Newsletter
-      </h4>
-      <p className="text-sm text-text-muted mb-4">
-        Recevez les derniers articles dans votre boite mail.
+      <p className="text-sm text-text-muted mb-4 leading-relaxed">
+        Recevez les derniers articles dans votre boîte mail.
       </p>
-      <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-0">
+      <form onSubmit={handleSubmit} className="flex gap-2">
         <input
           type="email"
           value={email}
@@ -66,12 +63,12 @@ export default function NewsletterForm() {
           placeholder="votre@email.com"
           required
           disabled={status === "loading"}
-          className="flex-1 brutal-input border-r-0 sm:border-r-0 disabled:opacity-50"
+          className="flex-1 input-field text-sm disabled:opacity-50 disabled:cursor-not-allowed"
         />
         <button
           type="submit"
           disabled={status === "loading"}
-          className="brutal-btn whitespace-nowrap disabled:opacity-50"
+          className="btn-primary whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed px-6"
         >
           {status === "loading" ? (
             <span className="flex items-center gap-2">
@@ -88,7 +85,7 @@ export default function NewsletterForm() {
       </form>
       {message && (
         <p
-          className={`mt-3 font-mono text-xs ${
+          className={`mt-3 text-sm ${
             status === "success" ? "text-accent" : "text-red-600"
           }`}
         >

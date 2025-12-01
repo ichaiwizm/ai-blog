@@ -8,44 +8,45 @@ export default function Home() {
 
   return (
     <>
-      {/* Hero Section */}
-      <section className="relative min-h-[85vh] flex items-center border-b-3 border-border">
-        {/* Geometric Pattern Background */}
-        <div className="absolute inset-0 pattern-grid opacity-50" />
+      {/* Hero Section - Magazine Editorial Style */}
+      <section className="relative min-h-[90vh] flex items-center gradient-overlay overflow-hidden">
+        {/* Decorative Elements - Subtle circles */}
+        <div className="absolute top-20 right-10 w-64 h-64 bg-accent/5 rounded-full blur-3xl hidden lg:block animate-float" />
+        <div className="absolute bottom-20 left-10 w-48 h-48 bg-accent/10 rounded-full blur-2xl hidden lg:block" style={{ animationDelay: '1s' }} />
 
-        {/* Decorative Elements */}
-        <div className="absolute top-20 right-10 w-32 h-32 border-3 border-accent opacity-20 hidden lg:block" />
-        <div className="absolute bottom-20 left-10 w-24 h-24 bg-accent opacity-10 hidden lg:block" />
-
-        <div className="container-default relative py-20">
-          <div className="grid lg:grid-cols-12 gap-12 items-center">
+        <div className="container-default relative py-24">
+          <div className="grid lg:grid-cols-12 gap-16 items-center">
             {/* Text Content */}
             <div className="lg:col-span-7">
               {/* Overline */}
               <div className="animate-fade-up">
-                <span className="category-badge mb-8 inline-block">
-                  Blog sur l&apos;IA
+                <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 text-accent font-medium text-sm mb-8">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <circle cx="12" cy="12" r="3" />
+                    <path d="M12 2l2.5 7.5h7.5l-6 4.5 2.5 7.5-6-4.5-6 4.5 2.5-7.5-6-4.5h7.5z" opacity="0.5" />
+                  </svg>
+                  Blog sur l&apos;Intelligence Artificielle
                 </span>
               </div>
 
-              {/* Main Title */}
-              <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl text-text-primary leading-[1.05] mb-6 animate-fade-up stagger-1">
-                Intelligence
+              {/* Main Title - Large and expressive */}
+              <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl xl:text-8xl text-text-primary leading-[1.05] mb-8 animate-fade-up stagger-1">
+                Exploration de
+                <br />
+                l&apos;<span className="text-accent italic">Intelligence</span>
                 <br />
                 <span className="text-accent">Artificielle</span>
-                <span className="block w-48 h-1 bg-border mt-4" />
               </h1>
 
-              {/* Subtitle */}
-              <p className="text-xl text-text-muted max-w-lg mb-10 animate-fade-up stagger-2">
-                Explorations et reflexions sur les modeles de langage,
-                l&apos;apprentissage automatique et l&apos;avenir de la
-                technologie.
+              {/* Subtitle - Generous spacing */}
+              <p className="text-xl sm:text-2xl text-text-body max-w-xl mb-12 leading-relaxed animate-fade-up stagger-2">
+                Découvrez des analyses approfondies sur les modèles de langage,
+                l&apos;apprentissage automatique et l&apos;avenir de la technologie.
               </p>
 
               {/* CTA */}
               <div className="flex flex-wrap items-center gap-6 animate-fade-up stagger-3">
-                <Link href="/blog" className="brutal-btn">
+                <Link href="/blog" className="btn-primary">
                   Explorer les articles
                   <svg
                     width="18"
@@ -54,31 +55,40 @@ export default function Home() {
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   >
                     <path d="M5 12h14M12 5l7 7-7 7" />
                   </svg>
                 </Link>
-                <span className="font-mono text-sm text-text-muted">
-                  {totalPosts} article{totalPosts > 1 ? "s" : ""} publie
-                  {totalPosts > 1 ? "s" : ""}
+                <span className="text-sm text-text-muted flex items-center gap-2">
+                  <span className="w-1 h-1 rounded-full bg-accent" />
+                  {totalPosts} article{totalPosts > 1 ? "s" : ""} publié{totalPosts > 1 ? "s" : ""}
                 </span>
               </div>
             </div>
 
-            {/* Decorative Block */}
+            {/* Visual Element - Modern and clean */}
             <div className="lg:col-span-5 hidden lg:block animate-fade-up stagger-4">
               <div className="relative">
-                {/* Main block */}
-                <div className="aspect-square bg-accent border-3 border-border flex items-center justify-center">
-                  <div className="text-center">
-                    <span className="font-display text-8xl text-text-inverse">
+                {/* Main card */}
+                <div className="aspect-square bg-gradient-to-br from-accent to-accent-hover rounded-3xl p-12 flex items-center justify-center shadow-glow relative overflow-hidden">
+                  {/* Pattern overlay */}
+                  <div className="absolute inset-0 opacity-10">
+                    <div className="absolute inset-0" style={{
+                      backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
+                      backgroundSize: '32px 32px'
+                    }} />
+                  </div>
+
+                  <div className="text-center relative z-10">
+                    <span className="font-display text-8xl xl:text-9xl text-text-inverse font-bold">
                       AI
                     </span>
-                    <div className="w-16 h-0.5 bg-text-inverse mx-auto mt-4" />
+                    <div className="w-24 h-1 bg-text-inverse/50 mx-auto mt-6 rounded-full" />
+                    <p className="text-text-inverse/80 mt-4 text-sm font-medium">Since 2025</p>
                   </div>
                 </div>
-                {/* Shadow block */}
-                <div className="absolute -bottom-4 -right-4 w-full h-full border-3 border-border -z-10" />
               </div>
             </div>
           </div>
@@ -86,21 +96,24 @@ export default function Home() {
       </section>
 
       {/* Recent Articles Section */}
-      <section className="py-24">
+      <section className="py-32 bg-bg-secondary">
         <div className="container-default">
-          {/* Section Header */}
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-16">
-            <div>
-              <span className="font-mono text-sm text-accent uppercase tracking-wider mb-3 block">
+          {/* Section Header - Editorial style */}
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-20">
+            <div className="max-w-2xl">
+              <span className="text-sm text-accent uppercase tracking-wider font-semibold mb-4 block">
                 Derniers articles
               </span>
-              <h2 className="font-display text-4xl text-text-primary">
-                Publications recentes
+              <h2 className="font-display text-4xl sm:text-5xl text-text-primary mb-4">
+                Publications récentes
               </h2>
+              <p className="text-text-muted text-lg leading-relaxed">
+                Explorez mes dernières réflexions sur l&apos;IA, les LLMs et les technologies émergentes.
+              </p>
             </div>
             <Link
               href="/blog"
-              className="brutal-btn-secondary self-start sm:self-auto"
+              className="btn-secondary self-start sm:self-auto flex-shrink-0"
             >
               Voir tout
               <svg
@@ -110,6 +123,8 @@ export default function Home() {
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
@@ -118,8 +133,8 @@ export default function Home() {
 
           {/* Articles Grid */}
           {posts.length === 0 ? (
-            <div className="text-center py-20 border-3 border-border-light">
-              <p className="font-body text-text-muted text-lg">
+            <div className="text-center py-24 editorial-card">
+              <p className="text-text-muted text-lg">
                 Aucun article pour le moment...
               </p>
             </div>
@@ -133,26 +148,27 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 border-t-3 border-border">
+      {/* CTA Section - Elegant and inviting */}
+      <section className="py-32 border-t border-border-light">
         <div className="container-default">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="font-display text-3xl sm:text-4xl text-text-primary mb-6">
-                Restez informe sur
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="max-w-xl">
+              <h2 className="font-display text-4xl sm:text-5xl text-text-primary mb-6 leading-tight">
+                Restez informé sur
                 <br />
-                les avancees de l&apos;IA
+                les avancées de l&apos;IA
               </h2>
-              <p className="text-text-muted text-lg mb-8">
-                Suivez les dernieres publications et analyses sur
-                l&apos;intelligence artificielle.
+              <p className="text-text-muted text-lg mb-10 leading-relaxed">
+                Suivez les dernières publications et analyses sur
+                l&apos;intelligence artificielle, les modèles de langage
+                et l&apos;avenir de la technologie.
               </p>
               <div className="flex flex-wrap gap-4">
                 <a
                   href="/feed.xml"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="brutal-btn-secondary"
+                  className="btn-secondary"
                 >
                   <RssIcon />
                   Flux RSS
@@ -161,7 +177,7 @@ export default function Home() {
                   href="https://github.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="brutal-btn-secondary"
+                  className="btn-secondary"
                 >
                   <GithubIcon />
                   GitHub
@@ -169,10 +185,10 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Stats */}
+            {/* Stats - Refined cards */}
             <div className="grid grid-cols-2 gap-6">
               <StatCard number={totalPosts.toString()} label="Articles" />
-              <StatCard number="4" label="Categories" />
+              <StatCard number="4" label="Catégories" />
               <StatCard number="12+" label="Sujets" />
               <StatCard number="2025" label="Actif depuis" />
             </div>
@@ -185,9 +201,11 @@ export default function Home() {
 
 function StatCard({ number, label }: { number: string; label: string }) {
   return (
-    <div className="border-3 border-border p-6 bg-bg-secondary hover:translate-x-[-4px] hover:translate-y-[-4px] hover:shadow-brutal transition-all">
-      <div className="font-display text-4xl text-accent mb-2">{number}</div>
-      <div className="font-body text-sm text-text-muted uppercase tracking-wider">
+    <div className="editorial-card p-8 text-center group cursor-default">
+      <div className="font-display text-5xl text-accent mb-3 group-hover:scale-110 transition-transform duration-300">
+        {number}
+      </div>
+      <div className="text-sm text-text-muted font-medium tracking-wide">
         {label}
       </div>
     </div>
@@ -203,6 +221,8 @@ function RssIcon() {
       fill="none"
       stroke="currentColor"
       strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     >
       <path d="M4 11a9 9 0 0 1 9 9" />
       <path d="M4 4a16 16 0 0 1 16 16" />

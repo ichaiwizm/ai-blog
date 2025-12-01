@@ -83,16 +83,16 @@ export default function SearchBar({ posts }: SearchBarProps) {
           onFocus={() => query && setIsOpen(true)}
           onBlur={() => setTimeout(() => setIsOpen(false), 200)}
           placeholder="Rechercher..."
-          className="w-full px-4 py-2 pl-10 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg font-mono text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--accent)] transition-colors"
+          className="w-full px-4 py-2.5 pl-11 pr-16 bg-bg-secondary border border-border rounded-xl text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent focus:shadow-soft transition-all duration-300"
         />
-        <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)]" />
-        <kbd className="absolute right-3 top-1/2 -translate-y-1/2 hidden sm:inline-flex items-center gap-1 px-1.5 py-0.5 bg-[var(--bg-tertiary)] border border-[var(--border)] rounded text-[10px] font-mono text-[var(--text-muted)]">
-          <span className="text-[8px]">⌘</span>K
+        <SearchIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-muted" />
+        <kbd className="absolute right-3 top-1/2 -translate-y-1/2 hidden sm:inline-flex items-center gap-1 px-2 py-1 bg-bg-tertiary border border-border rounded-md text-[10px] font-medium text-text-muted">
+          <span className="text-xs">⌘</span>K
         </kbd>
       </div>
 
       {isOpen && results.length > 0 && (
-        <div className="absolute top-full mt-2 left-0 right-0 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg overflow-hidden shadow-xl z-50">
+        <div className="absolute top-full mt-2 left-0 right-0 bg-bg-secondary border border-border rounded-xl overflow-hidden shadow-soft-lg z-50 animate-fade-in">
           {results.map((result, index) => (
             <button
               key={result.slug}
@@ -101,16 +101,16 @@ export default function SearchBar({ posts }: SearchBarProps) {
                 setIsOpen(false);
                 setQuery("");
               }}
-              className={`w-full px-4 py-3 text-left transition-colors ${
+              className={`w-full px-5 py-4 text-left transition-all duration-200 border-b border-border-light last:border-0 ${
                 index === selectedIndex
-                  ? "bg-[var(--accent-dim)]"
-                  : "hover:bg-[var(--bg-tertiary)]"
+                  ? "bg-accent-light"
+                  : "hover:bg-bg-tertiary"
               }`}
             >
-              <div className="font-mono text-sm text-[var(--text-primary)]">
+              <div className="font-display text-sm font-semibold text-text-primary mb-1">
                 {result.title}
               </div>
-              <div className="font-mono text-xs text-[var(--text-muted)] mt-1 truncate">
+              <div className="text-xs text-text-muted truncate">
                 {result.description}
               </div>
             </button>
@@ -124,12 +124,14 @@ export default function SearchBar({ posts }: SearchBarProps) {
 function SearchIcon({ className }: { className?: string }) {
   return (
     <svg
-      width="16"
-      height="16"
+      width="18"
+      height="18"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
       strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className={className}
     >
       <circle cx="11" cy="11" r="8" />

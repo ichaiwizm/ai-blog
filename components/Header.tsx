@@ -22,7 +22,7 @@ export default function Header() {
         setIsVisible(true);
       }
 
-      // Add background when scrolled
+      // Add glassmorphism when scrolled
       setIsScrolled(currentScrollY > 20);
       setLastScrollY(currentScrollY);
     };
@@ -33,24 +33,25 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isVisible ? "translate-y-0" : "-translate-y-full"
       } ${
         isScrolled
-          ? "bg-bg-primary border-b-3 border-border shadow-sm"
+          ? "glass border-b border-border-light shadow-soft-md backdrop-blur-xl"
           : "bg-transparent"
       }`}
     >
       <div className="container-default h-20 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="group flex items-center gap-4">
-          <div className="w-12 h-12 bg-accent border-3 border-border flex items-center justify-center transition-all group-hover:translate-x-[-2px] group-hover:translate-y-[-2px] group-hover:shadow-brutal-sm">
-            <span className="font-body text-lg font-bold text-text-inverse tracking-tight">
+        {/* Logo - Elegant and refined */}
+        <Link href="/" className="group flex items-center gap-3">
+          <div className="relative w-11 h-11 bg-gradient-to-br from-accent to-accent-hover rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:shadow-glow">
+            <span className="font-display text-xl font-bold text-text-inverse tracking-tight">
               AI
             </span>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent rounded-2xl" />
           </div>
           <div className="hidden sm:block">
-            <span className="font-display text-2xl text-text-primary">
+            <span className="font-display text-2xl font-semibold text-text-primary tracking-tight">
               Blog
             </span>
           </div>
