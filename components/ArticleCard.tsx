@@ -15,67 +15,81 @@ export default function ArticleCard({
       style={{ animationDelay: `${(index % 6) * 0.1}s` }}
     >
       <Link href={`/blog/${post.slug}`} className="block h-full">
-        <div className="h-full border-3 border-border bg-bg-secondary transition-all duration-200 hover:translate-x-[-4px] hover:translate-y-[-4px] hover:shadow-brutal-hover">
-          {/* Image */}
+        <div className="h-full editorial-card overflow-hidden">
+          {/* Image with Overlay */}
           {post.image && (
-            <div className="relative w-full aspect-[16/10] overflow-hidden border-b-3 border-border">
+            <div className="relative w-full aspect-[16/10] overflow-hidden bg-bg-tertiary">
               <Image
                 src={post.image}
                 alt={post.title}
                 fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                className="object-cover transition-all duration-700 group-hover:scale-105"
                 sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
+
+              {/* Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-text-primary/80 via-text-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+              {/* Category Badge Overlay */}
+              {post.category && (
+                <div className="absolute top-4 left-4">
+                  <span className="category-badge">
+                    {post.category}
+                  </span>
+                </div>
+              )}
             </div>
           )}
 
-          <div className="p-6">
-            {/* Category */}
-            {post.category && (
-              <span className="category-badge mb-4 inline-block">
+          {/* Content */}
+          <div className="p-6 space-y-4">
+            {/* Category if no image */}
+            {!post.image && post.category && (
+              <span className="category-badge">
                 {post.category}
               </span>
             )}
 
-            {/* Title */}
-            <h2 className="font-display text-xl sm:text-2xl text-text-primary mb-3 group-hover:text-accent transition-colors leading-tight">
+            {/* Title - Editorial Typography */}
+            <h2 className="font-display text-2xl sm:text-3xl text-text-primary leading-tight transition-colors group-hover:text-accent">
               {post.title}
             </h2>
 
             {/* Description */}
-            <p className="text-text-muted text-base mb-5 line-clamp-2">
+            <p className="text-text-muted text-sm leading-relaxed line-clamp-2">
               {post.description}
             </p>
 
-            {/* Meta */}
-            <div className="flex items-center justify-between pt-4 border-t-2 border-border-light">
+            {/* Meta Info */}
+            <div className="flex items-center justify-between pt-4 border-t border-border-light">
               <div className="flex items-center gap-4 font-mono text-xs text-text-muted">
-                <time dateTime={post.date}>
+                <time dateTime={post.date} className="uppercase tracking-wider">
                   {new Date(post.date).toLocaleDateString("fr-FR", {
-                    day: "numeric",
+                    day: "2-digit",
                     month: "short",
                     year: "numeric",
                   })}
                 </time>
-                <span className="flex items-center gap-1">
+                <span className="w-1 h-1 bg-text-muted rounded-full" />
+                <span className="flex items-center gap-1 uppercase tracking-wider">
                   <ClockIcon />
                   {post.readingTime}
                 </span>
               </div>
 
-              {/* Arrow */}
-              <div className="text-accent opacity-0 group-hover:opacity-100 transform translate-x-[-8px] group-hover:translate-x-0 transition-all duration-200">
+              {/* Arrow - Animated */}
+              <div className="text-accent transform translate-x-0 group-hover:translate-x-2 transition-transform duration-300">
                 <ArrowIcon />
               </div>
             </div>
 
             {/* Tags */}
             {post.tags.length > 0 && (
-              <div className="flex flex-wrap gap-2 mt-4">
+              <div className="flex flex-wrap gap-2 pt-2">
                 {post.tags.slice(0, 3).map((tag) => (
                   <span
                     key={tag}
-                    className="font-mono text-[10px] text-text-muted uppercase tracking-wider"
+                    className="font-mono text-[10px] text-text-muted uppercase tracking-wider px-2 py-1 border border-border-light hover:border-accent hover:text-accent transition-colors"
                   >
                     #{tag}
                   </span>

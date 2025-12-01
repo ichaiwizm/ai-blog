@@ -33,26 +33,39 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isVisible ? "translate-y-0" : "-translate-y-full"
       } ${
         isScrolled
-          ? "bg-bg-primary border-b-3 border-border shadow-sm"
+          ? "bg-bg-primary/95 backdrop-blur-md border-b border-border-light shadow-sm"
           : "bg-transparent"
       }`}
     >
-      <div className="container-default h-20 flex items-center justify-between">
-        {/* Logo */}
+      <div className="container-wide h-20 flex items-center justify-between">
+        {/* Logo - Editorial */}
         <Link href="/" className="group flex items-center gap-4">
-          <div className="w-12 h-12 bg-accent border-3 border-border flex items-center justify-center transition-all group-hover:translate-x-[-2px] group-hover:translate-y-[-2px] group-hover:shadow-brutal-sm">
-            <span className="font-body text-lg font-bold text-text-inverse tracking-tight">
-              AI
-            </span>
+          <div className="relative">
+            {/* Angular logo box */}
+            <div
+              className="w-14 h-14 bg-accent flex items-center justify-center transition-all duration-300 group-hover:bg-text-primary"
+              style={{ clipPath: 'polygon(0 0, 100% 0, 100% 80%, 80% 100%, 0 100%)' }}
+            >
+              <span className="font-display text-xl font-bold text-text-inverse tracking-tighter">
+                AI
+              </span>
+            </div>
+
+            {/* Decorative corner */}
+            <div className="absolute -bottom-1 -right-1 w-3 h-3 border-2 border-accent group-hover:border-text-primary transition-colors" />
           </div>
+
           <div className="hidden sm:block">
-            <span className="font-display text-2xl text-text-primary">
-              Blog
-            </span>
+            <div className="font-display text-2xl text-text-primary group-hover:text-accent transition-colors">
+              Journal
+            </div>
+            <div className="font-mono text-[10px] text-text-muted uppercase tracking-[0.2em]">
+              Technique
+            </div>
           </div>
         </Link>
 

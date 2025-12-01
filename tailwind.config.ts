@@ -9,9 +9,9 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        display: ["Instrument Serif", "Georgia", "serif"],
-        body: ["Satoshi", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
-        mono: ["JetBrains Mono", "Consolas", "monospace"],
+        display: ["Fraunces", "Georgia", "serif"],
+        body: ["Space Grotesk", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
+        mono: ["Space Mono", "Consolas", "monospace"],
       },
       colors: {
         bg: {
@@ -25,6 +25,11 @@ const config: Config = {
           hover: "var(--accent-hover)",
           light: "var(--accent-light)",
           medium: "var(--accent-medium)",
+        },
+        support: {
+          orange: "var(--support-orange)",
+          warm: "var(--support-warm)",
+          cream: "var(--support-cream)",
         },
         text: {
           primary: "var(--text-primary)",
@@ -42,6 +47,10 @@ const config: Config = {
         "3": "3px",
       },
       boxShadow: {
+        lift: "0 8px 24px rgba(26, 26, 29, 0.08)",
+        float: "0 12px 40px rgba(26, 26, 29, 0.12)",
+        editorial: "12px 12px 0 var(--border)",
+        accent: "8px 8px 0 var(--accent)",
         brutal: "6px 6px 0 var(--border)",
         "brutal-accent": "6px 6px 0 var(--accent)",
         "brutal-hover": "8px 8px 0 var(--accent)",
@@ -82,26 +91,32 @@ const config: Config = {
               },
             },
             h1: {
-              fontFamily: "Instrument Serif, Georgia, serif",
-              fontWeight: "400",
-              letterSpacing: "-0.03em",
+              fontFamily: "Fraunces, Georgia, serif",
+              fontWeight: "600",
+              letterSpacing: "-0.04em",
+              lineHeight: "0.95",
             },
             h2: {
-              fontFamily: "Instrument Serif, Georgia, serif",
-              fontWeight: "400",
-              letterSpacing: "-0.02em",
+              fontFamily: "Fraunces, Georgia, serif",
+              fontWeight: "500",
+              letterSpacing: "-0.03em",
+              lineHeight: "1.05",
               marginTop: "3rem",
               paddingBottom: "0.75rem",
-              borderBottom: "2px solid var(--border)",
+              borderBottom: "1px solid var(--border-light)",
             },
             h3: {
-              fontFamily: "Instrument Serif, Georgia, serif",
-              fontWeight: "400",
+              fontFamily: "Fraunces, Georgia, serif",
+              fontWeight: "500",
+              letterSpacing: "-0.02em",
+              lineHeight: "1.15",
               marginTop: "2.5rem",
             },
             h4: {
-              fontFamily: "Satoshi, sans-serif",
+              fontFamily: "Space Grotesk, sans-serif",
               fontWeight: "600",
+              letterSpacing: "-0.01em",
+              textTransform: "uppercase",
             },
             blockquote: {
               borderLeftWidth: "4px",
@@ -111,12 +126,13 @@ const config: Config = {
               fontStyle: "normal",
             },
             code: {
-              fontFamily: "JetBrains Mono, Consolas, monospace",
+              fontFamily: "Space Mono, Consolas, monospace",
               backgroundColor: "var(--bg-tertiary)",
-              padding: "0.2em 0.4em",
+              padding: "0.2em 0.5em",
               borderRadius: "0",
               border: "1px solid var(--border-light)",
               color: "var(--accent)",
+              fontWeight: "400",
             },
             "code::before": {
               content: "none",
@@ -125,9 +141,9 @@ const config: Config = {
               content: "none",
             },
             pre: {
-              fontFamily: "JetBrains Mono, Consolas, monospace",
+              fontFamily: "Space Mono, Consolas, monospace",
               backgroundColor: "var(--bg-inverse)",
-              border: "3px solid var(--border)",
+              border: "2px solid var(--border)",
               borderRadius: "0",
             },
           },
