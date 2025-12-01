@@ -24,23 +24,22 @@ export default function Home() {
               {/* Overline */}
               <div className="animate-fade-up">
                 <span className="category-badge mb-8 inline-block">
-                  Blog sur l&apos;IA
+                  Développement avec l&apos;IA
                 </span>
               </div>
 
               {/* Main Title */}
               <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl text-text-primary leading-[1.05] mb-6 animate-fade-up stagger-1">
-                Intelligence
+                Développer avec
                 <br />
-                <span className="text-accent">Artificielle</span>
+                <span className="text-accent">l&apos;IA</span>
                 <span className="block w-48 h-1 bg-border mt-4" />
               </h1>
 
               {/* Subtitle */}
               <p className="text-xl text-text-muted max-w-lg mb-10 animate-fade-up stagger-2">
-                Explorations et reflexions sur les modeles de langage,
-                l&apos;apprentissage automatique et l&apos;avenir de la
-                technologie.
+                Guides pratiques, bonnes pratiques et retours d&apos;expérience
+                pour développer efficacement avec l&apos;intelligence artificielle.
               </p>
 
               {/* CTA */}
@@ -139,13 +138,13 @@ export default function Home() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="font-display text-3xl sm:text-4xl text-text-primary mb-6">
-                Restez informe sur
+                Progressez dans
                 <br />
-                les avancees de l&apos;IA
+                le dev avec l&apos;IA
               </h2>
               <p className="text-text-muted text-lg mb-8">
-                Suivez les dernieres publications et analyses sur
-                l&apos;intelligence artificielle.
+                Suivez les derniers tutoriels et bonnes pratiques pour coder
+                avec l&apos;IA.
               </p>
               <div className="flex flex-wrap gap-4">
                 <a

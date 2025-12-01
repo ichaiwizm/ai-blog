@@ -20,8 +20,8 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-text-muted text-base leading-relaxed mb-8 max-w-xs">
-              Intelligence artificielle decryptee. Analyses, tutoriels et
-              reflexions sur l&apos;avenir de la technologie.
+              Développer mieux avec l&apos;IA. Tutoriels, bonnes pratiques et
+              retours d&apos;expérience pour les développeurs.
             </p>
             {/* Newsletter */}
             <div className="max-w-sm">
