@@ -1,0 +1,102 @@
+---
+title: "Comprendre les modèles d'IA"
+description: "Les différents types de modèles d'IA, leurs capacités et comment choisir le bon pour ton projet."
+icon: "🧠"
+level: "debutant"
+order: 2
+---
+
+Les modèles d'IA sont le cœur des outils que tu utilises au quotidien. Comprendre leurs différences t'aidera à les utiliser efficacement.
+
+## Types de modèles
+
+### Large Language Models (LLMs)
+
+Les LLMs sont des modèles entraînés sur d'énormes quantités de texte. Ils comprennent et génèrent du langage naturel.
+
+**Exemples** :
+- **Claude** (Anthropic) - Excellent en raisonnement et en code
+- **GPT-4** (OpenAI) - Polyvalent et largement adopté
+- **Gemini** (Google) - Multimodal avec intégration Google
+
+### Modèles spécialisés
+
+- **Modèles de code** : Optimisés pour la programmation (Codex, StarCoder)
+- **Modèles d'image** : Génèrent des images (DALL-E, Midjourney, Stable Diffusion)
+- **Modèles audio** : Transcription et synthèse vocale (Whisper)
+
+## Caractéristiques clés
+
+### Taille et capacités
+
+La "taille" d'un modèle (en paramètres) influence ses capacités :
+
+| Taille | Caractéristiques | Exemples |
+|--------|------------------|----------|
+| Petite (~7B) | Rapide, économique, tâches simples | Llama 2 7B |
+| Moyenne (~70B) | Bon équilibre performance/coût | Claude 3 Haiku |
+| Grande (~100B+) | Raisonnement avancé, créativité | Claude 3.5 Sonnet, GPT-4 |
+
+### Fenêtre de contexte
+
+La **fenêtre de contexte** détermine combien de texte le modèle peut "voir" en une fois :
+
+- **8K tokens** : ~6000 mots - Conversations courtes
+- **32K tokens** : ~24000 mots - Documents moyens
+- **128K+ tokens** : ~100000 mots - Codebases entiers, longs documents
+
+> **Token** : Unité de texte (mot ou partie de mot). En moyenne, 1 token ≈ 0.75 mot en anglais, un peu moins en français.
+
+### Multimodalité
+
+Certains modèles comprennent plusieurs types de données :
+
+- **Texte uniquement** : La plupart des LLMs de base
+- **Vision** : Comprennent les images (Claude 3, GPT-4V)
+- **Audio** : Transcription et génération vocale
+
+## Comment choisir ?
+
+### Pour du code
+
+1. **Claude 3.5 Sonnet** - Excellent en raisonnement, édition de code précise
+2. **GPT-4** - Très capable, large base de connaissances
+3. **Codestral / DeepSeek** - Spécialisés code, souvent open source
+
+### Pour des tâches créatives
+
+1. **Claude 3 Opus** - Rédaction nuancée et créative
+2. **GPT-4** - Polyvalent et créatif
+
+### Pour la vitesse et le coût
+
+1. **Claude 3 Haiku** - Ultra-rapide, économique
+2. **GPT-3.5 Turbo** - Rapide et abordable
+
+## Bonnes pratiques
+
+### Prompting efficace
+
+```
+❌ "Écris du code"
+✅ "Écris une fonction Python qui valide une adresse email avec regex.
+   Inclus des tests unitaires et une documentation docstring."
+```
+
+### Itération
+
+- Commence simple, affine progressivement
+- Donne du contexte pertinent
+- Demande des explications si nécessaire
+
+### Limites à connaître
+
+- **Hallucinations** : Les modèles peuvent inventer des informations
+- **Coupure de connaissances** : Données d'entraînement datées
+- **Cohérence longue** : Difficultés sur de très longs contextes
+
+## Tendances actuelles
+
+- **Modèles de raisonnement** (o1, Claude with extended thinking) - Plus lents mais plus précis
+- **Modèles locaux** (Llama, Mistral) - Exécution sur ta machine
+- **Agents** - Modèles qui utilisent des outils et agissent de manière autonome

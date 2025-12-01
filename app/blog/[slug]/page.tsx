@@ -8,6 +8,7 @@ import {
   getPostsBySeries,
   extractHeadings,
 } from "@/lib/posts";
+import { getConceptsBySlugs } from "@/lib/concepts";
 import { compileMDXContent } from "@/lib/mdx";
 import Comments from "@/components/Comments";
 import ReadingProgress from "@/components/ReadingProgress";
@@ -18,6 +19,7 @@ import RelatedPosts from "@/components/RelatedPosts";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import AuthorBio from "@/components/AuthorBio";
 import SeriesNavigation from "@/components/SeriesNavigation";
+import Prerequisites from "@/components/Prerequisites";
 
 interface Props {
   params: { slug: string };
@@ -69,6 +71,9 @@ export default async function PostPage({ params }: Props) {
   const headings = extractHeadings(post.content);
   const relatedPosts = getRelatedPosts(params.slug, 3);
   const seriesPosts = post.series ? getPostsBySeries(post.series) : [];
+  const prerequisiteConcepts = post.prerequisites
+    ? getConceptsBySlugs(post.prerequisites)
+    : [];
   const baseUrl =
     process.env.NEXT_PUBLIC_SITE_URL || "https://ai-blog.vercel.app";
   const articleUrl = `${baseUrl}/blog/${params.slug}`;
@@ -202,6 +207,11 @@ export default async function PostPage({ params }: Props) {
 
         {/* Article Content */}
         <div className="container-narrow py-16">
+          {/* Prerequisites */}
+          {prerequisiteConcepts.length > 0 && (
+            <Prerequisites concepts={prerequisiteConcepts} />
+          )}
+
           <div className="prose prose-lg max-w-none">{content}</div>
 
           {/* Reactions */}

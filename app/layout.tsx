@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { PlatformProvider } from "@/contexts/PlatformContext";
+import { ConceptsProvider } from "@/contexts/ConceptsContext";
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ai-blog.vercel.app";
 
@@ -70,9 +72,13 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen flex flex-col bg-bg-primary">
-        <Header />
-        <main className="flex-1 pt-20">{children}</main>
-        <Footer />
+        <PlatformProvider>
+          <ConceptsProvider>
+            <Header />
+            <main className="flex-1 pt-20">{children}</main>
+            <Footer />
+          </ConceptsProvider>
+        </PlatformProvider>
       </body>
     </html>
   );

@@ -26,6 +26,7 @@ export interface PostMeta {
   category?: Category;
   series?: string;
   seriesOrder?: number;
+  prerequisites?: string[]; // Concept slugs required before reading this article
 }
 
 export interface Post extends PostMeta {
@@ -58,6 +59,7 @@ export function getAllPosts(): PostMeta[] {
         category: data.category || undefined,
         series: data.series || undefined,
         seriesOrder: data.seriesOrder || undefined,
+        prerequisites: data.prerequisites || undefined,
       };
     })
     .filter((post) => post.published)
@@ -88,6 +90,7 @@ export function getPostBySlug(slug: string): Post | null {
     category: data.category || undefined,
     series: data.series || undefined,
     seriesOrder: data.seriesOrder || undefined,
+    prerequisites: data.prerequisites || undefined,
     content,
   };
 }
