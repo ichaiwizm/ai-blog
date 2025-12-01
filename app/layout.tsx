@@ -4,6 +4,11 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { PlatformProvider } from "@/contexts/PlatformContext";
 import { ConceptsProvider } from "@/contexts/ConceptsContext";
+import { FavoritesProvider } from "@/contexts/FavoritesContext";
+import { GamificationProvider } from "@/contexts/GamificationContext";
+import { AccessibilityProvider } from "@/contexts/AccessibilityContext";
+import BadgeNotification from "@/components/BadgeNotification";
+import { PomodoroWidget } from "@/components/FocusModeToggle";
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ai-blog.vercel.app";
 
@@ -72,13 +77,21 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen flex flex-col bg-bg-primary">
-        <PlatformProvider>
-          <ConceptsProvider>
-            <Header />
-            <main className="flex-1 pt-20">{children}</main>
-            <Footer />
-          </ConceptsProvider>
-        </PlatformProvider>
+        <AccessibilityProvider>
+          <GamificationProvider>
+            <FavoritesProvider>
+              <PlatformProvider>
+                <ConceptsProvider>
+                  <Header />
+                  <main className="flex-1 pt-20">{children}</main>
+                  <Footer />
+                  <BadgeNotification />
+                  <PomodoroWidget />
+                </ConceptsProvider>
+              </PlatformProvider>
+            </FavoritesProvider>
+          </GamificationProvider>
+        </AccessibilityProvider>
       </body>
     </html>
   );

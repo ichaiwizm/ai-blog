@@ -4,6 +4,7 @@ import { getAllConcepts, getConceptBySlug, CONCEPT_LEVELS } from "@/lib/concepts
 import { compileMDXContent } from "@/lib/mdx";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import ConceptCompleteButton from "./ConceptCompleteButton";
+import FavoriteButton from "@/components/FavoriteButton";
 
 interface Props {
   params: { slug: string };
@@ -114,6 +115,7 @@ export default async function ConceptPage({ params }: Props) {
               </svg>
               {concept.readingTime}
             </span>
+            <FavoriteButton slug={concept.slug} type="concept" showLabel />
           </div>
         </div>
       </header>

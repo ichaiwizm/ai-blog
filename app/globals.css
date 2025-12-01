@@ -720,3 +720,324 @@ h4, .h4 {
   z-index: 9999;
   transition: width 0.1s ease-out;
 }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Font Size Scaling (Accessibility)
+   ───────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  --font-scale: 1;
+}
+
+html.font-small {
+  --font-scale: 0.875;
+}
+
+html.font-normal {
+  --font-scale: 1;
+}
+
+html.font-large {
+  --font-scale: 1.125;
+}
+
+html.font-xlarge {
+  --font-scale: 1.25;
+}
+
+/* Apply font scaling to body and prose */
+html.font-small body,
+html.font-large body,
+html.font-xlarge body {
+  font-size: calc(1.125rem * var(--font-scale));
+}
+
+html.font-small .prose,
+html.font-large .prose,
+html.font-xlarge .prose {
+  font-size: calc(1.125rem * var(--font-scale));
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   High Contrast Mode (Accessibility)
+   ───────────────────────────────────────────────────────────────────────────── */
+
+html.high-contrast {
+  --text-body: #000000;
+  --text-primary: #000000;
+  --text-muted: #333333;
+  --border: #000000;
+  --border-light: #666666;
+  --accent: #0000CC;
+}
+
+html.high-contrast.dark {
+  --text-body: #FFFFFF;
+  --text-primary: #FFFFFF;
+  --text-muted: #CCCCCC;
+  --border: #FFFFFF;
+  --border-light: #999999;
+  --accent: #66B3FF;
+}
+
+html.high-contrast body {
+  font-weight: 500;
+}
+
+html.high-contrast .text-text-muted {
+  font-weight: 600;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Focus Mode (Zen Mode)
+   ───────────────────────────────────────────────────────────────────────────── */
+
+html.focus-mode {
+  --font-scale: 1.15;
+}
+
+html.focus-mode body {
+  font-size: calc(1.125rem * 1.15);
+}
+
+html.focus-mode .prose {
+  font-size: calc(1.25rem * 1.15);
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+/* Hide header and footer in focus mode */
+html.focus-mode .header-container,
+html.focus-mode footer {
+  display: none !important;
+}
+
+/* Remove top padding since header is hidden */
+html.focus-mode main {
+  padding-top: 2rem !important;
+}
+
+/* Center content more in focus mode */
+html.focus-mode .container-default,
+html.focus-mode .container-wide {
+  max-width: 800px;
+}
+
+/* Subtle background in focus mode */
+html.focus-mode body {
+  background: var(--bg-secondary);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Additional Shadows
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.shadow-brutal {
+  box-shadow: var(--shadow-brutal);
+}
+
+.shadow-brutal-accent {
+  box-shadow: var(--shadow-brutal-accent);
+}
+
+.shadow-brutal-hover {
+  box-shadow: var(--shadow-brutal-hover);
+}
+
+.shadow-brutal-sm {
+  box-shadow: 4px 4px 0 var(--border);
+}
+
+.shadow-brutal-lg {
+  box-shadow: 8px 8px 0 var(--border);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Gamification & Badges
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* Badge unlock animation */
+@keyframes badge-unlock {
+  0% {
+    transform: scale(0) rotate(-180deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2) rotate(10deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.animate-badge-unlock {
+  animation: badge-unlock 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* XP gain animation */
+@keyframes xp-gain {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+}
+
+.animate-xp-gain {
+  animation: xp-gain 1s ease-out forwards;
+}
+
+/* Level up glow */
+@keyframes level-up-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px var(--accent);
+  }
+  50% {
+    box-shadow: 0 0 20px var(--accent), 0 0 40px var(--accent-light);
+  }
+}
+
+.animate-level-up {
+  animation: level-up-glow 2s ease-in-out infinite;
+}
+
+/* Streak fire animation */
+@keyframes fire-flicker {
+  0%, 100% {
+    transform: scale(1) rotate(-2deg);
+  }
+  25% {
+    transform: scale(1.1) rotate(2deg);
+  }
+  50% {
+    transform: scale(0.95) rotate(-1deg);
+  }
+  75% {
+    transform: scale(1.05) rotate(1deg);
+  }
+}
+
+.animate-fire {
+  animation: fire-flicker 0.5s ease-in-out infinite;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Progress Bars
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.progress-bar {
+  height: 8px;
+  background: var(--border-light);
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.5s ease;
+}
+
+.progress-bar-fill.completed {
+  background: #10B981; /* emerald-500 */
+}
+
+/* Striped progress bar */
+.progress-bar-striped .progress-bar-fill {
+  background-image: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.15) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.15) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 1rem 1rem;
+  animation: progress-stripes 1s linear infinite;
+}
+
+@keyframes progress-stripes {
+  0% {
+    background-position: 1rem 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Tooltips
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.tooltip {
+  position: relative;
+}
+
+.tooltip-content {
+  position: absolute;
+  z-index: 50;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  background: var(--bg-inverse);
+  color: var(--text-inverse);
+  border: 2px solid var(--border);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.tooltip:hover .tooltip-content {
+  opacity: 1;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Pulse Animation for Notifications
+   ───────────────────────────────────────────────────────────────────────────── */
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.pulse-ring::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--accent);
+  border-radius: inherit;
+  animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Confetti Animation
+   ───────────────────────────────────────────────────────────────────────────── */
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(-100%) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+.confetti {
+  position: fixed;
+  top: 0;
+  pointer-events: none;
+  animation: confetti-fall 3s ease-in-out forwards;
+}
