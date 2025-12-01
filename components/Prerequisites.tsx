@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useConcepts } from "@/contexts/ConceptsContext";
 import { ConceptMeta, CONCEPT_LEVELS } from "@/lib/concepts-types";
 
+const HIDDEN_STORAGE_KEY = "hide-prerequisites";
+
 interface PrerequisitesProps {
   concepts: ConceptMeta[];
 }
@@ -12,10 +14,19 @@ interface PrerequisitesProps {
 export default function Prerequisites({ concepts }: PrerequisitesProps) {
   const { isCompleted, isLoaded } = useConcepts();
   const [isExpanded, setIsExpanded] = useState(true);
+  const [isHidden, setIsHidden] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   const completedCount = concepts.filter((c) => isCompleted(c.slug)).length;
   const allCompleted = isLoaded && completedCount === concepts.length;
   const progress = (completedCount / concepts.length) * 100;
+
+  // Load hidden state from localStorage
+  useEffect(() => {
+    setMounted(true);
+    const hidden = localStorage.getItem(HIDDEN_STORAGE_KEY) === "true";
+    setIsHidden(hidden);
+  }, []);
 
   // Auto-collapse when all completed
   useEffect(() => {
@@ -24,7 +35,42 @@ export default function Prerequisites({ concepts }: PrerequisitesProps) {
     }
   }, [isLoaded, allCompleted]);
 
+  const handleHide = () => {
+    setIsHidden(true);
+    localStorage.setItem(HIDDEN_STORAGE_KEY, "true");
+  };
+
+  const handleShow = () => {
+    setIsHidden(false);
+    localStorage.removeItem(HIDDEN_STORAGE_KEY);
+  };
+
   if (concepts.length === 0) return null;
+
+  // Hidden state - show minimal link to restore
+  if (mounted && isHidden) {
+    return (
+      <div className="my-4 not-prose">
+        <button
+          onClick={handleShow}
+          className="inline-flex items-center gap-2 font-mono text-xs text-text-muted hover:text-accent transition-colors"
+        >
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+            <circle cx="12" cy="12" r="3" />
+          </svg>
+          Afficher les prérequis ({concepts.length})
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className={`my-8 border-3 bg-bg-secondary not-prose transition-all ${
@@ -130,14 +176,27 @@ export default function Prerequisites({ concepts }: PrerequisitesProps) {
           ))}
         </div>
 
-        {/* Footer tip */}
-        {!allCompleted && (
-          <div className="px-5 py-3 border-t-2 border-border-light bg-accent-light">
+        {/* Footer */}
+        <div className="px-5 py-3 border-t-2 border-border-light bg-accent-light flex items-center justify-between gap-4 flex-wrap">
+          {!allCompleted ? (
             <p className="font-mono text-xs text-text-muted">
-              <span className="font-semibold">Conseil :</span> Consulte les concepts que tu ne maîtrises pas encore avant de continuer.
+              <span className="font-semibold">Conseil :</span> Consulte les concepts que tu ne maîtrises pas encore.
             </p>
-          </div>
-        )}
+          ) : (
+            <p className="font-mono text-xs text-text-muted">
+              Tu maîtrises tous les prérequis.
+            </p>
+          )}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleHide();
+            }}
+            className="font-mono text-xs text-text-muted hover:text-accent transition-colors underline underline-offset-2"
+          >
+            Ne plus afficher
+          </button>
+        </div>
       </div>
     </div>
   );
