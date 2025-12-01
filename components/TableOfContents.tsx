@@ -20,7 +20,7 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
         });
       },
       {
-        rootMargin: "-80px 0px -80% 0px",
+        rootMargin: "-100px 0px -80% 0px",
         threshold: 0,
       }
     );
@@ -37,28 +37,30 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
 
   return (
     <nav className="hidden xl:block fixed right-8 top-32 w-64 max-h-[calc(100vh-10rem)] overflow-y-auto">
-      <div className="font-mono text-xs text-[var(--text-muted)] mb-4 uppercase tracking-wider">
-        <span className="text-[var(--accent)]">&gt;</span> Sommaire
-      </div>
-      <ul className="space-y-2 border-l border-[var(--border)]">
-        {headings.map((heading) => (
-          <li
-            key={heading.id}
-            style={{ paddingLeft: `${(heading.level - 2) * 12 + 12}px` }}
-          >
-            <a
-              href={`#${heading.id}`}
-              className={`block font-mono text-xs py-1 transition-colors border-l-2 -ml-[1px] pl-3 ${
-                activeId === heading.id
-                  ? "text-[var(--accent)] border-[var(--accent)]"
-                  : "text-[var(--text-muted)] border-transparent hover:text-[var(--text-secondary)] hover:border-[var(--border-hover)]"
-              }`}
+      <div className="border-3 border-border bg-bg-secondary p-5">
+        <h4 className="font-body text-xs font-semibold text-text-primary uppercase tracking-wider mb-4">
+          Sommaire
+        </h4>
+        <ul className="space-y-1">
+          {headings.map((heading) => (
+            <li
+              key={heading.id}
+              style={{ paddingLeft: `${(heading.level - 2) * 12}px` }}
             >
-              {heading.text}
-            </a>
-          </li>
-        ))}
-      </ul>
+              <a
+                href={`#${heading.id}`}
+                className={`block font-body text-sm py-1.5 transition-all border-l-3 pl-3 -ml-px ${
+                  activeId === heading.id
+                    ? "text-accent border-accent font-medium"
+                    : "text-text-muted border-transparent hover:text-text-primary hover:border-border-light"
+                }`}
+              >
+                {heading.text}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
     </nav>
   );
 }

@@ -39,7 +39,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" className="dark" suppressHydrationWarning>
+    <html lang="fr" suppressHydrationWarning>
       <head>
         <link
           rel="alternate"
@@ -48,9 +48,9 @@ export default function RootLayout({
           href="/feed.xml"
         />
       </head>
-      <body className="min-h-screen flex flex-col">
+      <body className="min-h-screen flex flex-col bg-bg-primary">
         <Header />
-        <div className="flex-1 pt-16">{children}</div>
+        <main className="flex-1 pt-20">{children}</main>
         <Footer />
       </body>
     </html>

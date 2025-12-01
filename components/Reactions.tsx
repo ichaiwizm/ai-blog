@@ -43,26 +43,25 @@ export default function Reactions({ slug }: ReactionsProps) {
   const activeCount = Object.values(reactions).filter(Boolean).length;
 
   return (
-    <div className="flex flex-col items-center gap-3 py-6">
-      <span className="font-mono text-xs text-[var(--text-muted)]">
+    <div className="flex flex-col items-center gap-4 py-8">
+      <span className="font-body text-sm text-text-muted">
         {activeCount > 0 ? "Merci pour votre reaction !" : "Cet article vous a plu ?"}
       </span>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-3">
         {REACTIONS.map(({ emoji, label, key }) => (
           <button
             key={key}
             onClick={() => toggleReaction(key)}
-            className={`group relative p-3 rounded-lg border transition-all duration-200 ${
+            className={`group relative w-14 h-14 flex items-center justify-center border-3 transition-all duration-200 ${
               reactions[key]
-                ? "border-[var(--accent)] bg-[var(--accent-dim)] scale-110"
-                : "border-[var(--border)] hover:border-[var(--border-hover)] hover:scale-105"
+                ? "border-accent bg-accent-light translate-x-[-2px] translate-y-[-2px] shadow-brutal-sm-accent"
+                : "border-border bg-bg-secondary hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-brutal-sm"
             }`}
             aria-label={label}
             title={label}
           >
-            <span className="text-xl">{emoji}</span>
-            <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 font-mono text-[10px] text-[var(--text-muted)] opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-              {label}
+            <span className="text-2xl transition-transform group-hover:scale-110">
+              {emoji}
             </span>
           </button>
         ))}

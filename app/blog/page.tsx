@@ -4,7 +4,8 @@ import Link from "next/link";
 
 export const metadata = {
   title: "Tous les articles - AI Blog",
-  description: "Liste de tous les articles du blog sur l'intelligence artificielle",
+  description:
+    "Liste de tous les articles du blog sur l'intelligence artificielle",
 };
 
 export default function BlogPage() {
@@ -12,67 +13,86 @@ export default function BlogPage() {
   const tags = getAllTags();
 
   return (
-    <main className="grid-bg min-h-screen py-16 px-6">
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <header className="mb-12 animate-fade-up">
+    <>
+      {/* Header */}
+      <section className="border-b-3 border-border bg-bg-secondary">
+        <div className="container-default py-16">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 font-mono text-xs text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors mb-6"
+            className="inline-flex items-center gap-2 font-body text-sm font-medium text-text-muted hover:text-accent transition-colors mb-8 animate-fade-up"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
               <path d="M19 12H5M12 19l-7-7 7-7" />
             </svg>
             Retour
           </Link>
 
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-2 h-2 rounded-full bg-[var(--accent)] animate-pulse" />
-            <span className="font-mono text-xs text-[var(--text-muted)]">
+          <div className="animate-fade-up stagger-1">
+            <span className="category-badge mb-6 inline-block">
               {posts.length} article{posts.length > 1 ? "s" : ""}
             </span>
           </div>
 
-          <h1 className="font-mono text-4xl font-bold text-[var(--text-primary)] mb-4">
+          <h1 className="font-display text-5xl sm:text-6xl text-text-primary mb-6 animate-fade-up stagger-2">
             Tous les articles
           </h1>
 
-          <p className="text-[var(--text-secondary)]">
-            Explorez tous les articles sur l&apos;IA, le machine learning et les technologies emergentes.
+          <p className="text-xl text-text-muted max-w-xl animate-fade-up stagger-3">
+            Explorez tous les articles sur l&apos;IA, le machine learning et les
+            technologies emergentes.
           </p>
-        </header>
+        </div>
+      </section>
 
-        {/* Tags filter */}
-        {tags.length > 0 && (
-          <div className="mb-10 animate-fade-up stagger-1">
-            <div className="font-mono text-xs text-[var(--text-muted)] mb-3">
-              <span className="text-[var(--accent)]">$</span> filter --tags
+      {/* Tags filter */}
+      {tags.length > 0 && (
+        <section className="border-b-3 border-border-light py-6">
+          <div className="container-default">
+            <div className="flex items-center gap-4 flex-wrap">
+              <span className="font-mono text-xs text-text-muted uppercase tracking-wider">
+                Filtrer par tag
+              </span>
+              <div className="flex flex-wrap gap-2">
+                {tags.map((tag) => (
+                  <Link
+                    key={tag}
+                    href={`/tags/${tag.toLowerCase()}`}
+                    className="tag-chip"
+                  >
+                    #{tag}
+                  </Link>
+                ))}
+              </div>
             </div>
-            <div className="flex flex-wrap gap-2">
-              {tags.map((tag) => (
-                <Link key={tag} href={`/tags/${tag.toLowerCase()}`} className="tag-chip">
-                  #{tag}
-                </Link>
+          </div>
+        </section>
+      )}
+
+      {/* Posts Grid */}
+      <section className="py-16">
+        <div className="container-default">
+          {posts.length === 0 ? (
+            <div className="text-center py-20 border-3 border-border-light">
+              <p className="font-body text-text-muted text-lg">
+                Aucun article trouve...
+              </p>
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {posts.map((post, index) => (
+                <ArticleCard key={post.slug} post={post} index={index} />
               ))}
             </div>
-          </div>
-        )}
-
-        {/* Posts list */}
-        {posts.length === 0 ? (
-          <div className="text-center py-20">
-            <div className="font-mono text-[var(--text-muted)]">
-              <span className="text-[var(--accent)]">&gt;</span> Aucun article trouve...
-            </div>
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {posts.map((post, index) => (
-              <ArticleCard key={post.slug} post={post} index={index} />
-            ))}
-          </div>
-        )}
-      </div>
-    </main>
+          )}
+        </div>
+      </section>
+    </>
   );
 }

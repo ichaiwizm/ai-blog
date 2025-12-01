@@ -15,8 +15,6 @@ export default function NewsletterForm() {
     setStatus("loading");
 
     try {
-      // Buttondown API integration
-      // Replace YOUR_BUTTONDOWN_USERNAME with your actual Buttondown username
       const res = await fetch("https://api.buttondown.email/v1/subscribers", {
         method: "POST",
         headers: {
@@ -46,7 +44,6 @@ export default function NewsletterForm() {
       setMessage("Une erreur est survenue. Reessayez plus tard.");
     }
 
-    // Reset status after 5 seconds
     setTimeout(() => {
       setStatus("idle");
       setMessage("");
@@ -55,13 +52,13 @@ export default function NewsletterForm() {
 
   return (
     <div className="w-full">
-      <div className="font-mono text-xs text-[var(--text-muted)] mb-3">
-        <span className="text-[var(--accent)]">&gt;</span> Newsletter
-      </div>
-      <p className="font-serif text-sm text-[var(--text-secondary)] mb-4">
-        Recevez les derniers articles directement dans votre boite mail.
+      <h4 className="font-body text-sm font-semibold text-text-primary uppercase tracking-wider mb-3">
+        Newsletter
+      </h4>
+      <p className="text-sm text-text-muted mb-4">
+        Recevez les derniers articles dans votre boite mail.
       </p>
-      <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2">
+      <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-0">
         <input
           type="email"
           value={email}
@@ -69,21 +66,21 @@ export default function NewsletterForm() {
           placeholder="votre@email.com"
           required
           disabled={status === "loading"}
-          className="flex-1 px-4 py-2 bg-[var(--bg-tertiary)] border border-[var(--border)] rounded font-mono text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--accent)] transition-colors disabled:opacity-50"
+          className="flex-1 brutal-input border-r-0 sm:border-r-0 disabled:opacity-50"
         />
         <button
           type="submit"
           disabled={status === "loading"}
-          className="px-6 py-2 bg-[var(--accent)] text-[var(--bg-primary)] font-mono text-sm font-bold rounded hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center justify-center gap-2"
+          className="brutal-btn whitespace-nowrap disabled:opacity-50"
         >
           {status === "loading" ? (
-            <>
+            <span className="flex items-center gap-2">
               <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
               </svg>
               Envoi...
-            </>
+            </span>
           ) : (
             "S'inscrire"
           )}
@@ -92,7 +89,7 @@ export default function NewsletterForm() {
       {message && (
         <p
           className={`mt-3 font-mono text-xs ${
-            status === "success" ? "text-[var(--accent)]" : "text-red-500"
+            status === "success" ? "text-accent" : "text-red-600"
           }`}
         >
           {message}

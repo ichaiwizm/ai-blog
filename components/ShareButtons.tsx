@@ -52,13 +52,15 @@ export default function ShareButtons({ title, url }: ShareButtonsProps) {
   };
 
   return (
-    <div className="flex items-center gap-2">
-      <span className="font-mono text-xs text-[var(--text-muted)] mr-2">Partager :</span>
+    <div className="flex items-center gap-3">
+      <span className="font-mono text-xs text-text-muted uppercase tracking-wider">
+        Partager
+      </span>
 
       {/* Twitter/X */}
       <button
         onClick={shareOnTwitter}
-        className="p-2 rounded border border-[var(--border)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors"
+        className="w-10 h-10 flex items-center justify-center border-2 border-border bg-bg-secondary text-text-muted hover:bg-accent hover:text-text-inverse hover:border-border transition-all"
         aria-label="Partager sur Twitter"
         title="Partager sur X (Twitter)"
       >
@@ -70,7 +72,7 @@ export default function ShareButtons({ title, url }: ShareButtonsProps) {
       {/* LinkedIn */}
       <button
         onClick={shareOnLinkedIn}
-        className="p-2 rounded border border-[var(--border)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors"
+        className="w-10 h-10 flex items-center justify-center border-2 border-border bg-bg-secondary text-text-muted hover:bg-accent hover:text-text-inverse hover:border-border transition-all"
         aria-label="Partager sur LinkedIn"
         title="Partager sur LinkedIn"
       >
@@ -82,16 +84,34 @@ export default function ShareButtons({ title, url }: ShareButtonsProps) {
       {/* Copy Link */}
       <button
         onClick={copyLink}
-        className="p-2 rounded border border-[var(--border)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors relative"
+        className={`w-10 h-10 flex items-center justify-center border-2 border-border bg-bg-secondary transition-all ${
+          copied
+            ? "bg-accent text-text-inverse"
+            : "text-text-muted hover:bg-accent hover:text-text-inverse hover:border-border"
+        }`}
         aria-label="Copier le lien"
         title="Copier le lien"
       >
         {copied ? (
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
             <polyline points="20 6 9 17 4 12" />
           </svg>
         ) : (
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
             <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
             <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
           </svg>
@@ -99,22 +119,31 @@ export default function ShareButtons({ title, url }: ShareButtonsProps) {
       </button>
 
       {/* Native Share (mobile) */}
-      {typeof window !== "undefined" && typeof navigator !== "undefined" && "share" in navigator && (
-        <button
-          onClick={handleNativeShare}
-          className="p-2 rounded border border-[var(--border)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors sm:hidden"
-          aria-label="Partager"
-          title="Partager"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <circle cx="18" cy="5" r="3" />
-            <circle cx="6" cy="12" r="3" />
-            <circle cx="18" cy="19" r="3" />
-            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
-            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
-          </svg>
-        </button>
-      )}
+      {typeof window !== "undefined" &&
+        typeof navigator !== "undefined" &&
+        "share" in navigator && (
+          <button
+            onClick={handleNativeShare}
+            className="w-10 h-10 flex items-center justify-center border-2 border-border bg-bg-secondary text-text-muted hover:bg-accent hover:text-text-inverse hover:border-border transition-all sm:hidden"
+            aria-label="Partager"
+            title="Partager"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <circle cx="18" cy="5" r="3" />
+              <circle cx="6" cy="12" r="3" />
+              <circle cx="18" cy="19" r="3" />
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+            </svg>
+          </button>
+        )}
     </div>
   );
 }

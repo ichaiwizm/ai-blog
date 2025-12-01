@@ -30,7 +30,7 @@ export default function Comments({ slug }: CommentsProps) {
     script.setAttribute("data-reactions-enabled", "1");
     script.setAttribute("data-emit-metadata", "0");
     script.setAttribute("data-input-position", "top");
-    script.setAttribute("data-theme", "transparent_dark");
+    script.setAttribute("data-theme", "light");
     script.setAttribute("data-lang", "fr");
     script.setAttribute("data-loading", "lazy");
 
@@ -38,14 +38,17 @@ export default function Comments({ slug }: CommentsProps) {
   }, [slug]);
 
   return (
-    <section className="mt-16 pt-8 border-t border-[var(--border)]">
-      <h2 className="font-mono text-lg font-bold text-[var(--text-primary)] mb-6">
-        <span className="text-[var(--accent)]">#</span> Commentaires
+    <section className="mt-16 pt-8 border-t-2 border-border">
+      <h2 className="font-display text-2xl text-text-primary mb-4">
+        Commentaires
       </h2>
-      <div className="font-mono text-xs text-[var(--text-muted)] mb-6">
-        <span className="text-[var(--accent)]">$</span> Connectez-vous avec GitHub pour commenter
-      </div>
-      <div ref={ref} className="giscus" />
+      <p className="font-body text-sm text-text-muted mb-8">
+        Connectez-vous avec GitHub pour participer a la discussion.
+      </p>
+      <div
+        ref={ref}
+        className="giscus border-3 border-border-light p-4 bg-bg-secondary"
+      />
     </section>
   );
 }

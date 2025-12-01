@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAllSeries, getPostsBySeries } from "@/lib/posts";
-import ArticleCard from "@/components/ArticleCard";
 import Breadcrumbs from "@/components/Breadcrumbs";
 
 interface Props {
@@ -35,120 +34,138 @@ export default function SeriesDetailPage({ params }: Props) {
   }
 
   const posts = getPostsBySeries(params.slug);
+  const totalReadingTime = posts.reduce((acc, post) => {
+    const minutes = parseInt(post.readingTime) || 5;
+    return acc + minutes;
+  }, 0);
 
   return (
-    <main className="min-h-screen py-16 px-6">
-      <div className="max-w-4xl mx-auto">
-        {/* Breadcrumbs */}
-        <div className="mb-8">
-          <Breadcrumbs
-            items={[
-              { label: "Accueil", href: "/" },
-              { label: "Series", href: "/series" },
-              { label: series.title },
-            ]}
-          />
-        </div>
-
-        {/* Header */}
-        <header className="mb-12 pb-8 border-b border-[var(--border)]">
-          <div className="font-mono text-xs text-[var(--text-muted)] mb-4">
-            <span className="text-[var(--accent)]">&gt;</span> Serie
+    <>
+      {/* Header */}
+      <section className="border-b-3 border-border bg-bg-secondary">
+        <div className="container-default py-16">
+          {/* Breadcrumbs */}
+          <div className="mb-8 animate-fade-up">
+            <Breadcrumbs
+              items={[
+                { label: "Accueil", href: "/" },
+                { label: "Series", href: "/series" },
+                { label: series.title },
+              ]}
+            />
           </div>
-          <h1 className="font-mono text-3xl sm:text-4xl font-bold text-[var(--text-primary)] mb-4">
+
+          <div className="animate-fade-up stagger-1">
+            <span className="category-badge mb-6 inline-block">Serie</span>
+          </div>
+
+          <h1 className="font-display text-5xl sm:text-6xl text-text-primary mb-6 animate-fade-up stagger-2">
             {series.title}
           </h1>
-          <div className="flex items-center gap-4 font-mono text-sm text-[var(--text-muted)]">
-            <span>{posts.length} article{posts.length !== 1 ? "s" : ""}</span>
-            <span>·</span>
-            <span>
-              ~{posts.reduce((acc, post) => {
-                const minutes = parseInt(post.readingTime) || 5;
-                return acc + minutes;
-              }, 0)} min de lecture
-            </span>
-          </div>
-        </header>
 
-        {/* Progress indicator */}
-        <div className="mb-8 p-4 rounded border border-[var(--border)] bg-[var(--bg-secondary)]">
-          <div className="font-mono text-xs text-[var(--text-muted)] mb-3">
-            <span className="text-[var(--accent)]">&gt;</span> Progression
+          <div className="flex items-center gap-6 font-mono text-sm text-text-muted animate-fade-up stagger-3">
+            <span className="flex items-center gap-2">
+              <span className="w-6 h-6 bg-accent flex items-center justify-center text-text-inverse text-xs font-bold">
+                {posts.length}
+              </span>
+              article{posts.length !== 1 ? "s" : ""}
+            </span>
+            <span className="w-1 h-1 bg-border-light rounded-full" />
+            <span>~{totalReadingTime} min de lecture</span>
           </div>
-          <div className="flex items-center gap-2">
+        </div>
+      </section>
+
+      {/* Progress indicator */}
+      <section className="border-b-3 border-border-light py-6">
+        <div className="container-default">
+          <div className="flex items-center gap-4">
+            <span className="font-mono text-xs text-text-muted uppercase tracking-wider">
+              Progression
+            </span>
+            <div className="flex-1 flex items-center gap-1">
+              {posts.map((post, index) => (
+                <Link
+                  key={post.slug}
+                  href={`/blog/${post.slug}`}
+                  className="group flex-1 h-2 bg-border-light hover:bg-accent transition-colors relative"
+                  title={post.title}
+                >
+                  <span className="absolute -top-10 left-1/2 -translate-x-1/2 font-mono text-xs text-text-primary opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap bg-bg-secondary border-2 border-border px-3 py-1.5 z-10">
+                    {index + 1}. {post.title.slice(0, 25)}
+                    {post.title.length > 25 ? "..." : ""}
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Posts */}
+      <section className="py-16">
+        <div className="container-default">
+          <div className="space-y-4">
             {posts.map((post, index) => (
               <Link
                 key={post.slug}
                 href={`/blog/${post.slug}`}
-                className="group flex-1 h-2 rounded-full bg-[var(--border)] hover:bg-[var(--accent)] transition-colors relative"
-                title={post.title}
+                className="group flex items-start gap-6 border-3 border-border bg-bg-secondary p-6 transition-all hover:translate-x-[-4px] hover:translate-y-[-4px] hover:shadow-brutal animate-fade-up"
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <span className="absolute -top-8 left-1/2 -translate-x-1/2 font-mono text-[10px] text-[var(--text-muted)] opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap bg-[var(--bg-tertiary)] px-2 py-1 rounded">
-                  {index + 1}. {post.title.slice(0, 30)}...
-                </span>
+                <div className="flex-shrink-0 w-12 h-12 bg-accent-light border-3 border-accent flex items-center justify-center font-display text-xl text-accent">
+                  {index + 1}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h2 className="font-display text-xl text-text-primary group-hover:text-accent transition-colors mb-2">
+                    {post.title}
+                  </h2>
+                  <p className="text-text-muted line-clamp-2 mb-3">
+                    {post.description}
+                  </p>
+                  <div className="font-mono text-xs text-text-muted">
+                    {post.readingTime}
+                  </div>
+                </div>
+                <svg
+                  className="flex-shrink-0 w-6 h-6 text-text-muted group-hover:text-accent transition-colors mt-2"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
               </Link>
             ))}
           </div>
         </div>
+      </section>
 
-        {/* Posts */}
-        <div className="space-y-4">
-          {posts.map((post, index) => (
-            <Link
-              key={post.slug}
-              href={`/blog/${post.slug}`}
-              className="group flex items-start gap-4 p-4 rounded border border-[var(--border)] bg-[var(--bg-secondary)] hover:border-[var(--accent)] transition-colors animate-fade-up"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[var(--accent-dim)] border border-[var(--accent)] flex items-center justify-center font-mono text-sm text-[var(--accent)]">
-                {index + 1}
-              </div>
-              <div className="flex-1 min-w-0">
-                <h2 className="font-mono text-base font-bold text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors mb-1">
-                  {post.title}
-                </h2>
-                <p className="font-serif text-sm text-[var(--text-muted)] line-clamp-2 mb-2">
-                  {post.description}
-                </p>
-                <div className="font-mono text-xs text-[var(--text-muted)]">
-                  {post.readingTime}
-                </div>
-              </div>
-              <svg
-                className="flex-shrink-0 w-5 h-5 text-[var(--text-muted)] group-hover:text-[var(--accent)] transition-colors"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </Link>
-          ))}
-        </div>
-
-        {/* Other series */}
-        {allSeries.length > 1 && (
-          <section className="mt-16 pt-8 border-t border-[var(--border)]">
-            <h2 className="font-mono text-lg font-bold text-[var(--text-primary)] mb-6">
-              <span className="text-[var(--accent)]">&gt;</span> Autres series
+      {/* Other series */}
+      {allSeries.length > 1 && (
+        <section className="py-16 border-t-3 border-border">
+          <div className="container-default">
+            <h2 className="font-display text-2xl text-text-primary mb-8">
+              Autres series
             </h2>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-3">
               {allSeries
                 .filter((s) => s.slug !== params.slug)
                 .map((s) => (
                   <Link
                     key={s.slug}
                     href={`/series/${s.slug}`}
-                    className="px-4 py-2 rounded border border-[var(--border)] font-mono text-xs text-[var(--text-secondary)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors"
+                    className="px-5 py-3 border-3 border-border bg-bg-secondary font-body text-sm text-text-muted transition-all hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-brutal-sm hover:text-accent"
                   >
-                    {s.title} ({s.posts.length})
+                    {s.title}{" "}
+                    <span className="text-accent">({s.posts.length})</span>
                   </Link>
                 ))}
             </div>
-          </section>
-        )}
-      </div>
-    </main>
+          </div>
+        </section>
+      )}
+    </>
   );
 }

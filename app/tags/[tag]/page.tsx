@@ -28,60 +28,78 @@ export default function TagPage({ params }: Props) {
   }
 
   return (
-    <main className="grid-bg min-h-screen py-16 px-6">
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <header className="mb-12 animate-fade-up">
+    <>
+      {/* Header */}
+      <section className="border-b-3 border-border bg-bg-secondary">
+        <div className="container-default py-16">
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 font-mono text-xs text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors mb-6"
+            className="inline-flex items-center gap-2 font-body text-sm font-medium text-text-muted hover:text-accent transition-colors mb-8 animate-fade-up"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
               <path d="M19 12H5M12 19l-7-7 7-7" />
             </svg>
             Tous les articles
           </Link>
 
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-2 h-2 rounded-full bg-[var(--accent)]" />
-            <span className="font-mono text-xs text-[var(--text-muted)]">
+          <div className="animate-fade-up stagger-1">
+            <span className="category-badge mb-6 inline-block">
               {posts.length} article{posts.length > 1 ? "s" : ""}
             </span>
           </div>
 
-          <h1 className="font-mono text-4xl font-bold mb-4">
-            <span className="text-[var(--accent)]">#</span>
-            <span className="text-[var(--text-primary)]">{params.tag}</span>
+          <h1 className="font-display text-5xl sm:text-6xl mb-6 animate-fade-up stagger-2">
+            <span className="text-accent">#</span>
+            <span className="text-text-primary">{params.tag}</span>
           </h1>
 
-          <p className="text-[var(--text-secondary)]">
+          <p className="text-xl text-text-muted animate-fade-up stagger-3">
             Tous les articles avec ce tag.
           </p>
-        </header>
+        </div>
+      </section>
 
-        {/* Other tags */}
-        <div className="mb-10 animate-fade-up stagger-1">
-          <div className="font-mono text-xs text-[var(--text-muted)] mb-3">
-            Autres tags :
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {allTags
-              .filter((t) => t.toLowerCase() !== params.tag.toLowerCase())
-              .map((tag) => (
-                <Link key={tag} href={`/tags/${tag.toLowerCase()}`} className="tag-chip">
-                  #{tag}
-                </Link>
-              ))}
+      {/* Other tags */}
+      <section className="border-b-3 border-border-light py-6">
+        <div className="container-default">
+          <div className="flex items-center gap-4 flex-wrap">
+            <span className="font-mono text-xs text-text-muted uppercase tracking-wider">
+              Autres tags
+            </span>
+            <div className="flex flex-wrap gap-2">
+              {allTags
+                .filter((t) => t.toLowerCase() !== params.tag.toLowerCase())
+                .map((tag) => (
+                  <Link
+                    key={tag}
+                    href={`/tags/${tag.toLowerCase()}`}
+                    className="tag-chip"
+                  >
+                    #{tag}
+                  </Link>
+                ))}
+            </div>
           </div>
         </div>
+      </section>
 
-        {/* Posts */}
-        <div className="space-y-4">
-          {posts.map((post, index) => (
-            <ArticleCard key={post.slug} post={post} index={index} />
-          ))}
+      {/* Posts */}
+      <section className="py-16">
+        <div className="container-default">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {posts.map((post, index) => (
+              <ArticleCard key={post.slug} post={post} index={index} />
+            ))}
+          </div>
         </div>
-      </div>
-    </main>
+      </section>
+    </>
   );
 }
