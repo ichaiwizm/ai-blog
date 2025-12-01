@@ -13,6 +13,11 @@ import {
   Unix,
   OnPlatforms,
 } from "@/components/PlatformContent";
+import { Alert } from "@/components/mdx/Alert";
+import { Callout } from "@/components/mdx/Callout";
+import { Tabs, Tab } from "@/components/mdx/Tabs";
+import { CodeDiff } from "@/components/mdx/CodeDiff";
+import { Video } from "@/components/mdx/Video";
 
 const options = {
   theme: "github-dark",
@@ -31,6 +36,13 @@ const mdxComponents = {
   WSL,
   Unix,
   OnPlatforms,
+  // Rich content components
+  Alert,
+  Callout,
+  Tabs,
+  Tab,
+  CodeDiff,
+  Video,
 };
 
 export async function compileMDXContent(source: string) {

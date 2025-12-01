@@ -24,32 +24,32 @@ export default function ArticleCard({
                 alt={post.title}
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
-                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
             </div>
           )}
 
-          <div className="p-6">
+          <div className="p-4 sm:p-5 md:p-6">
             {/* Category */}
             {post.category && (
-              <span className="category-badge mb-4 inline-block">
+              <span className="category-badge mb-3 sm:mb-4 inline-block text-[10px] sm:text-xs">
                 {post.category}
               </span>
             )}
 
             {/* Title */}
-            <h2 className="font-display text-xl sm:text-2xl text-text-primary mb-3 group-hover:text-accent transition-colors leading-tight">
+            <h2 className="font-display text-lg sm:text-xl md:text-2xl text-text-primary mb-2 sm:mb-3 group-hover:text-accent transition-colors leading-tight">
               {post.title}
             </h2>
 
             {/* Description */}
-            <p className="text-text-muted text-base mb-5 line-clamp-2">
+            <p className="text-text-muted text-sm sm:text-base mb-4 sm:mb-5 line-clamp-2">
               {post.description}
             </p>
 
             {/* Meta */}
-            <div className="flex items-center justify-between pt-4 border-t-2 border-border-light">
-              <div className="flex items-center gap-4 font-mono text-xs text-text-muted">
+            <div className="flex items-center justify-between pt-3 sm:pt-4 border-t-2 border-border-light">
+              <div className="flex items-center gap-2 sm:gap-4 font-mono text-[10px] sm:text-xs text-text-muted">
                 <time dateTime={post.date}>
                   {new Date(post.date).toLocaleDateString("fr-FR", {
                     day: "numeric",
@@ -71,11 +71,11 @@ export default function ArticleCard({
 
             {/* Tags */}
             {post.tags.length > 0 && (
-              <div className="flex flex-wrap gap-2 mt-4">
+              <div className="flex flex-wrap gap-1.5 sm:gap-2 mt-3 sm:mt-4">
                 {post.tags.slice(0, 3).map((tag) => (
                   <span
                     key={tag}
-                    className="font-mono text-[10px] text-text-muted uppercase tracking-wider"
+                    className="font-mono text-[9px] sm:text-[10px] text-text-muted uppercase tracking-wider"
                   >
                     #{tag}
                   </span>

@@ -59,40 +59,40 @@ export default function GlossairePage() {
   const sortedLetters = Object.keys(groupedTerms).sort();
 
   return (
-    <div className="container-default py-12">
+    <div className="container-default py-8 sm:py-10 md:py-12">
       {/* Header */}
-      <div className="mb-12 animate-fade-up">
-        <span className="inline-block px-3 py-1 bg-accent text-white text-xs font-mono uppercase tracking-wider mb-4">
+      <div className="mb-8 sm:mb-10 md:mb-12 animate-fade-up">
+        <span className="inline-block px-2 sm:px-3 py-1 bg-accent text-white text-[10px] sm:text-xs font-mono uppercase tracking-wider mb-3 sm:mb-4">
           Référence
         </span>
-        <h1 className="font-display text-4xl md:text-5xl text-text-primary mb-4">
+        <h1 className="font-display text-3xl sm:text-4xl md:text-5xl text-text-primary mb-3 sm:mb-4">
           Glossaire
         </h1>
-        <p className="text-lg text-text-muted max-w-2xl">
+        <p className="text-base sm:text-lg text-text-muted max-w-2xl">
           Toutes les définitions des termes techniques liés à l'IA, au développement et au terminal.
           Cliquez sur un terme pour voir sa définition complète.
         </p>
       </div>
 
       {/* Search and filters */}
-      <div className="flex flex-col md:flex-row gap-4 mb-8 animate-fade-up stagger-1">
+      <div className="flex flex-col gap-3 sm:gap-4 mb-6 sm:mb-8 animate-fade-up stagger-1">
         {/* Search */}
-        <div className="flex-1">
+        <div className="w-full">
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Rechercher un terme..."
-            className="w-full brutal-input"
+            className="w-full brutal-input text-sm sm:text-base"
           />
         </div>
 
         {/* Category filter */}
-        <div className="flex gap-2 flex-wrap">
+        <div className="flex gap-1.5 sm:gap-2 flex-wrap">
           <button
             onClick={() => setCategory("all")}
             className={`
-              px-4 py-2 border-2 text-sm font-medium transition-all
+              px-3 sm:px-4 py-2 border-2 text-xs sm:text-sm font-medium transition-all touch-target
               ${category === "all"
                 ? "bg-accent border-accent text-white"
                 : "bg-bg-secondary border-border hover:border-accent"
@@ -106,7 +106,7 @@ export default function GlossairePage() {
               key={cat}
               onClick={() => setCategory(cat)}
               className={`
-                px-4 py-2 border-2 text-sm font-medium transition-all flex items-center gap-2
+                px-3 sm:px-4 py-2 border-2 text-xs sm:text-sm font-medium transition-all flex items-center gap-1 sm:gap-2 touch-target
                 ${category === cat
                   ? "bg-accent border-accent text-white"
                   : "bg-bg-secondary border-border hover:border-accent"
@@ -114,14 +114,14 @@ export default function GlossairePage() {
               `}
             >
               <span>{GLOSSARY_CATEGORIES[cat].icon}</span>
-              <span className="hidden sm:inline">{GLOSSARY_CATEGORIES[cat].name}</span>
+              <span className="hidden xs:inline">{GLOSSARY_CATEGORIES[cat].name}</span>
             </button>
           ))}
         </div>
       </div>
 
       {/* Alphabet navigation */}
-      <div className="flex flex-wrap gap-1 mb-8 p-3 bg-bg-secondary border-3 border-border animate-fade-up stagger-2">
+      <div className="flex flex-wrap gap-0.5 sm:gap-1 mb-6 sm:mb-8 p-2 sm:p-3 bg-bg-secondary border-3 border-border animate-fade-up stagger-2">
         {"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((letter) => {
           const hasTerms = groupedTerms[letter]?.length > 0;
           return (
@@ -135,7 +135,7 @@ export default function GlossairePage() {
               }}
               disabled={!hasTerms}
               className={`
-                w-8 h-8 flex items-center justify-center font-mono font-bold
+                w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center font-mono font-bold text-xs sm:text-sm
                 ${hasTerms
                   ? "hover:bg-accent hover:text-white cursor-pointer"
                   : "opacity-30 cursor-not-allowed"
@@ -149,7 +149,7 @@ export default function GlossairePage() {
       </div>
 
       {/* Stats */}
-      <div className="mb-8 text-sm text-text-muted animate-fade-up stagger-3">
+      <div className="mb-6 sm:mb-8 text-xs sm:text-sm text-text-muted animate-fade-up stagger-3">
         {filteredTerms.length} terme{filteredTerms.length !== 1 ? "s" : ""} trouvé{filteredTerms.length !== 1 ? "s" : ""}
       </div>
 
@@ -161,12 +161,12 @@ export default function GlossairePage() {
           </p>
         </div>
       ) : (
-        <div className="space-y-8 animate-fade-up stagger-4">
+        <div className="space-y-6 sm:space-y-8 animate-fade-up stagger-4">
           {sortedLetters.map((letter) => (
             <div key={letter} id={`letter-${letter}`}>
               {/* Letter header */}
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 bg-accent text-white flex items-center justify-center font-display text-2xl">
+              <div className="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-accent text-white flex items-center justify-center font-display text-xl sm:text-2xl">
                   {letter}
                 </div>
                 <div className="flex-1 h-px bg-border" />

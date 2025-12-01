@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative min-h-[85vh] flex items-center border-b-3 border-border">
+      <section className="relative min-h-[70vh] sm:min-h-[80vh] lg:min-h-[85vh] flex items-center border-b-3 border-border">
         {/* Geometric Pattern Background */}
         <div className="absolute inset-0 pattern-grid opacity-50" />
 
@@ -17,34 +17,34 @@ export default function Home() {
         <div className="absolute top-20 right-10 w-32 h-32 border-3 border-accent opacity-20 hidden lg:block" />
         <div className="absolute bottom-20 left-10 w-24 h-24 bg-accent opacity-10 hidden lg:block" />
 
-        <div className="container-default relative py-20">
-          <div className="grid lg:grid-cols-12 gap-12 items-center">
+        <div className="container-default relative py-12 sm:py-16 md:py-20">
+          <div className="grid lg:grid-cols-12 gap-8 md:gap-10 lg:gap-12 items-center">
             {/* Text Content */}
             <div className="lg:col-span-7">
               {/* Overline */}
               <div className="animate-fade-up">
-                <span className="category-badge mb-8 inline-block">
+                <span className="category-badge mb-4 sm:mb-6 md:mb-8 inline-block text-xs sm:text-sm">
                   Développement avec l&apos;IA
                 </span>
               </div>
 
               {/* Main Title */}
-              <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl text-text-primary leading-[1.05] mb-6 animate-fade-up stagger-1">
+              <h1 className="font-display text-4xl xs:text-5xl sm:text-6xl lg:text-7xl text-text-primary leading-[1.05] mb-4 sm:mb-6 animate-fade-up stagger-1">
                 Développer avec
                 <br />
                 <span className="text-accent">l&apos;IA</span>
-                <span className="block w-48 h-1 bg-border mt-4" />
+                <span className="block w-32 sm:w-40 md:w-48 h-1 bg-border mt-3 sm:mt-4" />
               </h1>
 
               {/* Subtitle */}
-              <p className="text-xl text-text-muted max-w-lg mb-10 animate-fade-up stagger-2">
+              <p className="text-base sm:text-lg md:text-xl text-text-muted max-w-lg mb-6 sm:mb-8 md:mb-10 animate-fade-up stagger-2">
                 Guides pratiques, bonnes pratiques et retours d&apos;expérience
                 pour développer efficacement avec l&apos;intelligence artificielle.
               </p>
 
               {/* CTA */}
-              <div className="flex flex-wrap items-center gap-6 animate-fade-up stagger-3">
-                <Link href="/blog" className="brutal-btn">
+              <div className="flex flex-col xs:flex-row flex-wrap items-start xs:items-center gap-4 sm:gap-6 animate-fade-up stagger-3">
+                <Link href="/blog" className="brutal-btn w-full xs:w-auto justify-center">
                   Explorer les articles
                   <svg
                     width="18"
@@ -57,7 +57,7 @@ export default function Home() {
                     <path d="M5 12h14M12 5l7 7-7 7" />
                   </svg>
                 </Link>
-                <span className="font-mono text-sm text-text-muted">
+                <span className="font-mono text-xs sm:text-sm text-text-muted">
                   {totalPosts} article{totalPosts > 1 ? "s" : ""} publie
                   {totalPosts > 1 ? "s" : ""}
                 </span>
@@ -85,15 +85,15 @@ export default function Home() {
       </section>
 
       {/* Recent Articles Section */}
-      <section className="py-24">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24">
         <div className="container-default">
           {/* Section Header */}
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-16">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 mb-8 sm:mb-12 md:mb-16">
             <div>
-              <span className="font-mono text-sm text-accent uppercase tracking-wider mb-3 block">
+              <span className="font-mono text-xs sm:text-sm text-accent uppercase tracking-wider mb-2 sm:mb-3 block">
                 Derniers articles
               </span>
-              <h2 className="font-display text-4xl text-text-primary">
+              <h2 className="font-display text-2xl sm:text-3xl md:text-4xl text-text-primary">
                 Publications recentes
               </h2>
             </div>
@@ -117,13 +117,13 @@ export default function Home() {
 
           {/* Articles Grid */}
           {posts.length === 0 ? (
-            <div className="text-center py-20 border-3 border-border-light">
-              <p className="font-body text-text-muted text-lg">
+            <div className="text-center py-12 sm:py-16 md:py-20 border-3 border-border-light">
+              <p className="font-body text-text-muted text-base sm:text-lg">
                 Aucun article pour le moment...
               </p>
             </div>
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
               {posts.map((post, index) => (
                 <ArticleCard key={post.slug} post={post} index={index} />
               ))}
@@ -133,25 +133,25 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 border-t-3 border-border">
+      <section className="py-12 sm:py-16 md:py-20 border-t-3 border-border">
         <div className="container-default">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-8 md:gap-10 lg:gap-12 items-center">
             <div>
-              <h2 className="font-display text-3xl sm:text-4xl text-text-primary mb-6">
+              <h2 className="font-display text-2xl sm:text-3xl md:text-4xl text-text-primary mb-4 sm:mb-6">
                 Progressez dans
                 <br />
                 le dev avec l&apos;IA
               </h2>
-              <p className="text-text-muted text-lg mb-8">
+              <p className="text-text-muted text-base sm:text-lg mb-6 sm:mb-8">
                 Suivez les derniers tutoriels et bonnes pratiques pour coder
                 avec l&apos;IA.
               </p>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-col xs:flex-row flex-wrap gap-3 sm:gap-4">
                 <a
                   href="/feed.xml"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="brutal-btn-secondary"
+                  className="brutal-btn-secondary w-full xs:w-auto justify-center"
                 >
                   <RssIcon />
                   Flux RSS
@@ -160,7 +160,7 @@ export default function Home() {
                   href="https://github.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="brutal-btn-secondary"
+                  className="brutal-btn-secondary w-full xs:w-auto justify-center"
                 >
                   <GithubIcon />
                   GitHub
@@ -169,7 +169,7 @@ export default function Home() {
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 gap-3 sm:gap-4 md:gap-6">
               <StatCard number={totalPosts.toString()} label="Articles" />
               <StatCard number="4" label="Categories" />
               <StatCard number="12+" label="Sujets" />
@@ -184,9 +184,9 @@ export default function Home() {
 
 function StatCard({ number, label }: { number: string; label: string }) {
   return (
-    <div className="border-3 border-border p-6 bg-bg-secondary hover:translate-x-[-4px] hover:translate-y-[-4px] hover:shadow-brutal transition-all">
-      <div className="font-display text-4xl text-accent mb-2">{number}</div>
-      <div className="font-body text-sm text-text-muted uppercase tracking-wider">
+    <div className="border-3 border-border p-4 sm:p-5 md:p-6 bg-bg-secondary hover:translate-x-[-4px] hover:translate-y-[-4px] hover:shadow-brutal transition-all">
+      <div className="font-display text-2xl sm:text-3xl md:text-4xl text-accent mb-1 sm:mb-2">{number}</div>
+      <div className="font-body text-xs sm:text-sm text-text-muted uppercase tracking-wider">
         {label}
       </div>
     </div>

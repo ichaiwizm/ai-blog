@@ -3,23 +3,23 @@ import NewsletterForm from "./NewsletterForm";
 
 export default function Footer() {
   return (
-    <footer className="mt-24 border-t-3 border-border bg-bg-secondary">
+    <footer className="mt-12 sm:mt-16 md:mt-20 lg:mt-24 border-t-3 border-border bg-bg-secondary">
       {/* Main Footer Content */}
-      <div className="container-default py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8">
+      <div className="container-default py-8 sm:py-12 md:py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8">
           {/* Brand Column */}
           <div className="lg:col-span-4">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-accent border-3 border-border flex items-center justify-center">
-                <span className="font-body text-sm font-bold text-text-inverse">
+            <div className="flex items-center gap-3 mb-4 sm:mb-6">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 bg-accent border-3 border-border flex items-center justify-center">
+                <span className="font-body text-xs sm:text-sm font-bold text-text-inverse">
                   AI
                 </span>
               </div>
-              <span className="font-display text-2xl text-text-primary">
+              <span className="font-display text-xl sm:text-2xl text-text-primary">
                 Blog
               </span>
             </div>
-            <p className="text-text-muted text-base leading-relaxed mb-8 max-w-xs">
+            <p className="text-text-muted text-sm sm:text-base leading-relaxed mb-6 sm:mb-8 max-w-xs">
               Développer mieux avec l&apos;IA. Tutoriels, bonnes pratiques et
               retours d&apos;expérience pour les développeurs.
             </p>
@@ -30,7 +30,7 @@ export default function Footer() {
           </div>
 
           {/* Navigation Columns */}
-          <div className="lg:col-span-8 grid grid-cols-2 sm:grid-cols-4 gap-8">
+          <div className="lg:col-span-8 grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8">
             {/* Navigation */}
             <div>
               <h3 className="font-body text-sm font-semibold text-text-primary uppercase tracking-wider mb-5">

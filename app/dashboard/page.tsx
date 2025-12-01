@@ -43,31 +43,31 @@ export default function DashboardPage() {
   }));
 
   return (
-    <div className="container-default py-12">
+    <div className="container-default py-8 sm:py-10 md:py-12">
       {/* Header */}
-      <div className="mb-12 animate-fade-up">
-        <h1 className="font-display text-4xl md:text-5xl text-text-primary mb-4">
+      <div className="mb-8 sm:mb-10 md:mb-12 animate-fade-up">
+        <h1 className="font-display text-3xl sm:text-4xl md:text-5xl text-text-primary mb-3 sm:mb-4">
           Mon Tableau de Bord
         </h1>
-        <p className="text-lg text-text-muted max-w-2xl">
+        <p className="text-base sm:text-lg text-text-muted max-w-2xl">
           Suivez votre progression, débloquez des badges et atteignez vos objectifs d'apprentissage.
         </p>
       </div>
 
       {/* Stats Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6 mb-8 sm:mb-10 md:mb-12">
         {/* Level Card */}
-        <div className="bg-bg-secondary border-3 border-border p-6 animate-fade-up stagger-1">
-          <div className="text-xs uppercase tracking-wider text-text-muted mb-4">Niveau</div>
-          <div className="flex items-center gap-4">
-            <div className="w-16 h-16 bg-accent/10 border-2 border-accent flex items-center justify-center text-3xl">
+        <div className="bg-bg-secondary border-3 border-border p-4 sm:p-5 md:p-6 animate-fade-up stagger-1">
+          <div className="text-[10px] sm:text-xs uppercase tracking-wider text-text-muted mb-3 sm:mb-4">Niveau</div>
+          <div className="flex items-center gap-3 sm:gap-4">
+            <div className="w-12 h-12 sm:w-14 md:w-16 sm:h-14 md:h-16 bg-accent/10 border-2 border-accent flex items-center justify-center text-2xl sm:text-3xl">
               {currentLevel.icon}
             </div>
             <div>
-              <div className="font-display text-2xl text-text-primary">
+              <div className="font-display text-xl sm:text-2xl text-text-primary">
                 {currentLevel.name}
               </div>
-              <div className="text-sm text-text-muted">Niveau {currentLevel.level}</div>
+              <div className="text-xs sm:text-sm text-text-muted">Niveau {currentLevel.level}</div>
             </div>
           </div>
           {nextLevel && (
@@ -87,8 +87,8 @@ export default function DashboardPage() {
         </div>
 
         {/* Streak Card */}
-        <div className="bg-bg-secondary border-3 border-border p-6 animate-fade-up stagger-2">
-          <div className="text-xs uppercase tracking-wider text-text-muted mb-4">Streak</div>
+        <div className="bg-bg-secondary border-3 border-border p-4 sm:p-5 md:p-6 animate-fade-up stagger-2">
+          <div className="text-[10px] sm:text-xs uppercase tracking-wider text-text-muted mb-3 sm:mb-4">Streak</div>
           <StreakDisplay size="lg" showLongest />
           <p className="text-sm text-text-muted mt-4">
             {stats.currentStreak === 0
@@ -100,34 +100,34 @@ export default function DashboardPage() {
         </div>
 
         {/* Articles Read */}
-        <div className="bg-bg-secondary border-3 border-border p-6 animate-fade-up stagger-3">
-          <div className="text-xs uppercase tracking-wider text-text-muted mb-4">Articles Lus</div>
+        <div className="bg-bg-secondary border-3 border-border p-4 sm:p-5 md:p-6 animate-fade-up stagger-3">
+          <div className="text-[10px] sm:text-xs uppercase tracking-wider text-text-muted mb-3 sm:mb-4">Articles Lus</div>
           <div className="flex items-baseline gap-2">
-            <span className="font-mono text-5xl font-bold text-text-primary">
+            <span className="font-mono text-3xl sm:text-4xl md:text-5xl font-bold text-text-primary">
               {stats.articlesRead}
             </span>
-            <span className="text-lg text-text-muted">articles</span>
+            <span className="text-base sm:text-lg text-text-muted">articles</span>
           </div>
-          <div className="mt-4 flex gap-2">
-            <span className="text-2xl">📖</span>
-            <span className="text-sm text-text-muted">
+          <div className="mt-3 sm:mt-4 flex gap-2">
+            <span className="text-xl sm:text-2xl">📖</span>
+            <span className="text-xs sm:text-sm text-text-muted">
               +{10 * stats.articlesRead} XP gagnés en lecture
             </span>
           </div>
         </div>
 
         {/* Concepts Mastered */}
-        <div className="bg-bg-secondary border-3 border-border p-6 animate-fade-up stagger-4">
-          <div className="text-xs uppercase tracking-wider text-text-muted mb-4">Concepts Maîtrisés</div>
+        <div className="bg-bg-secondary border-3 border-border p-4 sm:p-5 md:p-6 animate-fade-up stagger-4">
+          <div className="text-[10px] sm:text-xs uppercase tracking-wider text-text-muted mb-3 sm:mb-4">Concepts Maîtrisés</div>
           <div className="flex items-baseline gap-2">
-            <span className="font-mono text-5xl font-bold text-text-primary">
+            <span className="font-mono text-3xl sm:text-4xl md:text-5xl font-bold text-text-primary">
               {completedConcepts.size}
             </span>
-            <span className="text-lg text-text-muted">concepts</span>
+            <span className="text-base sm:text-lg text-text-muted">concepts</span>
           </div>
-          <div className="mt-4 flex gap-2">
-            <span className="text-2xl">🧠</span>
-            <span className="text-sm text-text-muted">
+          <div className="mt-3 sm:mt-4 flex gap-2">
+            <span className="text-xl sm:text-2xl">🧠</span>
+            <span className="text-xs sm:text-sm text-text-muted">
               {completedConcepts.size > 0 ? "Continuez à apprendre !" : "Explorez les concepts"}
             </span>
           </div>
@@ -135,22 +135,22 @@ export default function DashboardPage() {
       </div>
 
       {/* Badges Section */}
-      <div className="mb-12 animate-fade-up stagger-5">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="font-display text-2xl text-text-primary">Mes Badges</h2>
-          <span className="text-sm text-text-muted">
+      <div className="mb-8 sm:mb-10 md:mb-12 animate-fade-up stagger-5">
+        <div className="flex items-center justify-between mb-4 sm:mb-6">
+          <h2 className="font-display text-xl sm:text-2xl text-text-primary">Mes Badges</h2>
+          <span className="text-xs sm:text-sm text-text-muted">
             {unlockedBadges.length} / {Object.keys(BADGES).length} débloqués
           </span>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2 sm:gap-3 md:gap-4">
           {Object.entries(BADGES).map(([id, badge]) => {
             const isUnlocked = unlockedBadges.includes(id as BadgeId);
             return (
               <div
                 key={id}
                 className={`
-                  relative p-4 border-3 text-center
+                  relative p-2 sm:p-3 md:p-4 border-3 text-center
                   transition-all duration-200
                   ${isUnlocked
                     ? "bg-bg-secondary border-border hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-brutal"
@@ -159,15 +159,15 @@ export default function DashboardPage() {
                 `}
                 title={badge.description}
               >
-                <div className="text-4xl mb-2">{badge.icon}</div>
-                <div className="text-sm font-semibold text-text-primary truncate">
+                <div className="text-2xl sm:text-3xl md:text-4xl mb-1 sm:mb-2">{badge.icon}</div>
+                <div className="text-xs sm:text-sm font-semibold text-text-primary truncate">
                   {badge.name}
                 </div>
-                <div className="text-xs text-text-muted mt-1 line-clamp-2">
+                <div className="text-[10px] sm:text-xs text-text-muted mt-0.5 sm:mt-1 line-clamp-2 hidden xs:block">
                   {badge.description}
                 </div>
                 {isUnlocked && (
-                  <div className="absolute top-2 right-2 w-5 h-5 bg-emerald-500 text-white text-xs flex items-center justify-center">
+                  <div className="absolute top-1 right-1 sm:top-2 sm:right-2 w-4 h-4 sm:w-5 sm:h-5 bg-emerald-500 text-white text-[10px] sm:text-xs flex items-center justify-center">
                     ✓
                   </div>
                 )}
@@ -178,15 +178,15 @@ export default function DashboardPage() {
       </div>
 
       {/* Learning Paths Progress */}
-      <div className="mb-12 animate-fade-up">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="font-display text-2xl text-text-primary">Parcours d'Apprentissage</h2>
-          <Link href="/parcours" className="text-sm text-accent hover:underline">
+      <div className="mb-8 sm:mb-10 md:mb-12 animate-fade-up">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-0 mb-4 sm:mb-6">
+          <h2 className="font-display text-xl sm:text-2xl text-text-primary">Parcours d'Apprentissage</h2>
+          <Link href="/parcours" className="text-xs sm:text-sm text-accent hover:underline">
             Voir tous les parcours →
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
           {pathsProgress.map(({ path, completed, total, percentage }) => (
             <Link
               key={path.id}

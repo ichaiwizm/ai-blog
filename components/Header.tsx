@@ -65,23 +65,23 @@ export default function Header() {
             : "bg-transparent"
         }`}
       >
-        <div className="container-default h-20 flex items-center justify-between">
+        <div className="container-default h-16 sm:h-20 flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="group flex items-center gap-4">
-            <div className="w-12 h-12 bg-accent border-3 border-border flex items-center justify-center transition-all group-hover:translate-x-[-2px] group-hover:translate-y-[-2px] group-hover:shadow-brutal-sm">
-              <span className="font-body text-lg font-bold text-text-inverse tracking-tight">
+          <Link href="/" className="group flex items-center gap-2 sm:gap-4">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-accent border-3 border-border flex items-center justify-center transition-all group-hover:translate-x-[-2px] group-hover:translate-y-[-2px] group-hover:shadow-brutal-sm">
+              <span className="font-body text-base sm:text-lg font-bold text-text-inverse tracking-tight">
                 AI
               </span>
             </div>
-            <div className="hidden sm:block">
-              <span className="font-display text-2xl text-text-primary">
+            <div className="hidden xs:block">
+              <span className="font-display text-xl sm:text-2xl text-text-primary">
                 Blog
               </span>
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-6">
+          {/* Desktop Navigation - Now at md breakpoint (768px) */}
+          <nav className="hidden md:flex items-center gap-3 lg:gap-6">
             <NavLink href="/" active={pathname === "/"}>
               Accueil
             </NavLink>
@@ -92,16 +92,18 @@ export default function Header() {
               Concepts
             </NavLink>
             <NavLink href="/parcours" active={pathname.startsWith("/parcours")}>
-              Parcours
+              <span className="hidden lg:inline">Parcours</span>
+              <span className="lg:hidden">🗺️</span>
             </NavLink>
             <NavLink href="/glossaire" active={pathname.startsWith("/glossaire")}>
-              Glossaire
+              <span className="hidden lg:inline">Glossaire</span>
+              <span className="lg:hidden">📖</span>
             </NavLink>
 
-            <div className="w-px h-6 bg-border-light" />
+            <div className="w-px h-6 bg-border-light hidden lg:block" />
 
             {/* User section */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 lg:gap-3">
               <StreakBadge />
               <Link
                 href="/dashboard"
@@ -122,10 +124,10 @@ export default function Header() {
               </Link>
             </div>
 
-            <div className="w-px h-6 bg-border-light" />
+            <div className="w-px h-6 bg-border-light hidden lg:block" />
 
             {/* Tools */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 lg:gap-2">
               <FocusModeToggle />
               <FontSizeControls />
               <PlatformSelector />
@@ -133,11 +135,12 @@ export default function Header() {
             </div>
           </nav>
 
-          {/* Mobile menu button */}
+          {/* Mobile menu button - Now shows until md breakpoint */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden w-10 h-10 border-2 border-border bg-bg-secondary flex items-center justify-center"
+            className="md:hidden w-11 h-11 border-2 border-border bg-bg-secondary flex items-center justify-center touch-target"
             aria-label="Menu"
+            aria-expanded={mobileMenuOpen}
           >
             <span className="text-xl">{mobileMenuOpen ? "✕" : "☰"}</span>
           </button>
@@ -145,8 +148,8 @@ export default function Header() {
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-bg-primary border-t-3 border-border">
-            <nav className="container-default py-4 flex flex-col gap-2">
+          <div className="md:hidden bg-bg-primary border-t-3 border-border">
+            <nav className="container-default py-4 flex flex-col gap-1">
               <MobileNavLink href="/" active={pathname === "/"}>
                 🏠 Accueil
               </MobileNavLink>
@@ -228,10 +231,10 @@ function MobileNavLink({
     <Link
       href={href}
       className={`
-        block px-4 py-3 text-base font-medium transition-colors
+        flex items-center min-h-[44px] px-4 py-3 text-base font-medium transition-colors touch-target
         ${active
           ? "bg-accent/10 text-accent border-l-4 border-accent"
-          : "text-text-body hover:bg-bg-tertiary"
+          : "text-text-body hover:bg-bg-tertiary border-l-4 border-transparent"
         }
       `}
     >
