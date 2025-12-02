@@ -19,6 +19,7 @@ import { Tabs, Tab } from "@/components/mdx/Tabs";
 import { CodeDiff } from "@/components/mdx/CodeDiff";
 import { Video } from "@/components/mdx/Video";
 import { Image, ImageGallery, GalleryImage, ImageCompare } from "@/components/mdx/Image";
+import GlossaryTooltip, { Term } from "@/components/GlossaryTooltip";
 
 const options = {
   theme: "github-dark",
@@ -49,6 +50,9 @@ const mdxComponents = {
   ImageGallery,
   GalleryImage,
   ImageCompare,
+  // Glossary components
+  GlossaryTooltip,
+  Term,
 };
 
 export async function compileMDXContent(source: string) {

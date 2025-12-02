@@ -240,6 +240,16 @@ Intègre des vidéos YouTube ou Vimeo :
   title="Exemple de vidéo YouTube"
 />
 
+## Glossaire interactif
+
+Tu peux ajouter des tooltips qui affichent la définition d'un terme du glossaire au survol :
+
+Les <Term>LLM</Term> comme Claude utilisent des <Term>Token</Term> pour traiter le texte. La <Term>Fenêtre de contexte</Term> détermine combien de texte l'IA peut analyser. Un bon <Term>Prompt</Term> est essentiel pour obtenir de bons résultats.
+
+Pour les termes composés, utilise `GlossaryTooltip` :
+
+Un <GlossaryTooltip term="Agent IA">agent autonome</GlossaryTooltip> peut utiliser le <GlossaryTooltip term="MCP">protocole MCP</GlossaryTooltip> pour se connecter à des outils externes.
+
 ## Markdown standard
 
 N'oublie pas que tout le **Markdown classique** fonctionne aussi :
@@ -273,6 +283,8 @@ Utilise `console.log()` pour débugger ton code JavaScript.
 | `ImageGallery` | Grille d'images | columns, gap |
 | `Alert` | Messages importants | type, title |
 | `Tabs` | Contenu en onglets | items |
+| `Term` | Tooltip glossaire | children (nom du terme) |
+| `GlossaryTooltip` | Tooltip personnalisé | term, children |
 
 ## Conclusion
 
