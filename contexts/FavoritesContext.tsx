@@ -30,8 +30,15 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
     if (stored) {
       try {
         const parsed = JSON.parse(stored);
-        setFavorites(parsed);
-      } catch {
+        // Validate that parsed is an array
+        if (Array.isArray(parsed)) {
+          setFavorites(parsed);
+        } else {
+          console.warn("Invalid favorites data format in localStorage, resetting to empty array");
+          setFavorites([]);
+        }
+      } catch (error) {
+        console.warn("Failed to parse favorites from localStorage:", error);
         setFavorites([]);
       }
     }

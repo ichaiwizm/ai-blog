@@ -53,7 +53,7 @@ export function getConceptBySlug(slug: string): Concept | null {
     slug,
     title: data.title || slug,
     description: data.description || "",
-    icon: data.icon || "📚",
+    icon: data.icon || "books",
     level: (data.level as ConceptLevel) || "debutant",
     readingTime: readingTime(content).text,
     order: data.order || 99,
