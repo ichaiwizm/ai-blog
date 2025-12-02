@@ -447,7 +447,9 @@ function UserMenu({ pathname }: { pathname: string }) {
           {hasStreak && (
             <div className="p-4 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/30 dark:to-orange-900/30 border-b-3 border-border">
               <div className="flex items-center gap-3">
-                <span className="text-3xl">{stats.currentStreak >= 30 ? "💎" : stats.currentStreak >= 7 ? "⚡" : "🔥"}</span>
+                <span className="text-amber-500 dark:text-amber-400">
+                  {stats.currentStreak >= 30 ? <DiamondIcon size={28} /> : stats.currentStreak >= 7 ? <LightningIcon size={28} /> : <FlameIcon size={28} />}
+                </span>
                 <div>
                   <div className="font-mono text-2xl font-bold text-amber-600 dark:text-amber-400">
                     {stats.currentStreak}
@@ -586,7 +588,9 @@ function MobileMenu({ pathname, onClose }: { pathname: string; onClose: () => vo
         <div className="space-y-1 mb-4">
           {isLoaded && stats.currentStreak > 0 && (
             <div className="flex items-center gap-3 px-4 py-3 bg-amber-50 dark:bg-amber-900/30 border-l-4 border-amber-400">
-              <span className="text-2xl">🔥</span>
+              <span className="text-amber-500 dark:text-amber-400">
+                <FlameIcon size={24} />
+              </span>
               <div>
                 <span className="font-mono font-bold text-amber-600 dark:text-amber-400 text-lg">
                   {stats.currentStreak}
@@ -805,11 +809,19 @@ function ChevronIcon({ className = "" }: { className?: string }) {
   );
 }
 
+// Sliders icon for settings (distinct from sun icon)
 function SettingsIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <circle cx="12" cy="12" r="3" />
-      <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83" />
+      <line x1="4" y1="21" x2="4" y2="14" />
+      <line x1="4" y1="10" x2="4" y2="3" />
+      <line x1="12" y1="21" x2="12" y2="12" />
+      <line x1="12" y1="8" x2="12" y2="3" />
+      <line x1="20" y1="21" x2="20" y2="16" />
+      <line x1="20" y1="12" x2="20" y2="3" />
+      <line x1="1" y1="14" x2="7" y2="14" />
+      <line x1="9" y1="8" x2="15" y2="8" />
+      <line x1="17" y1="16" x2="23" y2="16" />
     </svg>
   );
 }
@@ -871,6 +883,32 @@ function MoonIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+    </svg>
+  );
+}
+
+// Streak Icons
+function FlameIcon({ size = 18 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 23c-3.866 0-7-3.134-7-7 0-2.532 1.368-4.758 3.403-5.962-.168.772-.249 1.572-.249 2.391 0 3.866 3.134 7 7 7 .896 0 1.751-.168 2.539-.476C16.343 21.271 14.336 23 12 23zm6.305-7.014c.188-.654.291-1.343.291-2.057 0-4.97-5.83-8.929-5.83-8.929s1.434 2.143 1.434 4.786c0 2.643-2.143 4.786-4.786 4.786-2.643 0-4.786-2.143-4.786-4.786 0-.965.286-1.864.778-2.616C3.582 8.969 2 11.366 2 14.143 2 19.022 6.477 23 12 23c4.97 0 9.061-3.301 9.9-7.614-.514.382-1.083.707-1.695.966l.1-.366z"/>
+    </svg>
+  );
+}
+
+function LightningIcon({ size = 18 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+    </svg>
+  );
+}
+
+function DiamondIcon({ size = 18 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M6.5 2h11L22 8.5 12 22 2 8.5 6.5 2zm.79 2L4.5 8.5 12 19l7.5-10.5L16.71 4H7.29z"/>
+      <path d="M7.29 4l-.79 4.5h11L16.71 4H7.29z" opacity="0.5"/>
     </svg>
   );
 }
