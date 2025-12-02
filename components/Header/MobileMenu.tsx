@@ -42,9 +42,6 @@ export function MobileMenu({ pathname }: MobileMenuProps) {
           <MobileNavLink href="/glossaire" active={pathname.startsWith("/glossaire")}>
             Glossaire
           </MobileNavLink>
-          <MobileNavLink href="/series" active={pathname.startsWith("/series")}>
-            Séries
-          </MobileNavLink>
         </div>
 
         <div className="h-[3px] bg-border my-4" />

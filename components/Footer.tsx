@@ -39,7 +39,7 @@ export default function Footer() {
               <ul className="space-y-3">
                 <FooterLink href="/">Accueil</FooterLink>
                 <FooterLink href="/blog">Articles</FooterLink>
-                <FooterLink href="/series">Series</FooterLink>
+                <FooterLink href="/parcours">Parcours</FooterLink>
               </ul>
             </div>
 
