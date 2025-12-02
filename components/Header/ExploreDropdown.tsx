@@ -13,8 +13,7 @@ export function ExploreDropdown({ pathname }: ExploreDropdownProps) {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const isActive = pathname.startsWith("/parcours") ||
-                   pathname.startsWith("/glossaire") ||
-                   pathname.startsWith("/series");
+                   pathname.startsWith("/glossaire");
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -27,9 +26,8 @@ export function ExploreDropdown({ pathname }: ExploreDropdownProps) {
   }, []);
 
   const items = [
-    { href: "/parcours", label: "Parcours", desc: "Chemins d'apprentissage" },
+    { href: "/parcours", label: "Parcours", desc: "Chemins d'apprentissage guidés" },
     { href: "/glossaire", label: "Glossaire", desc: "Définitions clés" },
-    { href: "/series", label: "Séries", desc: "Articles liés" },
   ];
 
   return (

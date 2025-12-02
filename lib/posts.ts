@@ -24,8 +24,6 @@ export interface PostMeta {
   published: boolean;
   image?: string;
   category?: Category;
-  series?: string;
-  seriesOrder?: number;
   prerequisites?: string[]; // Concept slugs required before reading this article
 }
 
@@ -57,8 +55,6 @@ export function getAllPosts(): PostMeta[] {
         published: data.published !== false,
         image: data.image || undefined,
         category: data.category || undefined,
-        series: data.series || undefined,
-        seriesOrder: data.seriesOrder || undefined,
         prerequisites: data.prerequisites || undefined,
       };
     })
@@ -88,8 +84,6 @@ export function getPostBySlug(slug: string): Post | null {
     published: data.published !== false,
     image: data.image || undefined,
     category: data.category || undefined,
-    series: data.series || undefined,
-    seriesOrder: data.seriesOrder || undefined,
     prerequisites: data.prerequisites || undefined,
     content,
   };
@@ -117,40 +111,6 @@ export function getPostsByCategory(category: Category): PostMeta[] {
   return getAllPosts().filter((post) => post.category === category);
 }
 
-// Series functions
-export interface SeriesInfo {
-  slug: string;
-  title: string;
-  posts: PostMeta[];
-}
-
-export function getAllSeries(): SeriesInfo[] {
-  const posts = getAllPosts();
-  const seriesMap = new Map<string, PostMeta[]>();
-
-  posts.forEach((post) => {
-    if (post.series) {
-      const existing = seriesMap.get(post.series) || [];
-      seriesMap.set(post.series, [...existing, post]);
-    }
-  });
-
-  return Array.from(seriesMap.entries()).map(([slug, seriesPosts]) => ({
-    slug,
-    title: slug
-      .split("-")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" "),
-    posts: seriesPosts.sort((a, b) => (a.seriesOrder || 0) - (b.seriesOrder || 0)),
-  }));
-}
-
-export function getPostsBySeries(seriesSlug: string): PostMeta[] {
-  return getAllPosts()
-    .filter((post) => post.series === seriesSlug)
-    .sort((a, b) => (a.seriesOrder || 0) - (b.seriesOrder || 0));
-}
-
 // Related posts function
 export function getRelatedPosts(currentSlug: string, limit: number = 3): PostMeta[] {
   const currentPost = getPostBySlug(currentSlug);
@@ -171,11 +131,6 @@ export function getRelatedPosts(currentSlug: string, limit: number = 3): PostMet
     // Points for same category
     if (post.category && post.category === currentPost.category) {
       score += 1;
-    }
-
-    // Points for same series
-    if (post.series && post.series === currentPost.series) {
-      score += 3;
     }
 
     return { post, score };

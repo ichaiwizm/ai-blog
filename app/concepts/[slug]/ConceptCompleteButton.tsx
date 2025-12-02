@@ -56,11 +56,10 @@ export default function ConceptCompleteButton({ slug, title }: ConceptCompleteBu
 
   const handleMarkComplete = () => {
     markAsCompleted(slug);
-    // Record in gamification (need to get total concepts count)
+    // Record in gamification with the concept slug
     if (gamificationLoaded) {
-      // We'll use a reasonable estimate for total concepts
-      // The actual count will be updated when dashboard loads
-      recordConceptMastered(10);
+      // Total concepts count will be updated from the context
+      recordConceptMastered(slug, 10);
     }
   };
 

@@ -13,99 +13,13 @@ export interface LearningPath {
   description: string;
   icon: string;
   level: "debutant" | "intermediaire" | "avance";
-  estimatedTime: string; // e.g., "2h30"
+  estimatedTime: string;
   steps: LearningPathStep[];
   prerequisites?: string[]; // IDs of other paths
 }
 
-// Icons are string IDs that map to SVG components via ICON_MAP
-export const LEARNING_PATHS: LearningPath[] = [
-  {
-    id: "decouvrir-ia",
-    title: "Découvrir l'IA",
-    description: "Comprenez les fondamentaux de l'intelligence artificielle et des modèles de langage",
-    icon: "rocket",
-    level: "debutant",
-    estimatedTime: "1h30",
-    steps: [
-      {
-        type: "concept",
-        slug: "modeles-ia",
-        title: "Les modèles d'IA",
-        description: "Comprendre ce qu'est un LLM et comment il fonctionne",
-      },
-      {
-        type: "article",
-        slug: "comprendre-prompts-llm",
-        title: "Comprendre les prompts",
-        description: "Apprendre à communiquer efficacement avec l'IA",
-      },
-      {
-        type: "concept",
-        slug: "ia-agentique",
-        title: "L'IA agentique",
-        description: "Découvrir les agents IA autonomes",
-      },
-    ],
-  },
-  {
-    id: "maitriser-terminal",
-    title: "Maîtriser le Terminal",
-    description: "Devenez à l'aise avec la ligne de commande et les outils essentiels",
-    icon: "terminal",
-    level: "debutant",
-    estimatedTime: "2h",
-    steps: [
-      {
-        type: "concept",
-        slug: "terminal-basics",
-        title: "Les bases du terminal",
-        description: "Navigation et commandes essentielles",
-      },
-      {
-        type: "concept",
-        slug: "git-basics",
-        title: "Git fondamentaux",
-        description: "Versionner votre code comme un pro",
-      },
-      {
-        type: "article",
-        slug: "configurer-environnement-ia",
-        title: "Configurer son environnement",
-        description: "Préparer sa machine pour le développement IA",
-      },
-    ],
-  },
-  {
-    id: "coder-avec-ia",
-    title: "Coder avec l'IA",
-    description: "Utilisez les assistants IA pour booster votre productivité de développeur",
-    icon: "lightning",
-    level: "intermediaire",
-    estimatedTime: "3h",
-    prerequisites: ["decouvrir-ia", "maitriser-terminal"],
-    steps: [
-      {
-        type: "concept",
-        slug: "terminal-basics",
-        title: "Rappel : Le terminal",
-        description: "Refresh sur les commandes essentielles",
-      },
-      {
-        type: "concept",
-        slug: "modeles-ia",
-        title: "Rappel : Les modèles",
-        description: "Refresh sur les LLM",
-      },
-      {
-        type: "article",
-        slug: "debuter-claude-code",
-        title: "Débuter avec Claude Code",
-        description: "Votre premier projet avec un assistant IA",
-      },
-    ],
-  },
-];
+// Parcours vides - à remplir avec le contenu
+export const LEARNING_PATHS: LearningPath[] = [];
 
 // Helper functions
 export function getLearningPathById(id: string): LearningPath | undefined {

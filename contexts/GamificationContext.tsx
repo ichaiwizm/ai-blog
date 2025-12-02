@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, ReactNode, useCallback, useRef } from "react";
 
-// Badge definitions - icons are string IDs that map to SVG components
+// Badge definitions
 export const BADGES = {
   first_article: {
     id: "first_article",
@@ -46,12 +46,19 @@ export const BADGES = {
     icon: "crown",
     condition: (stats: UserStats) => stats.conceptsMastered >= stats.totalConcepts && stats.totalConcepts > 0,
   },
-  first_series: {
-    id: "first_series",
-    name: "Marathonien",
-    description: "Compléter une série d'articles",
-    icon: "runner",
-    condition: (stats: UserStats) => stats.seriesCompleted >= 1,
+  first_path: {
+    id: "first_path",
+    name: "Explorateur",
+    description: "Compléter un parcours guidé",
+    icon: "map",
+    condition: (stats: UserStats) => stats.pathsCompleted >= 1,
+  },
+  three_paths: {
+    id: "three_paths",
+    name: "Aventurier",
+    description: "Compléter 3 parcours",
+    icon: "compass",
+    condition: (stats: UserStats) => stats.pathsCompleted >= 3,
   },
   streak_3: {
     id: "streak_3",
@@ -74,13 +81,6 @@ export const BADGES = {
     icon: "diamond",
     condition: (stats: UserStats) => stats.currentStreak >= 30,
   },
-  first_path: {
-    id: "first_path",
-    name: "Explorateur",
-    description: "Compléter un parcours guidé",
-    icon: "map",
-    condition: (stats: UserStats) => stats.pathsCompleted >= 1,
-  },
   night_owl: {
     id: "night_owl",
     name: "Noctambule",
@@ -99,7 +99,7 @@ export const BADGES = {
 
 export type BadgeId = keyof typeof BADGES;
 
-// Level definitions - icons are string IDs that map to SVG components
+// Level definitions
 export const LEVELS = [
   { level: 1, name: "Novice", xpRequired: 0, icon: "seedling" },
   { level: 2, name: "Débutant", xpRequired: 50, icon: "plant" },
@@ -117,7 +117,6 @@ export const LEVELS = [
 export const XP_REWARDS = {
   readArticle: 10,
   masterConcept: 25,
-  completeSeries: 50,
   completePath: 100,
   dailyStreak: 5,
   unlockBadge: 15,
@@ -127,9 +126,8 @@ export interface UserStats {
   articlesRead: number;
   articlesReadSlugs: string[];
   conceptsMastered: number;
+  conceptsMasteredSlugs: string[];
   totalConcepts: number;
-  seriesCompleted: number;
-  seriesCompletedIds: string[];
   pathsCompleted: number;
   pathsCompletedIds: string[];
   currentStreak: number;
@@ -143,14 +141,13 @@ export interface UserStats {
 interface GamificationContextType {
   stats: UserStats;
   unlockedBadges: BadgeId[];
-  newBadges: BadgeId[]; // Recently unlocked, for notifications
+  newBadges: BadgeId[];
   clearNewBadges: () => void;
   currentLevel: typeof LEVELS[number];
   nextLevel: typeof LEVELS[number] | null;
-  xpProgress: number; // 0-100 percentage to next level
+  xpProgress: number;
   recordArticleRead: (slug: string) => void;
-  recordConceptMastered: (totalConcepts: number) => void;
-  recordSeriesCompleted: (seriesId: string) => void;
+  recordConceptMastered: (slug: string, totalConcepts: number) => void;
   recordPathCompleted: (pathId: string) => void;
   isLoaded: boolean;
 }
@@ -163,9 +160,8 @@ const initialStats: UserStats = {
   articlesRead: 0,
   articlesReadSlugs: [],
   conceptsMastered: 0,
+  conceptsMasteredSlugs: [],
   totalConcepts: 0,
-  seriesCompleted: 0,
-  seriesCompletedIds: [],
   pathsCompleted: 0,
   pathsCompletedIds: [],
   currentStreak: 0,
@@ -182,7 +178,6 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
   const [newBadges, setNewBadges] = useState<BadgeId[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // Ref to keep track of current badges to avoid stale closures
   const unlockedBadgesRef = useRef<BadgeId[]>([]);
 
   // Load from localStorage
@@ -191,24 +186,22 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
     if (stored) {
       try {
         const parsed = JSON.parse(stored);
-        const loadedStats = parsed.stats || initialStats;
+        const loadedStats = { ...initialStats, ...parsed.stats };
         const loadedBadges = parsed.unlockedBadges || [];
         setStats(loadedStats);
         setUnlockedBadges(loadedBadges);
         unlockedBadgesRef.current = loadedBadges;
       } catch (error) {
-        console.warn("Failed to parse gamification data from localStorage:", error);
+        console.warn("Failed to parse gamification data:", error);
       }
     }
     setIsLoaded(true);
   }, []);
 
-  // Keep ref in sync with state
   useEffect(() => {
     unlockedBadgesRef.current = unlockedBadges;
   }, [unlockedBadges]);
 
-  // Save to localStorage
   const saveToStorage = useCallback((newStats: UserStats, badges: BadgeId[]) => {
     localStorage.setItem(
       STORAGE_KEY,
@@ -216,21 +209,17 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
     );
   }, []);
 
-  // Check for new badges
   const checkBadges = useCallback((newStats: UserStats, currentBadges: BadgeId[]): BadgeId[] => {
     const newlyUnlocked: BadgeId[] = [];
-
     Object.entries(BADGES).forEach(([id, badge]) => {
       const badgeId = id as BadgeId;
       if (!currentBadges.includes(badgeId) && badge.condition(newStats)) {
         newlyUnlocked.push(badgeId);
       }
     });
-
     return newlyUnlocked;
   }, []);
 
-  // Update streak based on last activity
   const updateStreak = useCallback((currentStats: UserStats): UserStats => {
     const today = new Date().toISOString().split("T")[0];
     const lastActivity = currentStats.lastActivityDate;
@@ -246,10 +235,8 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
     );
 
     if (diffDays === 0) {
-      // Same day, no change
       return currentStats;
     } else if (diffDays === 1) {
-      // Next day, increment streak
       const newStreak = currentStats.currentStreak + 1;
       return {
         ...currentStats,
@@ -259,12 +246,10 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
         totalXP: currentStats.totalXP + XP_REWARDS.dailyStreak,
       };
     } else {
-      // Streak broken
       return { ...currentStats, currentStreak: 1, lastActivityDate: today };
     }
   }, []);
 
-  // Check time-based badges
   const checkTimeBadges = useCallback((currentStats: UserStats): UserStats => {
     const hour = new Date().getHours();
     let updated = { ...currentStats };
@@ -279,23 +264,32 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
     return updated;
   }, []);
 
-  const recordArticleRead = useCallback((slug: string) => {
+  // Generic record function to reduce duplication
+  const recordActivity = useCallback(<T extends keyof UserStats>(
+    key: T,
+    slug: string,
+    slugsKey: keyof UserStats,
+    xpReward: number,
+    extraUpdates?: Partial<UserStats>
+  ) => {
     setStats((prev) => {
-      if (prev.articlesReadSlugs.includes(slug)) return prev;
+      const slugsArray = prev[slugsKey] as string[];
+      if (slugsArray.includes(slug)) return prev;
 
-      let newStats = {
+      let newStats: UserStats = {
         ...prev,
-        articlesRead: prev.articlesRead + 1,
-        articlesReadSlugs: [...prev.articlesReadSlugs, slug],
-        totalXP: prev.totalXP + XP_REWARDS.readArticle,
+        [key]: (prev[key] as number) + 1,
+        [slugsKey]: [...slugsArray, slug],
+        totalXP: prev.totalXP + xpReward,
+        ...extraUpdates,
       };
 
       newStats = updateStreak(newStats);
       newStats = checkTimeBadges(newStats);
 
-      // Use ref to get current badges (avoids stale closure)
       const currentBadges = unlockedBadgesRef.current;
       const newlyUnlocked = checkBadges(newStats, currentBadges);
+
       if (newlyUnlocked.length > 0) {
         const updatedBadges = [...currentBadges, ...newlyUnlocked];
         setUnlockedBadges(updatedBadges);
@@ -311,102 +305,22 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
     });
   }, [updateStreak, checkTimeBadges, checkBadges, saveToStorage]);
 
-  const recordConceptMastered = useCallback((totalConcepts: number) => {
-    setStats((prev) => {
-      let newStats = {
-        ...prev,
-        conceptsMastered: prev.conceptsMastered + 1,
-        totalConcepts,
-        totalXP: prev.totalXP + XP_REWARDS.masterConcept,
-      };
+  const recordArticleRead = useCallback((slug: string) => {
+    recordActivity("articlesRead", slug, "articlesReadSlugs", XP_REWARDS.readArticle);
+  }, [recordActivity]);
 
-      newStats = updateStreak(newStats);
-
-      // Use ref to get current badges (avoids stale closure)
-      const currentBadges = unlockedBadgesRef.current;
-      const newlyUnlocked = checkBadges(newStats, currentBadges);
-      if (newlyUnlocked.length > 0) {
-        const updatedBadges = [...currentBadges, ...newlyUnlocked];
-        setUnlockedBadges(updatedBadges);
-        unlockedBadgesRef.current = updatedBadges;
-        setNewBadges((prevBadges) => [...prevBadges, ...newlyUnlocked]);
-        newStats.totalXP += newlyUnlocked.length * XP_REWARDS.unlockBadge;
-        saveToStorage(newStats, updatedBadges);
-      } else {
-        saveToStorage(newStats, currentBadges);
-      }
-
-      return newStats;
-    });
-  }, [updateStreak, checkBadges, saveToStorage]);
-
-  const recordSeriesCompleted = useCallback((seriesId: string) => {
-    setStats((prev) => {
-      if (prev.seriesCompletedIds.includes(seriesId)) return prev;
-
-      let newStats = {
-        ...prev,
-        seriesCompleted: prev.seriesCompleted + 1,
-        seriesCompletedIds: [...prev.seriesCompletedIds, seriesId],
-        totalXP: prev.totalXP + XP_REWARDS.completeSeries,
-      };
-
-      newStats = updateStreak(newStats);
-
-      // Use ref to get current badges (avoids stale closure)
-      const currentBadges = unlockedBadgesRef.current;
-      const newlyUnlocked = checkBadges(newStats, currentBadges);
-      if (newlyUnlocked.length > 0) {
-        const updatedBadges = [...currentBadges, ...newlyUnlocked];
-        setUnlockedBadges(updatedBadges);
-        unlockedBadgesRef.current = updatedBadges;
-        setNewBadges((prevBadges) => [...prevBadges, ...newlyUnlocked]);
-        newStats.totalXP += newlyUnlocked.length * XP_REWARDS.unlockBadge;
-        saveToStorage(newStats, updatedBadges);
-      } else {
-        saveToStorage(newStats, currentBadges);
-      }
-
-      return newStats;
-    });
-  }, [updateStreak, checkBadges, saveToStorage]);
+  const recordConceptMastered = useCallback((slug: string, totalConcepts: number) => {
+    recordActivity("conceptsMastered", slug, "conceptsMasteredSlugs", XP_REWARDS.masterConcept, { totalConcepts });
+  }, [recordActivity]);
 
   const recordPathCompleted = useCallback((pathId: string) => {
-    setStats((prev) => {
-      if (prev.pathsCompletedIds.includes(pathId)) return prev;
-
-      let newStats = {
-        ...prev,
-        pathsCompleted: prev.pathsCompleted + 1,
-        pathsCompletedIds: [...prev.pathsCompletedIds, pathId],
-        totalXP: prev.totalXP + XP_REWARDS.completePath,
-      };
-
-      newStats = updateStreak(newStats);
-
-      // Use ref to get current badges (avoids stale closure)
-      const currentBadges = unlockedBadgesRef.current;
-      const newlyUnlocked = checkBadges(newStats, currentBadges);
-      if (newlyUnlocked.length > 0) {
-        const updatedBadges = [...currentBadges, ...newlyUnlocked];
-        setUnlockedBadges(updatedBadges);
-        unlockedBadgesRef.current = updatedBadges;
-        setNewBadges((prevBadges) => [...prevBadges, ...newlyUnlocked]);
-        newStats.totalXP += newlyUnlocked.length * XP_REWARDS.unlockBadge;
-        saveToStorage(newStats, updatedBadges);
-      } else {
-        saveToStorage(newStats, currentBadges);
-      }
-
-      return newStats;
-    });
-  }, [updateStreak, checkBadges, saveToStorage]);
+    recordActivity("pathsCompleted", pathId, "pathsCompletedIds", XP_REWARDS.completePath);
+  }, [recordActivity]);
 
   const clearNewBadges = useCallback(() => {
     setNewBadges([]);
   }, []);
 
-  // Calculate current level
   const currentLevel = LEVELS.reduce((acc, level) => {
     if (stats.totalXP >= level.xpRequired) return level;
     return acc;
@@ -432,7 +346,6 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
         xpProgress,
         recordArticleRead,
         recordConceptMastered,
-        recordSeriesCompleted,
         recordPathCompleted,
         isLoaded,
       }}

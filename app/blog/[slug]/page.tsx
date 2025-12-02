@@ -5,7 +5,6 @@ import {
   getAllPosts,
   getPostBySlug,
   getRelatedPosts,
-  getPostsBySeries,
   extractHeadings,
 } from "@/lib/posts";
 import { getConceptsBySlugs } from "@/lib/concepts";
@@ -18,7 +17,6 @@ import Reactions from "@/components/Reactions";
 import RelatedPosts from "@/components/RelatedPosts";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import AuthorBio from "@/components/AuthorBio";
-import SeriesNavigation from "@/components/SeriesNavigation";
 import Prerequisites from "@/components/Prerequisites";
 import ArticleTracker from "@/components/ArticleTracker";
 import ArticleActions from "@/components/ArticleActions";
@@ -34,7 +32,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props) {
   const post = getPostBySlug(params.slug);
-  if (!post) return { title: "Article non trouve" };
+  if (!post) return { title: "Article non trouvé" };
 
   const baseUrl =
     process.env.NEXT_PUBLIC_SITE_URL || "https://ai-blog.vercel.app";
@@ -72,7 +70,6 @@ export default async function PostPage({ params }: Props) {
   const { content } = await compileMDXContent(post.content);
   const headings = extractHeadings(post.content);
   const relatedPosts = getRelatedPosts(params.slug, 3);
-  const seriesPosts = post.series ? getPostsBySeries(post.series) : [];
   const prerequisiteConcepts = post.prerequisites
     ? getConceptsBySlugs(post.prerequisites)
     : [];
@@ -187,22 +184,6 @@ export default async function PostPage({ params }: Props) {
                   sizes="100vw"
                 />
               </div>
-            </div>
-          </div>
-        )}
-
-        {/* Series Navigation */}
-        {post.series && seriesPosts.length > 1 && (
-          <div className="border-b-3 border-border bg-bg-tertiary">
-            <div className="container-narrow py-8">
-              <SeriesNavigation
-                seriesTitle={post.series
-                  .split("-")
-                  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                  .join(" ")}
-                posts={seriesPosts}
-                currentSlug={params.slug}
-              />
             </div>
           </div>
         )}
