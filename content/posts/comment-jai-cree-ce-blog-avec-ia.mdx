@@ -8,69 +8,63 @@ published: true
 image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&q=80"
 ---
 
-J'entends souvent des amis ou des connaissances qui observent le monde de l'IA de loin, sans trop savoir comment l'aborder. Ils voient passer des démos impressionnantes sur Twitter, lisent des articles sur ChatGPT ou Claude, mais concrètement... ils ne savent pas par où commencer.
+J'entends beaucoup de copains ou de connaissances qui voient le monde de l'IA de loin, sans trop savoir comment l'aborder. Ils voient passer des trucs sur Twitter, ils entendent parler de ChatGPT ou Claude, mais concrètement... ils savent pas par où commencer.
 
-C'est pour eux que j'ai créé ce blog. Et pour être honnête avec toi : **je n'ai pas écrit une seule ligne de code**.
+C'est pour eux que j'ai créé ce blog. Et je vais être honnête : **j'ai pas écrit une seule ligne de code**.
 
-## Les chiffres qui parlent
+## Les chiffres
 
-<Callout icon="📊" title="Le blog en quelques stats" variant="accent">
-  - **11 420 lignes de code** générées
-  - **72 fichiers** TypeScript/React
-  - **41 composants** réutilisables
-  - **~12 heures** de travail total
-  - **100%** du code écrit par Claude Code
-</Callout>
+- **11 420 lignes de code** générées
+- **72 fichiers** TypeScript/React
+- **41 composants** réutilisables
+- **~12 heures** de travail total
+- **100%** du code écrit par Claude Code
 
-## La stack technique
+## Ce qui fait tourner le blog
 
-Avant d'aller plus loin, voici ce qui fait tourner ce blog :
+Côté tech, rien de fou :
 
-| Technologie | Rôle |
-|-------------|------|
-| **Next.js 14** | Framework React avec App Router |
-| **TypeScript** | Typage statique |
-| **Tailwind CSS** | Styling utilitaire |
-| **Vercel** | Hébergement et déploiement |
-| **Giscus** | Commentaires via GitHub |
-| **MDX** | Articles enrichis avec des composants |
+- **Next.js 14** pour le framework React
+- **TypeScript** pour le typage
+- **Tailwind CSS** pour le style
+- **Vercel** pour l'hébergement (gratuit)
+- **Giscus** pour les commentaires via GitHub
+- **MDX** pour les articles enrichis
 
-Rien d'extraordinaire en soi. Ce qui l'est, c'est la façon dont tout ça a été assemblé.
+Rien d'extraordinaire. Ce qui l'est, c'est la façon dont tout ça a été assemblé.
 
-## Mon workflow : la méthode "5 minutes plus tard"
+## Mon workflow
 
-Voici exactement comment j'ai procédé, étape par étape.
+### 1. Je crée un repo GitHub
 
-### 1. Créer le repo GitHub
+Classique. Un repo vide, rien de plus.
 
-Première étape classique : j'ai créé un repository vide sur GitHub. Rien de plus.
+### 2. Je vais sur Claude Code Cloud
 
-### 2. Lancer Claude Code Cloud
+Je connecte mon repo GitHub à [Claude Code](https://claude.ai/code). C'est simple : tu lies ton compte GitHub, tu choisis le repo, c'est parti.
 
-Je suis allé sur [Claude Code](https://claude.ai/code) et j'ai connecté mon repo GitHub. L'interface est simple : tu lies ton compte GitHub, tu choisis le repo, et c'est parti.
+### 3. Je commence à discuter
 
-### 3. La conversation commence
-
-C'est là que la magie opère. J'ai commencé à discuter avec Claude (modèle Opus 4.5) comme je discuterais avec un collègue dev :
+Je parle avec Claude (modèle Opus 4.5) comme je parlerais avec un pote dev :
 
 > "Je veux créer un blog sur l'IA pour les développeurs. Design moderne, système de gamification pour encourager l'apprentissage, articles en MDX..."
 
-### 4. Claude propose, je valide
+### 4. Il propose, je valide
 
-Claude ne se contente pas d'exécuter. Il réfléchit, propose des idées, structure le projet :
+Claude se contente pas d'exécuter. Il réfléchit, il propose des idées :
 
 - "Je te propose un design neo-brutaliste avec une palette crème et bleu cobalt..."
 - "Pour la gamification, on pourrait avoir des badges, un système de niveaux, des streaks..."
 - "Tu veux que les utilisateurs puissent marquer des concepts comme maîtrisés ?"
 
-Je lis, je réagis, j'ajuste. Quand je suis satisfait de la direction, je dis simplement : **"Ok, allons-y."**
+Je lis, je réagis, j'ajuste. Quand je suis content de la direction, je dis juste : **"Ok, allons-y."**
 
-### 5. Claude code (sur le cloud)
+### 5. Il code, moi je fais autre chose
 
-Ensuite, Claude écrit le code. Pas sur ma machine, directement sur le cloud. Je peux fermer mon navigateur, aller me faire un café, vivre ma vie.
+Claude écrit le code. Pas sur ma machine, directement sur le cloud. Je peux fermer mon navigateur, aller me faire un café, vivre ma vie.
 
 <Alert type="info" title="Le truc génial">
-  Pendant que Claude code, je ne suis pas bloqué devant mon écran. J'écris un prompt, je reviens 5 minutes plus tard voir le résultat. C'est du développement asynchrone.
+  Je suis pas bloqué devant mon écran. J'écris un prompt, je reviens 5 minutes plus tard voir le résultat. Du développement asynchrone.
 </Alert>
 
 ### 6. Preview sur Vercel
@@ -81,19 +75,19 @@ Je clique sur le lien, je vois le résultat en live. Pas besoin d'installer quoi
 
 ### 7. Merge et on recommence
 
-Si je suis satisfait : je vais sur GitHub, je merge la branche dans main. Le site est déployé en production.
+Satisfait ? Je vais sur GitHub, je merge la branche. Le site est déployé.
 
-Si je veux ajuster quelque chose : je lance une nouvelle conversation avec Claude et on itère.
+Pas satisfait ? Je lance une nouvelle conversation et on itère.
 
-## Ce que ça change concrètement
+## Ce que ça change
 
 ### Le temps
 
-En développement traditionnel, ce blog m'aurait pris des semaines. Là, j'ai fait ça sur mon temps libre, en plusieurs sessions de 1-2 heures. Total : environ 12 heures.
+Ce blog m'aurait pris des semaines en dev traditionnel. Là, je l'ai fait sur mon temps libre, en plusieurs sessions de 1-2 heures. Total : environ 12 heures.
 
 ### La charge mentale
 
-Je n'ai pas eu à :
+J'ai pas eu à :
 - Configurer Webpack/Vite
 - Debugger des erreurs TypeScript obscures
 - Chercher sur Stack Overflow comment centrer une div
@@ -105,40 +99,33 @@ J'ai juste eu à **réfléchir à ce que je voulais**.
 
 Honnêtement ? Le code est propre. Composants bien structurés, typage strict, patterns React modernes. Mieux que ce que j'aurais fait moi-même en étant pressé.
 
-## Le résultat est sous tes yeux
+## Le résultat
 
-Tu es en train de le lire. Ce blog avec :
+T'es en train de le lire. Ce blog avec :
 
 - Un **système de gamification** complet (badges, XP, niveaux, streaks)
 - Des **concepts** à maîtriser avec suivi de progression
 - Des **parcours d'apprentissage** guidés
 - Un **mode sombre** et des options d'accessibilité
 - Une **PWA** installable sur mobile
-- Un **design** cohérent et moderne
 
 Tout ça, généré par une IA à partir de conversations en français.
 
-## Pour qui c'est fait ?
+## C'est pour qui ?
 
-<Callout icon="🎯" title="Ce blog s'adresse à toi si..." variant="default">
-  - Tu es développeur et tu veux intégrer l'IA dans ton workflow
-  - Tu es curieux mais tu ne sais pas par où commencer
-  - Tu veux des exemples concrets, pas juste de la théorie
-  - Tu préfères apprendre en français
-</Callout>
+- T'es dev et tu veux intégrer l'IA dans ton workflow
+- T'es curieux mais tu sais pas par où commencer
+- Tu veux des exemples concrets, pas juste de la théorie
+- Tu préfères apprendre en français
 
 ## La suite
 
-Ce premier article pose le contexte. Dans les prochains, on va rentrer dans le concret :
+Ce premier article pose le contexte. Les prochains vont rentrer dans le concret : comment bien prompter, comparatif des outils IA, tutoriels pratiques.
 
-- Comment bien prompter pour obtenir du code de qualité
-- Comparatif des outils IA pour développeurs
-- Tutoriels pratiques pour intégrer l'IA dans tes projets
-
-Le but de ce blog, c'est de te montrer que l'IA n'est pas un truc lointain et inaccessible. C'est un outil. Puissant, certes, mais un outil quand même.
+Le but de ce blog, c'est de te montrer que l'IA c'est pas un truc lointain et inaccessible. C'est un outil. Puissant, certes, mais un outil.
 
 Et comme tout outil, ça s'apprend.
 
 ---
 
-*Tu as des questions sur la création de ce blog ? Pose-les dans les commentaires, je te répondrai avec plaisir.*
+*T'as des questions sur la création de ce blog ? Pose-les dans les commentaires.*
