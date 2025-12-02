@@ -18,12 +18,13 @@ export interface LearningPath {
   prerequisites?: string[]; // IDs of other paths
 }
 
+// Icons are string IDs that map to SVG components via ICON_MAP
 export const LEARNING_PATHS: LearningPath[] = [
   {
     id: "decouvrir-ia",
     title: "Découvrir l'IA",
     description: "Comprenez les fondamentaux de l'intelligence artificielle et des modèles de langage",
-    icon: "🚀",
+    icon: "rocket",
     level: "debutant",
     estimatedTime: "1h30",
     steps: [
@@ -51,7 +52,7 @@ export const LEARNING_PATHS: LearningPath[] = [
     id: "maitriser-terminal",
     title: "Maîtriser le Terminal",
     description: "Devenez à l'aise avec la ligne de commande et les outils essentiels",
-    icon: "💻",
+    icon: "terminal",
     level: "debutant",
     estimatedTime: "2h",
     steps: [
@@ -79,7 +80,7 @@ export const LEARNING_PATHS: LearningPath[] = [
     id: "coder-avec-ia",
     title: "Coder avec l'IA",
     description: "Utilisez les assistants IA pour booster votre productivité de développeur",
-    icon: "⚡",
+    icon: "lightning",
     level: "intermediaire",
     estimatedTime: "3h",
     prerequisites: ["decouvrir-ia", "maitriser-terminal"],

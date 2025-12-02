@@ -122,7 +122,6 @@ export function PlatformSwitcher({ mac, windows, linux, wsl }: PlatformSwitcherP
                   : "text-text-muted hover:bg-bg-secondary hover:text-text-primary"
               }`}
             >
-              <span>{info.icon}</span>
               <span>{info.label}</span>
             </button>
           );
@@ -147,7 +146,6 @@ export function PlatformBadge() {
 
   return (
     <span className="inline-flex items-center gap-1.5 px-2 py-1 bg-bg-tertiary border border-border-light font-mono text-xs">
-      <span>{info.icon}</span>
       <span>{info.label}</span>
     </span>
   );

@@ -4,11 +4,27 @@ import { createContext, useContext, useEffect, useState, ReactNode } from "react
 
 export type Platform = "mac" | "windows" | "linux" | "wsl";
 
-export const PLATFORMS: Record<Platform, { label: string; icon: string; description: string }> = {
-  mac: { label: "macOS", icon: "🍎", description: "Apple macOS" },
-  windows: { label: "Windows", icon: "🪟", description: "Microsoft Windows" },
-  linux: { label: "Linux", icon: "🐧", description: "Linux (Ubuntu, Debian, etc.)" },
-  wsl: { label: "WSL", icon: "🔷", description: "Windows Subsystem for Linux" },
+export const PLATFORMS: Record<Platform, { label: string; shortLabel: string; description: string }> = {
+  mac: {
+    label: "macOS",
+    shortLabel: "macOS",
+    description: "Apple macOS"
+  },
+  windows: {
+    label: "Windows",
+    shortLabel: "WIN",
+    description: "Microsoft Windows"
+  },
+  linux: {
+    label: "Linux",
+    shortLabel: "LINUX",
+    description: "Linux (Ubuntu, Debian, etc.)"
+  },
+  wsl: {
+    label: "WSL",
+    shortLabel: "WSL",
+    description: "Windows Subsystem for Linux"
+  },
 };
 
 interface PlatformContextType {

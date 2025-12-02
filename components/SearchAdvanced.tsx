@@ -5,6 +5,7 @@ import Link from "next/link";
 import Fuse from "fuse.js";
 import { Post } from "@/lib/posts";
 import { Concept } from "@/lib/concepts-types";
+import { ArticleIcon, IconByName } from "@/components/icons";
 
 interface SearchAdvancedProps {
   posts: Post[];
@@ -394,14 +395,14 @@ export default function SearchAdvanced({ posts, concepts }: SearchAdvancedProps)
                     <span
                       className={`
                         shrink-0 w-8 h-8 flex items-center justify-center
-                        border-2 text-sm
+                        border-2
                         ${isPost
                           ? "border-accent bg-accent/10 text-accent"
-                          : "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600"
+                          : "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400"
                         }
                       `}
                     >
-                      {isPost ? "📝" : (item as Concept).icon || "📚"}
+                      {isPost ? <ArticleIcon size={16} /> : <IconByName name={(item as Concept).icon || "books"} size={16} />}
                     </span>
 
                     {/* Content */}

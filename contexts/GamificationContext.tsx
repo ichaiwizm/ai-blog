@@ -2,115 +2,115 @@
 
 import { createContext, useContext, useEffect, useState, ReactNode, useCallback } from "react";
 
-// Badge definitions
+// Badge definitions - icons are string IDs that map to SVG components
 export const BADGES = {
   first_article: {
     id: "first_article",
     name: "Premier Pas",
     description: "Lire votre premier article",
-    icon: "📖",
+    icon: "book-open",
     condition: (stats: UserStats) => stats.articlesRead >= 1,
   },
   five_articles: {
     id: "five_articles",
     name: "Lecteur Assidu",
     description: "Lire 5 articles",
-    icon: "📚",
+    icon: "books",
     condition: (stats: UserStats) => stats.articlesRead >= 5,
   },
   ten_articles: {
     id: "ten_articles",
     name: "Bibliophile",
     description: "Lire 10 articles",
-    icon: "🏆",
+    icon: "trophy",
     condition: (stats: UserStats) => stats.articlesRead >= 10,
   },
   first_concept: {
     id: "first_concept",
     name: "Apprenti",
     description: "Maîtriser votre premier concept",
-    icon: "🎯",
+    icon: "target",
     condition: (stats: UserStats) => stats.conceptsMastered >= 1,
   },
   five_concepts: {
     id: "five_concepts",
     name: "Érudit",
     description: "Maîtriser 5 concepts",
-    icon: "🧠",
+    icon: "brain",
     condition: (stats: UserStats) => stats.conceptsMastered >= 5,
   },
   all_concepts: {
     id: "all_concepts",
     name: "Maître",
     description: "Maîtriser tous les concepts",
-    icon: "👑",
+    icon: "crown",
     condition: (stats: UserStats) => stats.conceptsMastered >= stats.totalConcepts && stats.totalConcepts > 0,
   },
   first_series: {
     id: "first_series",
     name: "Marathonien",
     description: "Compléter une série d'articles",
-    icon: "🏃",
+    icon: "runner",
     condition: (stats: UserStats) => stats.seriesCompleted >= 1,
   },
   streak_3: {
     id: "streak_3",
     name: "Régulier",
     description: "Streak de 3 jours",
-    icon: "🔥",
+    icon: "flame",
     condition: (stats: UserStats) => stats.currentStreak >= 3,
   },
   streak_7: {
     id: "streak_7",
     name: "Dévoué",
     description: "Streak de 7 jours",
-    icon: "⚡",
+    icon: "lightning",
     condition: (stats: UserStats) => stats.currentStreak >= 7,
   },
   streak_30: {
     id: "streak_30",
     name: "Légendaire",
     description: "Streak de 30 jours",
-    icon: "💎",
+    icon: "diamond",
     condition: (stats: UserStats) => stats.currentStreak >= 30,
   },
   first_path: {
     id: "first_path",
     name: "Explorateur",
     description: "Compléter un parcours guidé",
-    icon: "🗺️",
+    icon: "map",
     condition: (stats: UserStats) => stats.pathsCompleted >= 1,
   },
   night_owl: {
     id: "night_owl",
     name: "Noctambule",
     description: "Lire un article après minuit",
-    icon: "🦉",
+    icon: "owl",
     condition: (stats: UserStats) => stats.nightOwl,
   },
   early_bird: {
     id: "early_bird",
     name: "Lève-tôt",
     description: "Lire un article avant 7h du matin",
-    icon: "🐦",
+    icon: "bird",
     condition: (stats: UserStats) => stats.earlyBird,
   },
 } as const;
 
 export type BadgeId = keyof typeof BADGES;
 
-// Level definitions
+// Level definitions - icons are string IDs that map to SVG components
 export const LEVELS = [
-  { level: 1, name: "Novice", xpRequired: 0, icon: "🌱" },
-  { level: 2, name: "Débutant", xpRequired: 50, icon: "🌿" },
-  { level: 3, name: "Apprenti", xpRequired: 150, icon: "🌳" },
-  { level: 4, name: "Intermédiaire", xpRequired: 300, icon: "⭐" },
-  { level: 5, name: "Avancé", xpRequired: 500, icon: "🌟" },
-  { level: 6, name: "Expert", xpRequired: 800, icon: "💫" },
-  { level: 7, name: "Maître", xpRequired: 1200, icon: "🏅" },
-  { level: 8, name: "Grand Maître", xpRequired: 1800, icon: "🎖️" },
-  { level: 9, name: "Légende", xpRequired: 2500, icon: "👑" },
-  { level: 10, name: "Transcendant", xpRequired: 3500, icon: "✨" },
+  { level: 1, name: "Novice", xpRequired: 0, icon: "seedling" },
+  { level: 2, name: "Débutant", xpRequired: 50, icon: "plant" },
+  { level: 3, name: "Apprenti", xpRequired: 150, icon: "tree" },
+  { level: 4, name: "Intermédiaire", xpRequired: 300, icon: "star" },
+  { level: 5, name: "Avancé", xpRequired: 500, icon: "star-filled" },
+  { level: 6, name: "Expert", xpRequired: 800, icon: "sparkles" },
+  { level: 7, name: "Maître", xpRequired: 1200, icon: "medal" },
+  { level: 8, name: "Grand Maître", xpRequired: 1800, icon: "award" },
+  { level: 9, name: "Légende", xpRequired: 2500, icon: "crown" },
+  { level: 10, name: "Transcendant", xpRequired: 3500, icon: "sparkles" },
 ] as const;
 
 // XP rewards

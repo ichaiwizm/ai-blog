@@ -3,6 +3,7 @@
 import { useGamification } from "@/contexts/GamificationContext";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { IconByName } from "@/components/icons";
 
 interface UserLevelBadgeProps {
   showXP?: boolean;
@@ -27,19 +28,22 @@ export default function UserLevelBadge({
   const sizeClasses = {
     sm: {
       container: "gap-2",
-      icon: "w-8 h-8 text-lg",
+      icon: "w-8 h-8",
+      iconSize: 18,
       text: "text-xs",
       progress: "h-1",
     },
     md: {
       container: "gap-3",
-      icon: "w-10 h-10 text-xl",
+      icon: "w-10 h-10",
+      iconSize: 22,
       text: "text-sm",
       progress: "h-1.5",
     },
     lg: {
       container: "gap-4",
-      icon: "w-14 h-14 text-2xl",
+      icon: "w-14 h-14",
+      iconSize: 28,
       text: "text-base",
       progress: "h-2",
     },
@@ -70,12 +74,12 @@ export default function UserLevelBadge({
         className={`
           ${classes.icon}
           bg-accent/10 border-2 border-accent
-          flex items-center justify-center
+          flex items-center justify-center text-accent
           transition-all duration-200
           ${linkToDashboard ? "group-hover:scale-110 group-hover:shadow-brutal-sm" : ""}
         `}
       >
-        <span>{currentLevel.icon}</span>
+        <IconByName name={currentLevel.icon} size={classes.iconSize} />
       </div>
 
       {/* Level info */}

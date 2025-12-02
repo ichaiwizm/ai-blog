@@ -2,6 +2,7 @@
 
 import { useAccessibility } from "@/contexts/AccessibilityContext";
 import { useEffect, useState } from "react";
+import { FocusIcon, EyeIcon, PlayIcon, PauseIcon, ResetIcon, SkipIcon, ZenIcon } from "@/components/icons";
 
 export default function FocusModeToggle() {
   const {
@@ -54,7 +55,7 @@ export default function FocusModeToggle() {
         title={focusMode ? "Quitter le mode focus" : "Mode focus"}
       >
         <span className={focusMode ? "text-amber-600 dark:text-amber-400" : "text-text-muted"}>
-          {focusMode ? "🧘" : "👁"}
+          {focusMode ? <ZenIcon size={18} /> : <EyeIcon size={18} />}
         </span>
       </button>
 
@@ -86,16 +87,16 @@ export default function FocusModeToggle() {
               {!pomodoroActive ? (
                 <button
                   onClick={startPomodoro}
-                  className="brutal-btn text-xs py-2 px-4"
+                  className="brutal-btn text-xs py-2 px-4 flex items-center gap-1"
                 >
-                  ▶ Démarrer
+                  <PlayIcon size={12} /> Démarrer
                 </button>
               ) : (
                 <button
                   onClick={pausePomodoro}
-                  className="brutal-btn-secondary text-xs py-2 px-4"
+                  className="brutal-btn-secondary text-xs py-2 px-4 flex items-center gap-1"
                 >
-                  ⏸ Pause
+                  <PauseIcon size={12} /> Pause
                 </button>
               )}
               <button
@@ -103,14 +104,14 @@ export default function FocusModeToggle() {
                 className="brutal-btn-secondary text-xs py-2 px-4"
                 title="Réinitialiser"
               >
-                ↺
+                <ResetIcon size={14} />
               </button>
               <button
                 onClick={skipPomodoro}
                 className="brutal-btn-secondary text-xs py-2 px-4"
                 title="Passer"
               >
-                ⏭
+                <SkipIcon size={14} />
               </button>
             </div>
 
@@ -120,9 +121,9 @@ export default function FocusModeToggle() {
                 toggleFocusMode();
                 setShowPomodoro(false);
               }}
-              className="w-full brutal-btn-secondary text-xs"
+              className="w-full brutal-btn-secondary text-xs flex items-center justify-center gap-2"
             >
-              🧘 Activer le mode zen
+              <ZenIcon size={14} /> Activer le mode zen
             </button>
 
             <p className="text-xs text-text-muted text-center mt-3">
@@ -194,18 +195,26 @@ export function PomodoroWidget() {
               onClick={pomodoroActive ? pausePomodoro : startPomodoro}
               className="brutal-btn-secondary text-xs py-1 px-3"
             >
-              {pomodoroActive ? "⏸" : "▶"}
+              {pomodoroActive ? <PauseIcon size={12} /> : <PlayIcon size={12} />}
             </button>
             <button
               onClick={toggleFocusMode}
               className="brutal-btn-secondary text-xs py-1 px-3"
               title="Quitter le mode focus"
             >
-              ✕
+              <CloseIcon size={12} />
             </button>
           </div>
         </div>
       </div>
     </div>
+  );
+}
+
+function CloseIcon({ size = 18 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M18 6L6 18M6 6l12 12" />
+    </svg>
   );
 }

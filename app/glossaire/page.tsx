@@ -3,6 +3,7 @@
 import { GLOSSARY, GLOSSARY_CATEGORIES, GlossaryTerm, getRelatedTerms } from "@/lib/glossary";
 import Link from "next/link";
 import { useState, useMemo, useEffect } from "react";
+import { IconByName, BooksIcon } from "@/components/icons";
 
 type CategoryFilter = GlossaryTerm["category"] | "all";
 
@@ -113,7 +114,7 @@ export default function GlossairePage() {
                 }
               `}
             >
-              <span>{GLOSSARY_CATEGORIES[cat].icon}</span>
+              <IconByName name={GLOSSARY_CATEGORIES[cat].icon} size={14} />
               <span className="hidden xs:inline">{GLOSSARY_CATEGORIES[cat].name}</span>
             </button>
           ))}
@@ -202,13 +203,13 @@ export default function GlossairePage() {
                               {term.term}
                             </h3>
                             <span className={`
-                              text-xs px-2 py-0.5 border
+                              text-xs px-2 py-0.5 border flex items-center gap-1
                               ${term.category === "ia" ? "bg-rose-50 dark:bg-rose-900/30 border-rose-400 text-rose-600 dark:text-rose-400" : ""}
                               ${term.category === "dev" ? "bg-emerald-50 dark:bg-emerald-900/30 border-emerald-400 text-emerald-600 dark:text-emerald-400" : ""}
                               ${term.category === "terminal" ? "bg-amber-50 dark:bg-amber-900/30 border-amber-400 text-amber-600 dark:text-amber-400" : ""}
                               ${term.category === "general" ? "bg-slate-50 dark:bg-slate-900/30 border-slate-400 text-slate-600 dark:text-slate-400" : ""}
                             `}>
-                              {categoryInfo.icon} {categoryInfo.name}
+                              <IconByName name={categoryInfo.icon} size={12} /> {categoryInfo.name}
                             </span>
                           </div>
                           <p className="text-text-muted mt-1">
@@ -264,9 +265,9 @@ export default function GlossairePage() {
                                     <Link
                                       key={conceptSlug}
                                       href={`/concepts/${conceptSlug}`}
-                                      className="px-3 py-1.5 bg-accent/10 border-2 border-accent text-accent text-sm hover:bg-accent hover:text-white transition-colors"
+                                      className="px-3 py-1.5 bg-accent/10 border-2 border-accent text-accent text-sm hover:bg-accent hover:text-white transition-colors flex items-center gap-1"
                                     >
-                                      📚 {conceptSlug}
+                                      <BooksIcon size={14} /> {conceptSlug}
                                     </Link>
                                   ))}
                                 </div>
