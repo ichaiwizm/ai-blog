@@ -24,9 +24,15 @@ export function ConceptsProvider({ children }: { children: ReactNode }) {
     if (stored) {
       try {
         const parsed = JSON.parse(stored);
-        setCompletedConcepts(new Set(parsed));
-      } catch {
-        // Invalid data, reset
+        // Validate that parsed is an array before converting to Set
+        if (Array.isArray(parsed)) {
+          setCompletedConcepts(new Set(parsed));
+        } else {
+          console.warn("Invalid concepts data format in localStorage, resetting to empty set");
+          setCompletedConcepts(new Set());
+        }
+      } catch (error) {
+        console.warn("Failed to parse concepts from localStorage:", error);
         setCompletedConcepts(new Set());
       }
     }

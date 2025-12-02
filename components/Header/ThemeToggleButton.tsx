@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { SunIcon, MoonIcon } from "@/components/icons";
 
-export default function ThemeToggle() {
+export function ThemeToggleButton() {
   const [isDark, setIsDark] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -27,16 +27,14 @@ export default function ThemeToggle() {
   }, [isDark, mounted]);
 
   if (!mounted) {
-    return (
-      <div className="w-10 h-10 border-2 border-border-light bg-bg-secondary" />
-    );
+    return <div className="w-10 h-10 border-2 border-border-light bg-bg-secondary" />;
   }
 
   return (
     <button
       onClick={() => setIsDark(!isDark)}
-      className="w-10 h-10 flex items-center justify-center border-2 border-border bg-bg-secondary text-text-muted hover:bg-accent hover:text-text-inverse hover:border-border transition-all"
-      aria-label={isDark ? "Activer le mode clair" : "Activer le mode sombre"}
+      className="w-10 h-10 border-3 border-border bg-bg-secondary flex items-center justify-center transition-all hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-brutal-sm hover:bg-accent hover:text-text-inverse"
+      aria-label={isDark ? "Mode clair" : "Mode sombre"}
     >
       {isDark ? <SunIcon size={18} /> : <MoonIcon size={18} />}
     </button>

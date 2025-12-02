@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, ReactNode, useCallback } from "react";
+import { createContext, useContext, useEffect, useState, ReactNode, useCallback, useRef } from "react";
 
 // Badge definitions - icons are string IDs that map to SVG components
 export const BADGES = {
@@ -182,20 +182,31 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
   const [newBadges, setNewBadges] = useState<BadgeId[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
+  // Ref to keep track of current badges to avoid stale closures
+  const unlockedBadgesRef = useRef<BadgeId[]>([]);
+
   // Load from localStorage
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
       try {
         const parsed = JSON.parse(stored);
-        setStats(parsed.stats || initialStats);
-        setUnlockedBadges(parsed.unlockedBadges || []);
-      } catch {
-        // Invalid data
+        const loadedStats = parsed.stats || initialStats;
+        const loadedBadges = parsed.unlockedBadges || [];
+        setStats(loadedStats);
+        setUnlockedBadges(loadedBadges);
+        unlockedBadgesRef.current = loadedBadges;
+      } catch (error) {
+        console.warn("Failed to parse gamification data from localStorage:", error);
       }
     }
     setIsLoaded(true);
   }, []);
+
+  // Keep ref in sync with state
+  useEffect(() => {
+    unlockedBadgesRef.current = unlockedBadges;
+  }, [unlockedBadges]);
 
   // Save to localStorage
   const saveToStorage = useCallback((newStats: UserStats, badges: BadgeId[]) => {
@@ -282,20 +293,23 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
       newStats = updateStreak(newStats);
       newStats = checkTimeBadges(newStats);
 
-      const newlyUnlocked = checkBadges(newStats, unlockedBadges);
+      // Use ref to get current badges (avoids stale closure)
+      const currentBadges = unlockedBadgesRef.current;
+      const newlyUnlocked = checkBadges(newStats, currentBadges);
       if (newlyUnlocked.length > 0) {
-        const updatedBadges = [...unlockedBadges, ...newlyUnlocked];
+        const updatedBadges = [...currentBadges, ...newlyUnlocked];
         setUnlockedBadges(updatedBadges);
-        setNewBadges((prev) => [...prev, ...newlyUnlocked]);
+        unlockedBadgesRef.current = updatedBadges;
+        setNewBadges((prevBadges) => [...prevBadges, ...newlyUnlocked]);
         newStats.totalXP += newlyUnlocked.length * XP_REWARDS.unlockBadge;
         saveToStorage(newStats, updatedBadges);
       } else {
-        saveToStorage(newStats, unlockedBadges);
+        saveToStorage(newStats, currentBadges);
       }
 
       return newStats;
     });
-  }, [unlockedBadges, updateStreak, checkTimeBadges, checkBadges, saveToStorage]);
+  }, [updateStreak, checkTimeBadges, checkBadges, saveToStorage]);
 
   const recordConceptMastered = useCallback((totalConcepts: number) => {
     setStats((prev) => {
@@ -308,20 +322,23 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
 
       newStats = updateStreak(newStats);
 
-      const newlyUnlocked = checkBadges(newStats, unlockedBadges);
+      // Use ref to get current badges (avoids stale closure)
+      const currentBadges = unlockedBadgesRef.current;
+      const newlyUnlocked = checkBadges(newStats, currentBadges);
       if (newlyUnlocked.length > 0) {
-        const updatedBadges = [...unlockedBadges, ...newlyUnlocked];
+        const updatedBadges = [...currentBadges, ...newlyUnlocked];
         setUnlockedBadges(updatedBadges);
-        setNewBadges((prev) => [...prev, ...newlyUnlocked]);
+        unlockedBadgesRef.current = updatedBadges;
+        setNewBadges((prevBadges) => [...prevBadges, ...newlyUnlocked]);
         newStats.totalXP += newlyUnlocked.length * XP_REWARDS.unlockBadge;
         saveToStorage(newStats, updatedBadges);
       } else {
-        saveToStorage(newStats, unlockedBadges);
+        saveToStorage(newStats, currentBadges);
       }
 
       return newStats;
     });
-  }, [unlockedBadges, updateStreak, checkBadges, saveToStorage]);
+  }, [updateStreak, checkBadges, saveToStorage]);
 
   const recordSeriesCompleted = useCallback((seriesId: string) => {
     setStats((prev) => {
@@ -336,20 +353,23 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
 
       newStats = updateStreak(newStats);
 
-      const newlyUnlocked = checkBadges(newStats, unlockedBadges);
+      // Use ref to get current badges (avoids stale closure)
+      const currentBadges = unlockedBadgesRef.current;
+      const newlyUnlocked = checkBadges(newStats, currentBadges);
       if (newlyUnlocked.length > 0) {
-        const updatedBadges = [...unlockedBadges, ...newlyUnlocked];
+        const updatedBadges = [...currentBadges, ...newlyUnlocked];
         setUnlockedBadges(updatedBadges);
-        setNewBadges((prev) => [...prev, ...newlyUnlocked]);
+        unlockedBadgesRef.current = updatedBadges;
+        setNewBadges((prevBadges) => [...prevBadges, ...newlyUnlocked]);
         newStats.totalXP += newlyUnlocked.length * XP_REWARDS.unlockBadge;
         saveToStorage(newStats, updatedBadges);
       } else {
-        saveToStorage(newStats, unlockedBadges);
+        saveToStorage(newStats, currentBadges);
       }
 
       return newStats;
     });
-  }, [unlockedBadges, updateStreak, checkBadges, saveToStorage]);
+  }, [updateStreak, checkBadges, saveToStorage]);
 
   const recordPathCompleted = useCallback((pathId: string) => {
     setStats((prev) => {
@@ -364,20 +384,23 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
 
       newStats = updateStreak(newStats);
 
-      const newlyUnlocked = checkBadges(newStats, unlockedBadges);
+      // Use ref to get current badges (avoids stale closure)
+      const currentBadges = unlockedBadgesRef.current;
+      const newlyUnlocked = checkBadges(newStats, currentBadges);
       if (newlyUnlocked.length > 0) {
-        const updatedBadges = [...unlockedBadges, ...newlyUnlocked];
+        const updatedBadges = [...currentBadges, ...newlyUnlocked];
         setUnlockedBadges(updatedBadges);
-        setNewBadges((prev) => [...prev, ...newlyUnlocked]);
+        unlockedBadgesRef.current = updatedBadges;
+        setNewBadges((prevBadges) => [...prevBadges, ...newlyUnlocked]);
         newStats.totalXP += newlyUnlocked.length * XP_REWARDS.unlockBadge;
         saveToStorage(newStats, updatedBadges);
       } else {
-        saveToStorage(newStats, unlockedBadges);
+        saveToStorage(newStats, currentBadges);
       }
 
       return newStats;
     });
-  }, [unlockedBadges, updateStreak, checkBadges, saveToStorage]);
+  }, [updateStreak, checkBadges, saveToStorage]);
 
   const clearNewBadges = useCallback(() => {
     setNewBadges([]);

@@ -35,13 +35,15 @@ interface PlatformContextType {
 
 const PlatformContext = createContext<PlatformContextType | undefined>(undefined);
 
+const STORAGE_KEY = "user-platform";
+
 export function PlatformProvider({ children }: { children: ReactNode }) {
   const [platform, setPlatformState] = useState<Platform>("mac");
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     // Load from localStorage on mount
-    const stored = localStorage.getItem("user-platform") as Platform | null;
+    const stored = localStorage.getItem(STORAGE_KEY) as Platform | null;
 
     if (stored && Object.keys(PLATFORMS).includes(stored)) {
       setPlatformState(stored);
@@ -62,7 +64,7 @@ export function PlatformProvider({ children }: { children: ReactNode }) {
 
   const setPlatform = (newPlatform: Platform) => {
     setPlatformState(newPlatform);
-    localStorage.setItem("user-platform", newPlatform);
+    localStorage.setItem(STORAGE_KEY, newPlatform);
   };
 
   return (
