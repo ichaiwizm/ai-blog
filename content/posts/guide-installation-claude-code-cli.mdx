@@ -1,0 +1,180 @@
+---
+title: "Guide d'installation de Claude Code CLI"
+description: "Guide complet pour installer et configurer Claude Code CLI sur macOS, Linux et Windows (WSL). Prérequis, méthodes d'installation et authentification."
+date: "2024-12-02"
+tags: ["Claude Code", "Installation", "CLI", "Tutoriel", "Configuration"]
+category: "tutoriels"
+published: true
+image: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=1200&q=80"
+prerequisites: ["claude-code"]
+---
+
+<Term id="claude-code">Claude Code</Term> est un outil de développement assisté par intelligence artificielle qui s'exécute directement dans votre terminal. Ce guide détaille les étapes nécessaires pour l'installer et le configurer sur votre système.
+
+## Prérequis
+
+Avant de procéder à l'installation, assurez-vous de disposer des éléments suivants.
+
+### Abonnement Anthropic
+
+L'utilisation de Claude Code nécessite l'un des abonnements suivants :
+
+- **Claude Pro** (20$/mois) : permet environ 10 à 40 prompts avec Claude Code toutes les cinq heures
+- **Claude Max 5x** (100$/mois) : permet environ 50 à 200 prompts toutes les cinq heures, avec accès aux modèles Sonnet et Opus
+
+<Callout type="info">
+Les abonnements Pro et Max incluent également l'accès à l'interface web Claude.ai, offrant ainsi une solution unifiée pour tous vos besoins.
+</Callout>
+
+### Configuration matérielle
+
+- Un minimum de **4 Go de RAM** est recommandé
+- Une **connexion Internet** stable est requise
+
+### Systèmes d'exploitation compatibles
+
+<Tabs items={["macOS", "Linux", "Windows"]}>
+  <Tab>
+    **macOS 10.15 (Catalina) ou version ultérieure**
+
+    Les terminaux Bash, Zsh et Fish sont pris en charge nativement.
+  </Tab>
+  <Tab>
+    **Distributions prises en charge :**
+    - Ubuntu 20.04 ou version ultérieure
+    - Debian 10 ou version ultérieure
+    - Alpine Linux (pour les builds natifs)
+
+    Les terminaux Bash, Zsh et Fish sont compatibles.
+  </Tab>
+  <Tab>
+    **Windows 10 ou version ultérieure**
+
+    Claude Code fonctionne exclusivement via **WSL** (Windows Subsystem for Linux) ou **Git Bash**. L'installation native sur Windows n'est pas disponible.
+
+    Pour installer WSL, exécutez dans PowerShell en tant qu'administrateur :
+    ```bash
+    wsl --install
+    ```
+  </Tab>
+</Tabs>
+
+## Méthodes d'installation
+
+Deux méthodes d'installation sont disponibles. Anthropic recommande l'installation native pour une stabilité optimale.
+
+### Méthode recommandée : Installation native
+
+Cette méthode ne nécessite pas Node.js et évite les conflits de gestionnaires de paquets.
+
+<Tabs items={["macOS / Linux / WSL", "Windows PowerShell"]}>
+  <Tab>
+    ```bash
+    curl -fsSL https://claude.ai/install.sh | bash
+    ```
+
+    Pour installer la dernière version de développement :
+    ```bash
+    curl -fsSL https://claude.ai/install.sh | bash -s latest
+    ```
+  </Tab>
+  <Tab>
+    Exécutez dans PowerShell :
+    ```powershell
+    irm https://claude.ai/install.ps1 | iex
+    ```
+  </Tab>
+</Tabs>
+
+### Méthode alternative : Installation via npm
+
+Cette méthode requiert **Node.js 18.0 ou version ultérieure**.
+
+```bash
+npm install -g @anthropic-ai/claude-code
+```
+
+<Alert variant="warning">
+N'utilisez jamais `sudo npm install -g` pour cette installation. Cela peut entraîner des problèmes de permissions et des risques de sécurité.
+</Alert>
+
+#### Migration de npm vers l'installation native
+
+Si vous avez initialement installé Claude Code via npm et souhaitez migrer vers l'installation native :
+
+```bash
+claude migrate-installer
+```
+
+Vos fichiers de configuration (`~/.claude/settings.json`) et paramètres de projet (`.claude/`) seront préservés lors de la migration.
+
+## Authentification
+
+Après l'installation, vous devez vous authentifier pour utiliser Claude Code.
+
+### Connexion avec votre abonnement
+
+Lancez Claude Code et procédez à l'authentification :
+
+```bash
+claude
+```
+
+Suivez le processus OAuth pour vous connecter avec vos identifiants Claude.ai (Pro ou Max).
+
+<Callout type="warning">
+**Variable d'environnement ANTHROPIC_API_KEY**
+
+Si la variable `ANTHROPIC_API_KEY` est définie dans votre environnement, Claude Code l'utilisera en priorité, générant des frais d'utilisation de l'API au lieu d'utiliser votre abonnement.
+
+Pour vérifier l'état de votre authentification :
+```bash
+/status
+```
+</Callout>
+
+### Commandes d'authentification utiles
+
+| Commande | Description |
+|----------|-------------|
+| `claude login` | Se connecter à votre compte |
+| `/logout` | Se déconnecter de la session actuelle |
+| `/status` | Vérifier l'état de l'authentification |
+| `/model` | Changer de modèle (Sonnet/Opus pour Max) |
+
+## Vérification de l'installation
+
+Une fois l'authentification terminée, vérifiez que l'installation fonctionne correctement :
+
+```bash
+claude --version
+```
+
+Vous pouvez également lancer une session interactive :
+
+```bash
+claude
+```
+
+## Premiers pas
+
+Claude Code est maintenant prêt à l'emploi. Voici quelques commandes pour débuter :
+
+```bash
+# Lancer Claude Code dans le répertoire courant
+claude
+
+# Poser une question directe
+claude "Explique-moi la structure de ce projet"
+
+# Obtenir de l'aide
+claude --help
+```
+
+<Callout type="info">
+Claude Code analyse automatiquement votre codebase et comprend le contexte de votre projet. Vous pouvez lui demander d'expliquer du code, de corriger des bugs, de créer de nouvelles fonctionnalités ou de gérer vos workflows Git.
+</Callout>
+
+---
+
+*Pour toute question relative à l'installation, consultez la [documentation officielle](https://docs.anthropic.com/en/docs/claude-code/setup) ou utilisez les commentaires ci-dessous.*
