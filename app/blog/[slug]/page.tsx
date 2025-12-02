@@ -16,7 +16,6 @@ import ShareButtons from "@/components/ShareButtons";
 import Reactions from "@/components/Reactions";
 import RelatedPosts from "@/components/RelatedPosts";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import AuthorBio from "@/components/AuthorBio";
 import Prerequisites from "@/components/Prerequisites";
 import ArticleTracker from "@/components/ArticleTracker";
 import ArticleActions from "@/components/ArticleActions";
@@ -201,9 +200,6 @@ export default async function PostPage({ params }: Props) {
           <div className="mt-16 pt-8 border-t-2 border-border">
             <Reactions slug={params.slug} />
           </div>
-
-          {/* Author */}
-          <AuthorBio />
 
           {/* Related Posts */}
           <RelatedPosts posts={relatedPosts} />
