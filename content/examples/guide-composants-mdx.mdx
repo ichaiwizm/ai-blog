@@ -1,0 +1,323 @@
+---
+title: "Guide des composants MDX"
+description: "Découvre tous les composants disponibles pour créer des articles riches et interactifs sur ce blog."
+date: "2024-12-02"
+tags: ["Documentation", "MDX", "Tutoriel"]
+category: "tutoriels"
+published: true
+image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&q=80"
+---
+
+Ce guide te montre tous les composants disponibles pour enrichir tes articles. Tu peux copier-coller ces exemples directement dans tes fichiers MDX.
+
+## Images
+
+### Image simple
+
+L'image la plus basique avec légende et crédit :
+
+<Image
+  src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&q=80"
+  alt="Code sur un écran d'ordinateur"
+  caption="Un exemple d'image avec légende et effet de zoom au clic"
+  credit="Ilya Pavlov"
+  creditLink="https://unsplash.com/@ilyapavlov"
+/>
+
+### Tailles d'images
+
+Tu peux contrôler la taille avec le prop `size` :
+
+<Image
+  src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&q=80"
+  alt="Matrix code"
+  size="medium"
+  caption="Image de taille medium (max-width: 600px)"
+/>
+
+<Image
+  src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=400&q=80"
+  alt="Cybersecurity"
+  size="small"
+  align="left"
+  caption="Image small alignée à gauche"
+/>
+
+### Galerie d'images
+
+Pour afficher plusieurs images en grille :
+
+<ImageGallery columns={3} gap="medium">
+  <GalleryImage
+    src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&q=80"
+    alt="AI abstract 1"
+    caption="IA Générative"
+  />
+  <GalleryImage
+    src="https://images.unsplash.com/photo-1684163761752-6ec139109cff?w=400&q=80"
+    alt="AI abstract 2"
+    caption="Neural Networks"
+  />
+  <GalleryImage
+    src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=400&q=80"
+    alt="Robot"
+    caption="Robotique"
+  />
+</ImageGallery>
+
+### Comparaison Avant/Après
+
+Parfait pour montrer des transformations :
+
+<ImageCompare
+  before="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=600&q=80"
+  after="https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=600&q=80"
+  beforeAlt="Code brut"
+  afterAlt="Code formaté"
+  beforeLabel="Sans formatage"
+  afterLabel="Avec Prettier"
+/>
+
+## Alertes et Callouts
+
+### Types d'alertes
+
+<Alert type="info" title="Information">
+  Ceci est une alerte informative. Utilise-la pour donner des informations complémentaires.
+</Alert>
+
+<Alert type="warning" title="Attention">
+  Ceci est un avertissement. Utilise-le pour signaler des points de vigilance.
+</Alert>
+
+<Alert type="error" title="Erreur">
+  Ceci indique une erreur ou un danger. À utiliser avec parcimonie.
+</Alert>
+
+<Alert type="success" title="Succès">
+  Indique une réussite ou une bonne pratique à suivre.
+</Alert>
+
+<Alert type="tip" title="Astuce">
+  Partage une astuce ou un conseil pratique avec les lecteurs.
+</Alert>
+
+### Callouts
+
+<Callout icon="💡" title="Le savais-tu ?" variant="accent">
+  Les callouts sont parfaits pour mettre en avant une information importante sans interrompre le flux de lecture.
+</Callout>
+
+<Callout icon="🚀" title="Performance" variant="default">
+  Next.js optimise automatiquement les images pour un chargement ultra-rapide.
+</Callout>
+
+## Contenu par plateforme
+
+Affiche du contenu différent selon le système d'exploitation :
+
+<PlatformContent>
+  <Mac>
+    ### Installation sur macOS
+
+    ```bash
+    brew install monoutil
+    ```
+
+    Sur Mac, tu peux aussi utiliser le raccourci `Cmd + Shift + P`.
+  </Mac>
+  <Windows>
+    ### Installation sur Windows
+
+    ```powershell
+    winget install monoutil
+    ```
+
+    Sur Windows, utilise le raccourci `Ctrl + Shift + P`.
+  </Windows>
+  <Linux>
+    ### Installation sur Linux
+
+    ```bash
+    sudo apt install monoutil
+    # ou
+    sudo dnf install monoutil
+    ```
+
+    Le raccourci est `Ctrl + Shift + P` sous Linux également.
+  </Linux>
+</PlatformContent>
+
+### Switcher de plateforme
+
+Une autre façon d'afficher du contenu par OS avec des onglets :
+
+<PlatformSwitcher
+  mac={
+    <>
+      **macOS** : Ouvre le Terminal depuis Applications → Utilitaires
+    </>
+  }
+  windows={
+    <>
+      **Windows** : Ouvre PowerShell ou Windows Terminal
+    </>
+  }
+  linux={
+    <>
+      **Linux** : Ouvre ton terminal préféré (Konsole, GNOME Terminal, etc.)
+    </>
+  }
+/>
+
+## Onglets
+
+Pour organiser du contenu en sections :
+
+<Tabs items={["JavaScript", "Python", "Go"]}>
+  <Tab>
+    ```javascript
+    // JavaScript
+    async function fetchData(url) {
+      const response = await fetch(url);
+      return response.json();
+    }
+    ```
+  </Tab>
+  <Tab>
+    ```python
+    # Python
+    import aiohttp
+
+    async def fetch_data(url):
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url) as response:
+                return await response.json()
+    ```
+  </Tab>
+  <Tab>
+    ```go
+    // Go
+    func fetchData(url string) ([]byte, error) {
+        resp, err := http.Get(url)
+        if err != nil {
+            return nil, err
+        }
+        defer resp.Body.Close()
+        return io.ReadAll(resp.Body)
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Comparaison de code
+
+Montre les différences entre deux versions de code :
+
+<CodeDiff
+  language="javascript"
+  beforeLabel="Avant (callback hell)"
+  afterLabel="Après (async/await)"
+  before={`getData(function(a) {
+  getMoreData(a, function(b) {
+    getEvenMoreData(b, function(c) {
+      console.log(c);
+    });
+  });
+});`}
+  after={`const a = await getData();
+const b = await getMoreData(a);
+const c = await getEvenMoreData(b);
+console.log(c);`}
+/>
+
+## Vidéos
+
+Intègre des vidéos YouTube ou Vimeo :
+
+<Video
+  src="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+  title="Exemple de vidéo YouTube"
+/>
+
+## Glossaire interactif
+
+Tu peux ajouter des tooltips qui affichent la définition d'un terme du glossaire au survol :
+
+Les <Term>LLM</Term> comme Claude utilisent des <Term>Token</Term> pour traiter le texte. La <Term>Fenêtre de contexte</Term> détermine combien de texte l'IA peut analyser. Un bon <Term>Prompt</Term> est essentiel pour obtenir de bons résultats.
+
+Pour les termes composés, utilise `GlossaryTooltip` :
+
+Un <GlossaryTooltip term="Agent IA">agent autonome</GlossaryTooltip> peut utiliser le <GlossaryTooltip term="MCP">protocole MCP</GlossaryTooltip> pour se connecter à des outils externes.
+
+## Liens internes
+
+### Vers un autre article
+
+```mdx
+Découvre aussi notre [guide des composants MDX](/blog/guide-composants-mdx).
+```
+
+### Vers un concept
+
+```mdx
+Avant de continuer, assure-toi de maîtriser les [bases du terminal](/concepts/terminal-basics).
+```
+
+### Vers le glossaire
+
+```mdx
+Consulte la définition complète dans le [glossaire](/glossaire#llm).
+```
+
+### Liens avec style
+
+Tu peux aussi utiliser les classes CSS du blog :
+
+```mdx
+<a href="/blog" className="brutal-btn">Voir tous les articles</a>
+```
+
+## Markdown standard
+
+N'oublie pas que tout le **Markdown classique** fonctionne aussi :
+
+### Listes
+
+- Premier élément
+- Deuxième élément
+  - Sous-élément
+- Troisième élément
+
+1. Étape une
+2. Étape deux
+3. Étape trois
+
+### Citations
+
+> L'intelligence artificielle est la nouvelle électricité.
+>
+> — Andrew Ng
+
+### Code inline
+
+Utilise `console.log()` pour débugger ton code JavaScript.
+
+### Tableaux
+
+| Composant | Usage | Props principales |
+|-----------|-------|-------------------|
+| `Image` | Image simple | src, alt, caption, size |
+| `ImageGallery` | Grille d'images | columns, gap |
+| `Alert` | Messages importants | type, title |
+| `Tabs` | Contenu en onglets | items |
+| `Term` | Tooltip glossaire | children (nom du terme) |
+| `GlossaryTooltip` | Tooltip personnalisé | term, children |
+
+## Conclusion
+
+Tu as maintenant tous les outils pour créer des articles riches et engageants. N'hésite pas à combiner ces composants pour créer des tutoriels interactifs et visuellement attractifs !
+
+<Callout icon="📝" title="À toi de jouer !" variant="accent">
+  Crée ton premier article en copiant ce fichier comme base et en modifiant le contenu selon tes besoins.
+</Callout>

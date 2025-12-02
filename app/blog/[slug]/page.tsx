@@ -16,7 +16,6 @@ import ShareButtons from "@/components/ShareButtons";
 import Reactions from "@/components/Reactions";
 import RelatedPosts from "@/components/RelatedPosts";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import AuthorBio from "@/components/AuthorBio";
 import Prerequisites from "@/components/Prerequisites";
 import ArticleTracker from "@/components/ArticleTracker";
 import ArticleActions from "@/components/ArticleActions";
@@ -85,7 +84,7 @@ export default async function PostPage({ params }: Props) {
       <article className="min-h-screen">
         {/* Article Header */}
         <header className="border-b-3 border-border bg-bg-secondary">
-          <div className="container-narrow py-16">
+          <div className="container-article py-16">
             {/* Breadcrumbs */}
             <div className="mb-8 animate-fade-up">
               <Breadcrumbs
@@ -189,7 +188,7 @@ export default async function PostPage({ params }: Props) {
         )}
 
         {/* Article Content */}
-        <div className="container-narrow py-16">
+        <div className="container-article py-16">
           {/* Prerequisites */}
           {prerequisiteConcepts.length > 0 && (
             <Prerequisites concepts={prerequisiteConcepts} />
@@ -201,9 +200,6 @@ export default async function PostPage({ params }: Props) {
           <div className="mt-16 pt-8 border-t-2 border-border">
             <Reactions slug={params.slug} />
           </div>
-
-          {/* Author */}
-          <AuthorBio />
 
           {/* Related Posts */}
           <RelatedPosts posts={relatedPosts} />
