@@ -53,16 +53,7 @@ export const GLOSSARY: GlossaryTerm[] = [
     shortDefinition: "Assistant IA développé par Anthropic",
     category: "ia",
     relatedConcepts: ["claude-code", "prompt"],
-    relatedTerms: ["ia", "llm", "chatgpt", "claude-code"],
-  },
-  {
-    id: "claude-code",
-    term: "Claude Code",
-    definition: "Outil de développement d'Anthropic permettant à Claude de coder directement dans un environnement cloud. Connecté à GitHub, il peut créer, modifier et déployer du code de manière autonome à partir de conversations en langage naturel.",
-    shortDefinition: "Outil de coding IA connecté à GitHub",
-    category: "ia",
-    relatedConcepts: ["claude-code"],
-    relatedTerms: ["claude", "ia", "github", "repo"],
+    relatedTerms: ["ia", "llm", "chatgpt"],
   },
   {
     id: "token",
