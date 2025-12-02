@@ -337,7 +337,7 @@ h4, .h4 {
   text-decoration: none;
   padding: 0.5rem 0;
   position: relative;
-  transition: color 0.2s ease;
+  transition: color 0.15s ease;
 }
 
 .nav-link::after {
@@ -348,7 +348,7 @@ h4, .h4 {
   width: 0;
   height: var(--border-thick);
   background: var(--accent);
-  transition: width 0.2s ease;
+  transition: width 0.15s ease;
 }
 
 .nav-link:hover,
@@ -359,6 +359,92 @@ h4, .h4 {
 .nav-link:hover::after,
 .nav-link.active::after {
   width: 100%;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Brutal Dropdown Menus
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.dropdown-brutal {
+  position: absolute;
+  top: 100%;
+  background: var(--bg-secondary);
+  border: var(--border-thick) solid var(--border);
+  box-shadow: var(--shadow-brutal);
+  z-index: 50;
+}
+
+.dropdown-brutal-item {
+  display: block;
+  padding: 0.75rem 1rem;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-body);
+  border-bottom: 2px solid var(--border-light);
+  transition: all 0.1s ease;
+}
+
+.dropdown-brutal-item:last-child {
+  border-bottom: none;
+}
+
+.dropdown-brutal-item:hover {
+  background: var(--bg-tertiary);
+  padding-left: 1.25rem;
+}
+
+.dropdown-brutal-item.active {
+  background: var(--accent-light);
+  border-left: 4px solid var(--accent);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Brutal Icon Buttons
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.icon-btn-brutal {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: var(--border-thick) solid var(--border);
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.icon-btn-brutal:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 var(--border);
+  background: var(--accent);
+  color: var(--text-inverse);
+}
+
+.icon-btn-brutal.active {
+  background: var(--accent);
+  color: var(--text-inverse);
+}
+
+/* With badge indicator */
+.icon-btn-brutal-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding: 0 0.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent);
+  border: 2px solid var(--border);
+  color: var(--text-inverse);
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -645,6 +731,27 @@ h4, .h4 {
   height: 1px;
   background: var(--border-light);
   border: none;
+}
+
+/* Brutal vertical divider */
+.divider-vertical {
+  width: var(--border-thick);
+  height: 1.5rem;
+  background: var(--border);
+}
+
+.divider-vertical-light {
+  width: 2px;
+  height: 1.25rem;
+  background: var(--border-light);
+}
+
+/* Horizontal brutal divider */
+.divider-brutal {
+  height: var(--border-thick);
+  background: var(--border);
+  border: none;
+  margin: 1rem 0;
 }
 
 /* Line clamp */
