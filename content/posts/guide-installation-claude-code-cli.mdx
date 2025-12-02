@@ -33,26 +33,21 @@ Les abonnements Pro et Max incluent également l'accès à l'interface web Claud
 
 ### Systèmes d'exploitation compatibles
 
-<Tabs defaultValue="macos">
-  <TabsList>
-    <TabsTrigger value="macos">macOS</TabsTrigger>
-    <TabsTrigger value="linux">Linux</TabsTrigger>
-    <TabsTrigger value="windows">Windows</TabsTrigger>
-  </TabsList>
-  <TabsContent value="macos">
+<Tabs items={["macOS", "Linux", "Windows"]}>
+  <Tab>
     **macOS 10.15 (Catalina) ou version ultérieure**
 
     Les terminaux Bash, Zsh et Fish sont pris en charge nativement.
-  </TabsContent>
-  <TabsContent value="linux">
+  </Tab>
+  <Tab>
     **Distributions prises en charge :**
     - Ubuntu 20.04 ou version ultérieure
     - Debian 10 ou version ultérieure
     - Alpine Linux (pour les builds natifs)
 
     Les terminaux Bash, Zsh et Fish sont compatibles.
-  </TabsContent>
-  <TabsContent value="windows">
+  </Tab>
+  <Tab>
     **Windows 10 ou version ultérieure**
 
     Claude Code fonctionne exclusivement via **WSL** (Windows Subsystem for Linux) ou **Git Bash**. L'installation native sur Windows n'est pas disponible.
@@ -61,7 +56,7 @@ Les abonnements Pro et Max incluent également l'accès à l'interface web Claud
     ```bash
     wsl --install
     ```
-  </TabsContent>
+  </Tab>
 </Tabs>
 
 ## Méthodes d'installation
@@ -72,12 +67,8 @@ Deux méthodes d'installation sont disponibles. Anthropic recommande l'installat
 
 Cette méthode ne nécessite pas Node.js et évite les conflits de gestionnaires de paquets.
 
-<Tabs defaultValue="unix">
-  <TabsList>
-    <TabsTrigger value="unix">macOS / Linux / WSL</TabsTrigger>
-    <TabsTrigger value="windows">Windows PowerShell</TabsTrigger>
-  </TabsList>
-  <TabsContent value="unix">
+<Tabs items={["macOS / Linux / WSL", "Windows PowerShell"]}>
+  <Tab>
     ```bash
     curl -fsSL https://claude.ai/install.sh | bash
     ```
@@ -86,13 +77,13 @@ Cette méthode ne nécessite pas Node.js et évite les conflits de gestionnaires
     ```bash
     curl -fsSL https://claude.ai/install.sh | bash -s latest
     ```
-  </TabsContent>
-  <TabsContent value="windows">
+  </Tab>
+  <Tab>
     Exécutez dans PowerShell :
     ```powershell
     irm https://claude.ai/install.ps1 | iex
     ```
-  </TabsContent>
+  </Tab>
 </Tabs>
 
 ### Méthode alternative : Installation via npm
