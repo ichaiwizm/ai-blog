@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import NextImage from 'next/image'
+import { createPortal } from 'react-dom'
 
 interface ImageProps {
   src: string
@@ -43,6 +44,166 @@ function getImageDimensions(size: ImageProps['size']) {
   }
 }
 
+// Lightbox Component with smooth animations
+function Lightbox({
+  src,
+  alt,
+  caption,
+  isOpen,
+  onClose,
+}: {
+  src: string
+  alt: string
+  caption?: string
+  isOpen: boolean
+  onClose: () => void
+}) {
+  const [isVisible, setIsVisible] = useState(false)
+  const [isAnimating, setIsAnimating] = useState(false)
+  const isLocal = isLocalImage(src)
+
+  useEffect(() => {
+    if (isOpen) {
+      setIsVisible(true)
+      // Trigger animation after mount
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setIsAnimating(true)
+        })
+      })
+      document.body.style.overflow = 'hidden'
+    } else {
+      setIsAnimating(false)
+      const timer = setTimeout(() => {
+        setIsVisible(false)
+        document.body.style.overflow = ''
+      }, 300)
+      return () => clearTimeout(timer)
+    }
+  }, [isOpen])
+
+  // Handle keyboard events
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose()
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [isOpen, onClose])
+
+  if (!isVisible) return null
+
+  const content = (
+    <div
+      className={`
+        fixed inset-0 z-[9999] flex items-center justify-center
+        transition-all duration-300 ease-out
+        ${isAnimating ? 'bg-black/90 backdrop-blur-md' : 'bg-black/0 backdrop-blur-none'}
+      `}
+      onClick={onClose}
+    >
+      {/* Close button */}
+      <button
+        className={`
+          absolute top-6 right-6 z-10
+          w-12 h-12 flex items-center justify-center
+          bg-white border-3 border-black
+          text-black hover:bg-accent hover:text-white
+          transition-all duration-200
+          shadow-[4px_4px_0_0_rgba(0,0,0,1)]
+          hover:shadow-[2px_2px_0_0_rgba(0,0,0,1)]
+          hover:translate-x-[2px] hover:translate-y-[2px]
+          ${isAnimating ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}
+        `}
+        onClick={(e) => {
+          e.stopPropagation()
+          onClose()
+        }}
+        aria-label="Fermer (Échap)"
+      >
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      {/* Image container */}
+      <div
+        className={`
+          relative max-w-[92vw] max-h-[85vh]
+          transition-all duration-300 ease-out
+          ${isAnimating
+            ? 'opacity-100 scale-100 translate-y-0'
+            : 'opacity-0 scale-95 translate-y-8'
+          }
+        `}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Neo-brutalist frame */}
+        <div className="relative bg-white p-2 border-3 border-black shadow-[8px_8px_0_0_rgba(0,0,0,1)]">
+          {isLocal ? (
+            <NextImage
+              src={src}
+              alt={alt}
+              width={1920}
+              height={1080}
+              className="max-w-full max-h-[75vh] w-auto h-auto object-contain"
+              priority
+              quality={95}
+            />
+          ) : (
+            <NextImage
+              src={src}
+              alt={alt}
+              width={1920}
+              height={1080}
+              className="max-w-full max-h-[75vh] w-auto h-auto object-contain"
+              priority
+              quality={95}
+              unoptimized={!src.includes('unsplash.com')}
+            />
+          )}
+        </div>
+
+        {/* Caption */}
+        {caption && (
+          <div
+            className={`
+              absolute -bottom-16 left-1/2 -translate-x-1/2
+              px-6 py-3 bg-white border-3 border-black
+              shadow-[4px_4px_0_0_rgba(0,0,0,1)]
+              max-w-lg
+              transition-all duration-300 delay-100
+              ${isAnimating ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
+            `}
+          >
+            <p className="text-black text-sm text-center font-medium">{caption}</p>
+          </div>
+        )}
+      </div>
+
+      {/* Instructions */}
+      <div
+        className={`
+          absolute bottom-6 left-1/2 -translate-x-1/2
+          text-white/60 text-xs font-mono uppercase tracking-widest
+          transition-all duration-300 delay-150
+          ${isAnimating ? 'opacity-100' : 'opacity-0'}
+        `}
+      >
+        Cliquer ou Échap pour fermer
+      </div>
+    </div>
+  )
+
+  // Use portal to render at document root
+  if (typeof document !== 'undefined') {
+    return createPortal(content, document.body)
+  }
+  return null
+}
+
 // Main Image Component
 export function Image({
   src,
@@ -60,6 +221,7 @@ export function Image({
   const [isZoomed, setIsZoomed] = useState(false)
   const [isLoaded, setIsLoaded] = useState(false)
   const [hasError, setHasError] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
 
   const dimensions = getImageDimensions(size)
   const isLocal = isLocalImage(src)
@@ -67,13 +229,11 @@ export function Image({
   const handleZoomOpen = useCallback(() => {
     if (zoom && !hasError) {
       setIsZoomed(true)
-      document.body.style.overflow = 'hidden'
     }
   }, [zoom, hasError])
 
   const handleZoomClose = useCallback(() => {
     setIsZoomed(false)
-    document.body.style.overflow = ''
   }, [])
 
   // Alignment classes
@@ -122,16 +282,18 @@ export function Image({
         {/* Image Container */}
         <div
           className={`
-            relative overflow-hidden
-            border-3 border-border
+            group relative overflow-hidden
+            border-3 border-border bg-bg-secondary
             ${rounded ? 'rounded-lg' : ''}
             ${shadow ? 'shadow-brutal' : ''}
             ${zoom && !hasError ? 'cursor-zoom-in' : ''}
             ${!isLoaded ? 'animate-pulse bg-bg-tertiary' : ''}
-            transition-all duration-200
+            transition-all duration-200 ease-out
             hover:shadow-brutal-hover hover:-translate-x-1 hover:-translate-y-1
           `}
           onClick={handleZoomOpen}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
         >
           {/* Aspect ratio wrapper */}
           <div className="relative aspect-video">
@@ -140,7 +302,11 @@ export function Image({
                 src={src}
                 alt={alt}
                 fill
-                className={`object-cover transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+                className={`
+                  object-cover transition-all duration-500 ease-out
+                  ${isLoaded ? 'opacity-100' : 'opacity-0'}
+                  ${isHovered && zoom ? 'scale-[1.02]' : 'scale-100'}
+                `}
                 onLoad={() => setIsLoaded(true)}
                 onError={() => setHasError(true)}
                 priority={priority}
@@ -151,7 +317,11 @@ export function Image({
                 src={src}
                 alt={alt}
                 fill
-                className={`object-cover transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+                className={`
+                  object-cover transition-all duration-500 ease-out
+                  ${isLoaded ? 'opacity-100' : 'opacity-0'}
+                  ${isHovered && zoom ? 'scale-[1.02]' : 'scale-100'}
+                `}
                 onLoad={() => setIsLoaded(true)}
                 onError={() => setHasError(true)}
                 priority={priority}
@@ -160,12 +330,26 @@ export function Image({
               />
             )}
 
-            {/* Zoom indicator */}
+            {/* Zoom indicator overlay */}
             {zoom && isLoaded && (
-              <div className="absolute bottom-3 right-3 p-2 bg-bg-inverse/80 border-2 border-border opacity-0 group-hover:opacity-100 transition-opacity">
-                <svg className="w-4 h-4 text-text-inverse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
-                </svg>
+              <div
+                className={`
+                  absolute inset-0 bg-black/0 transition-all duration-300
+                  flex items-center justify-center
+                  ${isHovered ? 'bg-black/20' : ''}
+                `}
+              >
+                <div
+                  className={`
+                    p-3 bg-white border-3 border-black shadow-[3px_3px_0_0_rgba(0,0,0,1)]
+                    transition-all duration-300
+                    ${isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}
+                  `}
+                >
+                  <svg className="w-5 h-5 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                  </svg>
+                </div>
               </div>
             )}
           </div>
@@ -173,7 +357,7 @@ export function Image({
 
         {/* Caption and Credit */}
         {(caption || credit) && (
-          <figcaption className="mt-3 text-center">
+          <figcaption className="mt-4 text-center">
             {caption && (
               <p className="text-text-body text-sm leading-relaxed">{caption}</p>
             )}
@@ -198,55 +382,14 @@ export function Image({
         )}
       </figure>
 
-      {/* Lightbox/Zoom Modal */}
-      {isZoomed && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-bg-inverse/95 backdrop-blur-sm cursor-zoom-out"
-          onClick={handleZoomClose}
-        >
-          {/* Close button */}
-          <button
-            className="absolute top-4 right-4 p-3 bg-bg-secondary border-3 border-border text-text-primary hover:bg-accent hover:text-text-inverse transition-colors z-10"
-            onClick={handleZoomClose}
-            aria-label="Fermer"
-          >
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-
-          {/* Zoomed Image */}
-          <div className="relative max-w-[90vw] max-h-[90vh] border-3 border-border shadow-brutal-lg">
-            {isLocal ? (
-              <NextImage
-                src={src}
-                alt={alt}
-                width={1920}
-                height={1080}
-                className="max-w-full max-h-[90vh] w-auto h-auto object-contain"
-                priority
-              />
-            ) : (
-              <NextImage
-                src={src}
-                alt={alt}
-                width={1920}
-                height={1080}
-                className="max-w-full max-h-[90vh] w-auto h-auto object-contain"
-                priority
-                unoptimized={!src.includes('unsplash.com')}
-              />
-            )}
-          </div>
-
-          {/* Caption in lightbox */}
-          {caption && (
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-6 py-3 bg-bg-secondary border-3 border-border max-w-2xl">
-              <p className="text-text-body text-sm text-center">{caption}</p>
-            </div>
-          )}
-        </div>
-      )}
+      {/* Lightbox */}
+      <Lightbox
+        src={src}
+        alt={alt}
+        caption={caption}
+        isOpen={isZoomed}
+        onClose={handleZoomClose}
+      />
     </>
   )
 }
@@ -288,17 +431,8 @@ export function GalleryImage({
 }) {
   const [isZoomed, setIsZoomed] = useState(false)
   const [isLoaded, setIsLoaded] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
   const isLocal = isLocalImage(src)
-
-  const handleZoomOpen = () => {
-    setIsZoomed(true)
-    document.body.style.overflow = 'hidden'
-  }
-
-  const handleZoomClose = () => {
-    setIsZoomed(false)
-    document.body.style.overflow = ''
-  }
 
   return (
     <>
@@ -306,20 +440,26 @@ export function GalleryImage({
         <div
           className={`
             relative aspect-square overflow-hidden
-            border-3 border-border
+            border-3 border-border bg-bg-secondary
             cursor-zoom-in
             ${!isLoaded ? 'animate-pulse bg-bg-tertiary' : ''}
             transition-all duration-200
             hover:shadow-brutal-sm hover:-translate-x-0.5 hover:-translate-y-0.5
           `}
-          onClick={handleZoomOpen}
+          onClick={() => setIsZoomed(true)}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
         >
           {isLocal ? (
             <NextImage
               src={src}
               alt={alt}
               fill
-              className={`object-cover transition-all duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'} group-hover:scale-105`}
+              className={`
+                object-cover transition-all duration-500
+                ${isLoaded ? 'opacity-100' : 'opacity-0'}
+                ${isHovered ? 'scale-105' : 'scale-100'}
+              `}
               onLoad={() => setIsLoaded(true)}
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
             />
@@ -328,12 +468,37 @@ export function GalleryImage({
               src={src}
               alt={alt}
               fill
-              className={`object-cover transition-all duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'} group-hover:scale-105`}
+              className={`
+                object-cover transition-all duration-500
+                ${isLoaded ? 'opacity-100' : 'opacity-0'}
+                ${isHovered ? 'scale-105' : 'scale-100'}
+              `}
               onLoad={() => setIsLoaded(true)}
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
               unoptimized={!src.includes('unsplash.com')}
             />
           )}
+
+          {/* Hover overlay */}
+          <div
+            className={`
+              absolute inset-0 bg-black/0 transition-all duration-300
+              flex items-center justify-center
+              ${isHovered ? 'bg-black/30' : ''}
+            `}
+          >
+            <div
+              className={`
+                p-2 bg-white border-2 border-black
+                transition-all duration-300
+                ${isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}
+              `}
+            >
+              <svg className="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+              </svg>
+            </div>
+          </div>
         </div>
         {caption && (
           <p className="mt-2 text-text-muted text-xs font-mono text-center truncate">{caption}</p>
@@ -341,51 +506,13 @@ export function GalleryImage({
       </div>
 
       {/* Lightbox */}
-      {isZoomed && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-bg-inverse/95 backdrop-blur-sm cursor-zoom-out"
-          onClick={handleZoomClose}
-        >
-          <button
-            className="absolute top-4 right-4 p-3 bg-bg-secondary border-3 border-border text-text-primary hover:bg-accent hover:text-text-inverse transition-colors z-10"
-            onClick={handleZoomClose}
-            aria-label="Fermer"
-          >
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-
-          <div className="relative max-w-[90vw] max-h-[90vh] border-3 border-border shadow-brutal-lg">
-            {isLocal ? (
-              <NextImage
-                src={src}
-                alt={alt}
-                width={1920}
-                height={1080}
-                className="max-w-full max-h-[90vh] w-auto h-auto object-contain"
-                priority
-              />
-            ) : (
-              <NextImage
-                src={src}
-                alt={alt}
-                width={1920}
-                height={1080}
-                className="max-w-full max-h-[90vh] w-auto h-auto object-contain"
-                priority
-                unoptimized={!src.includes('unsplash.com')}
-              />
-            )}
-          </div>
-
-          {caption && (
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-6 py-3 bg-bg-secondary border-3 border-border max-w-2xl">
-              <p className="text-text-body text-sm text-center">{caption}</p>
-            </div>
-          )}
-        </div>
-      )}
+      <Lightbox
+        src={src}
+        alt={alt}
+        caption={caption}
+        isOpen={isZoomed}
+        onClose={() => setIsZoomed(false)}
+      />
     </>
   )
 }
@@ -414,7 +541,7 @@ export function ImageCompare({
     <div className="my-8 grid grid-cols-1 md:grid-cols-2 gap-4">
       {/* Before */}
       <div>
-        <div className="relative aspect-video border-3 border-border overflow-hidden">
+        <div className="relative aspect-video border-3 border-border overflow-hidden bg-bg-secondary">
           {isBeforeLocal ? (
             <NextImage
               src={before}
@@ -435,15 +562,15 @@ export function ImageCompare({
               unoptimized={!before.includes('unsplash.com')}
             />
           )}
-          <div className="absolute top-3 left-3 px-3 py-1 bg-bg-inverse border-2 border-border">
-            <span className="text-text-inverse text-xs font-mono uppercase tracking-wider">{beforeLabel}</span>
+          <div className="absolute top-3 left-3 px-3 py-1.5 bg-bg-inverse border-2 border-border shadow-[2px_2px_0_0_rgba(0,0,0,0.3)]">
+            <span className="text-text-inverse text-xs font-mono uppercase tracking-wider font-semibold">{beforeLabel}</span>
           </div>
         </div>
       </div>
 
       {/* After */}
       <div>
-        <div className="relative aspect-video border-3 border-border overflow-hidden">
+        <div className="relative aspect-video border-3 border-border overflow-hidden bg-bg-secondary">
           {isAfterLocal ? (
             <NextImage
               src={after}
@@ -464,8 +591,8 @@ export function ImageCompare({
               unoptimized={!after.includes('unsplash.com')}
             />
           )}
-          <div className="absolute top-3 left-3 px-3 py-1 bg-accent border-2 border-border">
-            <span className="text-text-inverse text-xs font-mono uppercase tracking-wider">{afterLabel}</span>
+          <div className="absolute top-3 left-3 px-3 py-1.5 bg-accent border-2 border-border shadow-[2px_2px_0_0_rgba(0,0,0,0.3)]">
+            <span className="text-text-inverse text-xs font-mono uppercase tracking-wider font-semibold">{afterLabel}</span>
           </div>
         </div>
       </div>

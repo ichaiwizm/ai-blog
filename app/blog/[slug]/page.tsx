@@ -85,7 +85,7 @@ export default async function PostPage({ params }: Props) {
       <article className="min-h-screen">
         {/* Article Header */}
         <header className="border-b-3 border-border bg-bg-secondary">
-          <div className="container-narrow py-16">
+          <div className="container-article py-16">
             {/* Breadcrumbs */}
             <div className="mb-8 animate-fade-up">
               <Breadcrumbs
@@ -189,7 +189,7 @@ export default async function PostPage({ params }: Props) {
         )}
 
         {/* Article Content */}
-        <div className="container-narrow py-16">
+        <div className="container-article py-16">
           {/* Prerequisites */}
           {prerequisiteConcepts.length > 0 && (
             <Prerequisites concepts={prerequisiteConcepts} />
