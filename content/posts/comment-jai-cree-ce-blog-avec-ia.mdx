@@ -1,0 +1,131 @@
+---
+title: "Comment j'ai créé ce blog avec l'IA en 12 heures"
+description: "Retour d'expérience sur la création de ce blog entièrement codé par Claude Code. 11 000 lignes de code, zéro ligne écrite à la main."
+date: "2024-12-02"
+tags: ["Claude Code", "IA", "Retour d'expérience", "Next.js", "Développement"]
+category: "opinions"
+published: true
+image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&q=80"
+---
+
+J'entends beaucoup de copains ou de connaissances qui voient le monde de l'IA de loin, sans trop savoir comment l'aborder. Ils voient passer des trucs sur Twitter, ils entendent parler de ChatGPT ou Claude, mais concrètement... ils savent pas par où commencer.
+
+C'est pour eux que j'ai créé ce blog. Et je vais être honnête : **j'ai pas écrit une seule ligne de code**.
+
+## Les chiffres
+
+- **11 420 lignes de code** générées
+- **72 fichiers** TypeScript/React
+- **41 composants** réutilisables
+- **~12 heures** de travail total
+- **100%** du code écrit par Claude Code
+
+## Ce qui fait tourner le blog
+
+Côté tech, rien de fou :
+
+- **Next.js 14** pour le framework React
+- **TypeScript** pour le typage
+- **Tailwind CSS** pour le style
+- **Vercel** pour l'hébergement (gratuit)
+- **Giscus** pour les commentaires via GitHub
+- **MDX** pour les articles enrichis
+
+Rien d'extraordinaire. Ce qui l'est, c'est la façon dont tout ça a été assemblé.
+
+## Mon workflow
+
+### 1. Je crée un repo GitHub
+
+Classique. Un repo vide, rien de plus.
+
+### 2. Je vais sur Claude Code Cloud
+
+Je connecte mon repo GitHub à [Claude Code](https://claude.ai/code). C'est simple : tu lies ton compte GitHub, tu choisis le repo, c'est parti.
+
+### 3. Je commence à discuter
+
+Je parle avec Claude (modèle Opus 4.5) comme je parlerais avec un pote dev :
+
+> "Je veux créer un blog sur l'IA pour les développeurs. Design moderne, système de gamification pour encourager l'apprentissage, articles en MDX..."
+
+### 4. Il propose, je valide
+
+Claude se contente pas d'exécuter. Il réfléchit, il propose des idées :
+
+- "Je te propose un design neo-brutaliste avec une palette crème et bleu cobalt..."
+- "Pour la gamification, on pourrait avoir des badges, un système de niveaux, des streaks..."
+- "Tu veux que les utilisateurs puissent marquer des concepts comme maîtrisés ?"
+
+Je lis, je réagis, j'ajuste. Quand je suis content de la direction, je dis juste : **"Ok, allons-y."**
+
+### 5. Il code, moi je fais autre chose
+
+Claude écrit le code. Pas sur ma machine, directement sur le cloud. Je peux fermer mon navigateur, aller me faire un café, vivre ma vie.
+
+<Alert type="info" title="Le truc génial">
+  Je suis pas bloqué devant mon écran. J'écris un prompt, je reviens 5 minutes plus tard voir le résultat. Du développement asynchrone.
+</Alert>
+
+### 6. Preview sur Vercel
+
+Une fois le code écrit, Claude le push automatiquement sur une branche Git. Vercel détecte le push et génère une preview.
+
+Je clique sur le lien, je vois le résultat en live. Pas besoin d'installer quoi que ce soit en local.
+
+### 7. Merge et on recommence
+
+Satisfait ? Je vais sur GitHub, je merge la branche. Le site est déployé.
+
+Pas satisfait ? Je lance une nouvelle conversation et on itère.
+
+## Ce que ça change
+
+### Le temps
+
+Ce blog m'aurait pris des semaines en dev traditionnel. Là, je l'ai fait sur mon temps libre, en plusieurs sessions de 1-2 heures. Total : environ 12 heures.
+
+### La charge mentale
+
+J'ai pas eu à :
+- Configurer Webpack/Vite
+- Debugger des erreurs TypeScript obscures
+- Chercher sur Stack Overflow comment centrer une div
+- Me battre avec les dépendances npm
+
+J'ai juste eu à **réfléchir à ce que je voulais**.
+
+### La qualité du code
+
+Honnêtement ? Le code est propre. Composants bien structurés, typage strict, patterns React modernes. Mieux que ce que j'aurais fait moi-même en étant pressé.
+
+## Le résultat
+
+T'es en train de le lire. Ce blog avec :
+
+- Un **système de gamification** complet (badges, XP, niveaux, streaks)
+- Des **concepts** à maîtriser avec suivi de progression
+- Des **parcours d'apprentissage** guidés
+- Un **mode sombre** et des options d'accessibilité
+- Une **PWA** installable sur mobile
+
+Tout ça, généré par une IA à partir de conversations en français.
+
+## C'est pour qui ?
+
+- T'es dev et tu veux intégrer l'IA dans ton workflow
+- T'es curieux mais tu sais pas par où commencer
+- Tu veux des exemples concrets, pas juste de la théorie
+- Tu préfères apprendre en français
+
+## La suite
+
+Ce premier article pose le contexte. Les prochains vont rentrer dans le concret : comment bien prompter, comparatif des outils IA, tutoriels pratiques.
+
+Le but de ce blog, c'est de te montrer que l'IA c'est pas un truc lointain et inaccessible. C'est un outil. Puissant, certes, mais un outil.
+
+Et comme tout outil, ça s'apprend.
+
+---
+
+*T'as des questions sur la création de ce blog ? Pose-les dans les commentaires.*
