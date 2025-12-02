@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import StreakDisplay from "@/components/StreakDisplay";
 import UserLevelBadge from "@/components/UserLevelBadge";
+import { IconByName, BookOpenIcon, BrainIcon, HeartFilledIcon, CheckIcon } from "@/components/icons";
 
 export default function DashboardPage() {
   const { stats, unlockedBadges, currentLevel, nextLevel, xpProgress, isLoaded: gamificationLoaded } = useGamification();
@@ -60,8 +61,8 @@ export default function DashboardPage() {
         <div className="bg-bg-secondary border-3 border-border p-4 sm:p-5 md:p-6 animate-fade-up stagger-1">
           <div className="text-[10px] sm:text-xs uppercase tracking-wider text-text-muted mb-3 sm:mb-4">Niveau</div>
           <div className="flex items-center gap-3 sm:gap-4">
-            <div className="w-12 h-12 sm:w-14 md:w-16 sm:h-14 md:h-16 bg-accent/10 border-2 border-accent flex items-center justify-center text-2xl sm:text-3xl">
-              {currentLevel.icon}
+            <div className="w-12 h-12 sm:w-14 md:w-16 sm:h-14 md:h-16 bg-accent/10 border-2 border-accent flex items-center justify-center text-accent">
+              <IconByName name={currentLevel.icon} size={32} />
             </div>
             <div>
               <div className="font-display text-xl sm:text-2xl text-text-primary">
@@ -108,8 +109,8 @@ export default function DashboardPage() {
             </span>
             <span className="text-base sm:text-lg text-text-muted">articles</span>
           </div>
-          <div className="mt-3 sm:mt-4 flex gap-2">
-            <span className="text-xl sm:text-2xl">📖</span>
+          <div className="mt-3 sm:mt-4 flex items-center gap-2">
+            <span className="text-accent"><BookOpenIcon size={24} /></span>
             <span className="text-xs sm:text-sm text-text-muted">
               +{10 * stats.articlesRead} XP gagnés en lecture
             </span>
@@ -125,8 +126,8 @@ export default function DashboardPage() {
             </span>
             <span className="text-base sm:text-lg text-text-muted">concepts</span>
           </div>
-          <div className="mt-3 sm:mt-4 flex gap-2">
-            <span className="text-xl sm:text-2xl">🧠</span>
+          <div className="mt-3 sm:mt-4 flex items-center gap-2">
+            <span className="text-emerald-500"><BrainIcon size={24} /></span>
             <span className="text-xs sm:text-sm text-text-muted">
               {completedConcepts.size > 0 ? "Continuez à apprendre !" : "Explorez les concepts"}
             </span>
@@ -159,7 +160,9 @@ export default function DashboardPage() {
                 `}
                 title={badge.description}
               >
-                <div className="text-2xl sm:text-3xl md:text-4xl mb-1 sm:mb-2">{badge.icon}</div>
+                <div className="flex justify-center mb-1 sm:mb-2 text-accent">
+                  <IconByName name={badge.icon} size={32} />
+                </div>
                 <div className="text-xs sm:text-sm font-semibold text-text-primary truncate">
                   {badge.name}
                 </div>
@@ -167,8 +170,8 @@ export default function DashboardPage() {
                   {badge.description}
                 </div>
                 {isUnlocked && (
-                  <div className="absolute top-1 right-1 sm:top-2 sm:right-2 w-4 h-4 sm:w-5 sm:h-5 bg-emerald-500 text-white text-[10px] sm:text-xs flex items-center justify-center">
-                    ✓
+                  <div className="absolute top-1 right-1 sm:top-2 sm:right-2 w-4 h-4 sm:w-5 sm:h-5 bg-emerald-500 text-white flex items-center justify-center">
+                    <CheckIcon size={12} />
                   </div>
                 )}
               </div>
@@ -194,8 +197,8 @@ export default function DashboardPage() {
               className="group bg-bg-secondary border-3 border-border p-6 transition-all hover:translate-x-[-4px] hover:translate-y-[-4px] hover:shadow-brutal"
             >
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-accent/10 border-2 border-accent flex items-center justify-center text-2xl shrink-0">
-                  {path.icon}
+                <div className="w-12 h-12 bg-accent/10 border-2 border-accent flex items-center justify-center text-accent shrink-0">
+                  <IconByName name={path.icon} size={24} />
                 </div>
                 <div className="flex-1 min-w-0">
                   <h3 className="font-semibold text-text-primary group-hover:text-accent transition-colors">
@@ -225,7 +228,7 @@ export default function DashboardPage() {
 
               {percentage === 100 && (
                 <div className="mt-3 flex items-center gap-2 text-emerald-600 dark:text-emerald-400 text-sm">
-                  <span>✓</span> Parcours complété !
+                  <CheckIcon size={14} /> Parcours complété !
                 </div>
               )}
             </Link>
@@ -245,7 +248,7 @@ export default function DashboardPage() {
 
           <div className="bg-bg-secondary border-3 border-border p-6">
             <div className="flex items-center gap-4">
-              <div className="text-4xl">♥</div>
+              <div className="text-rose-500"><HeartFilledIcon size={36} /></div>
               <div>
                 <div className="font-mono text-2xl font-bold text-text-primary">
                   {favorites.length}
@@ -281,7 +284,7 @@ export default function DashboardPage() {
                   }
                 `}
               >
-                <span className="text-xl">{level.icon}</span>
+                <span className="text-accent"><IconByName name={level.icon} size={20} /></span>
                 <div>
                   <div className="text-xs font-semibold">{level.name}</div>
                   <div className="text-[10px] text-text-muted">{level.xpRequired} XP</div>

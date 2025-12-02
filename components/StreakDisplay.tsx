@@ -2,6 +2,7 @@
 
 import { useGamification } from "@/contexts/GamificationContext";
 import { useEffect, useState } from "react";
+import { FlameIcon, LightningIcon, DiamondIcon } from "@/components/icons";
 
 interface StreakDisplayProps {
   size?: "sm" | "md" | "lg";
@@ -21,35 +22,22 @@ export default function StreakDisplay({
     setMounted(true);
   }, []);
 
-  const sizeClasses = {
-    sm: {
-      container: "gap-1.5",
-      icon: "text-lg",
-      number: "text-lg",
-      label: "text-[10px]",
-    },
-    md: {
-      container: "gap-2",
-      icon: "text-2xl",
-      number: "text-2xl",
-      label: "text-xs",
-    },
-    lg: {
-      container: "gap-3",
-      icon: "text-4xl",
-      number: "text-4xl",
-      label: "text-sm",
-    },
+  const sizeConfig = {
+    sm: { iconSize: 18, container: "gap-1.5", number: "text-lg", label: "text-[10px]" },
+    md: { iconSize: 24, container: "gap-2", number: "text-2xl", label: "text-xs" },
+    lg: { iconSize: 36, container: "gap-3", number: "text-4xl", label: "text-sm" },
   };
 
-  const classes = sizeClasses[size];
+  const config = sizeConfig[size];
 
   if (!mounted || !isLoaded) {
     return (
-      <div className={`flex items-center ${classes.container}`}>
-        <div className={`${classes.icon} opacity-30`}>🔥</div>
+      <div className={`flex items-center ${config.container}`}>
+        <div className="opacity-30 text-amber-500">
+          <FlameIcon size={config.iconSize} />
+        </div>
         <div className="animate-pulse">
-          <div className={`${classes.number} bg-bg-tertiary rounded w-8 h-6`} />
+          <div className={`${config.number} bg-bg-tertiary rounded w-8 h-6`} />
         </div>
       </div>
     );
@@ -59,32 +47,38 @@ export default function StreakDisplay({
   const isHot = stats.currentStreak >= 7;
   const isOnFire = stats.currentStreak >= 30;
 
+  const getIcon = () => {
+    if (isOnFire) return <DiamondIcon size={config.iconSize} />;
+    if (isHot) return <LightningIcon size={config.iconSize} />;
+    return <FlameIcon size={config.iconSize} />;
+  };
+
   return (
-    <div className={`flex items-center ${classes.container}`}>
+    <div className={`flex items-center ${config.container}`}>
       {/* Fire icon with animation */}
       <span
         className={`
-          ${classes.icon}
+          text-amber-500 dark:text-amber-400
           ${hasStreak ? "" : "grayscale opacity-50"}
           ${isHot ? "animate-pulse" : ""}
           ${isOnFire ? "animate-bounce" : ""}
         `}
       >
-        {isOnFire ? "💎" : isHot ? "⚡" : "🔥"}
+        {getIcon()}
       </span>
 
       {/* Streak number */}
       <div className="flex flex-col">
         <span
           className={`
-            font-mono font-bold ${classes.number}
+            font-mono font-bold ${config.number}
             ${hasStreak ? "text-text-primary" : "text-text-muted"}
           `}
         >
           {stats.currentStreak}
         </span>
         {showLabel && (
-          <span className={`${classes.label} uppercase tracking-wider text-text-muted`}>
+          <span className={`${config.label} uppercase tracking-wider text-text-muted`}>
             {stats.currentStreak === 1 ? "jour" : "jours"}
           </span>
         )}
@@ -93,7 +87,7 @@ export default function StreakDisplay({
       {/* Longest streak */}
       {showLongest && stats.longestStreak > stats.currentStreak && (
         <div className="ml-2 pl-2 border-l border-border-light">
-          <span className={`${classes.label} text-text-muted`}>
+          <span className={`${config.label} text-text-muted`}>
             Record: {stats.longestStreak}
           </span>
         </div>
@@ -123,7 +117,9 @@ export function StreakBadge() {
       "
       title={`Streak de ${stats.currentStreak} jours`}
     >
-      <span>🔥</span>
+      <span className="text-amber-500 dark:text-amber-400">
+        <FlameIcon size={16} />
+      </span>
       <span className="font-mono font-bold text-amber-600 dark:text-amber-400">
         {stats.currentStreak}
       </span>

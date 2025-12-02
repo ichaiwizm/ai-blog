@@ -11,11 +11,12 @@ export interface GlossaryTerm {
   examples?: string[];
 }
 
+// Icons are string IDs that map to SVG components via ICON_MAP
 export const GLOSSARY_CATEGORIES = {
-  ia: { name: "Intelligence Artificielle", icon: "🤖", color: "accent" },
-  dev: { name: "Développement", icon: "💻", color: "emerald" },
-  terminal: { name: "Terminal & CLI", icon: "⌨️", color: "amber" },
-  general: { name: "Général", icon: "📚", color: "slate" },
+  ia: { name: "Intelligence Artificielle", icon: "robot", color: "accent" },
+  dev: { name: "Développement", icon: "code", color: "emerald" },
+  terminal: { name: "Terminal & CLI", icon: "terminal", color: "amber" },
+  general: { name: "Général", icon: "books", color: "slate" },
 } as const;
 
 export const GLOSSARY: GlossaryTerm[] = [

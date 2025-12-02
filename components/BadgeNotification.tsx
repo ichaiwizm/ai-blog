@@ -2,6 +2,7 @@
 
 import { useGamification, BADGES, BadgeId } from "@/contexts/GamificationContext";
 import { useEffect, useState } from "react";
+import { IconByName, SparklesIcon, TrophyIcon } from "@/components/icons";
 
 export default function BadgeNotification() {
   const { newBadges, clearNewBadges } = useGamification();
@@ -50,18 +51,22 @@ export default function BadgeNotification() {
           className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center text-text-muted hover:text-text-primary transition-colors"
           aria-label="Fermer"
         >
-          ✕
+          <CloseIcon size={16} />
         </button>
 
-        {/* Confetti effect */}
-        <div className="absolute -top-2 -left-2 text-2xl animate-bounce">🎉</div>
-        <div className="absolute -top-2 -right-8 text-2xl animate-bounce" style={{ animationDelay: "0.1s" }}>✨</div>
+        {/* Confetti effect - decorative icons */}
+        <div className="absolute -top-2 -left-2 text-amber-500 animate-bounce">
+          <TrophyIcon size={24} />
+        </div>
+        <div className="absolute -top-2 -right-8 text-amber-500 animate-bounce" style={{ animationDelay: "0.1s" }}>
+          <SparklesIcon size={24} />
+        </div>
 
         {/* Content */}
         <div className="flex items-start gap-4">
           {/* Badge icon */}
-          <div className="w-16 h-16 bg-accent/10 border-2 border-accent flex items-center justify-center text-3xl shrink-0">
-            {badge.icon}
+          <div className="w-16 h-16 bg-accent/10 border-2 border-accent flex items-center justify-center text-accent shrink-0">
+            <IconByName name={badge.icon} size={32} />
           </div>
 
           <div className="flex-1 min-w-0">
@@ -92,5 +97,13 @@ export default function BadgeNotification() {
         </div>
       </div>
     </div>
+  );
+}
+
+function CloseIcon({ size = 18 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M18 6L6 18M6 6l12 12" />
+    </svg>
   );
 }

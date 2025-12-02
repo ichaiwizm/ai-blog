@@ -4,6 +4,7 @@ import { useFavorites, FavoriteItem } from "@/contexts/FavoritesContext";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import FavoriteButton from "@/components/FavoriteButton";
+import { HeartIcon, ArticleIcon, BooksIcon } from "@/components/icons";
 
 export default function FavorisPage() {
   const { favorites, getFavoritesByType, isLoaded } = useFavorites();
@@ -61,12 +62,12 @@ export default function FavorisPage() {
       {favorites.length === 0 ? (
         /* Empty state */
         <div className="text-center py-16 animate-fade-up">
-          <div className="text-6xl mb-4">♡</div>
+          <div className="flex justify-center text-text-muted mb-4"><HeartIcon size={64} /></div>
           <h2 className="font-display text-2xl text-text-primary mb-2">
             Aucun favori pour l'instant
           </h2>
           <p className="text-text-muted mb-8 max-w-md mx-auto">
-            Cliquez sur le cœur ♡ sur n'importe quel article ou concept pour l'ajouter à vos favoris.
+            Cliquez sur le cœur sur n'importe quel article ou concept pour l'ajouter à vos favoris.
           </p>
           <div className="flex justify-center gap-4">
             <Link href="/blog" className="brutal-btn">
@@ -120,26 +121,26 @@ export default function FavorisPage() {
               <button
                 onClick={() => setFilter("post")}
                 className={`
-                  px-3 sm:px-4 py-2 border-2 text-xs sm:text-sm font-medium transition-all touch-target
+                  px-3 sm:px-4 py-2 border-2 text-xs sm:text-sm font-medium transition-all touch-target flex items-center gap-1
                   ${filter === "post"
                     ? "bg-accent border-accent text-white"
                     : "bg-bg-secondary border-border hover:border-accent"
                   }
                 `}
               >
-                📝 <span className="hidden xs:inline">Articles</span> ({postCount})
+                <ArticleIcon size={14} /> <span className="hidden xs:inline">Articles</span> ({postCount})
               </button>
               <button
                 onClick={() => setFilter("concept")}
                 className={`
-                  px-3 sm:px-4 py-2 border-2 text-xs sm:text-sm font-medium transition-all touch-target
+                  px-3 sm:px-4 py-2 border-2 text-xs sm:text-sm font-medium transition-all touch-target flex items-center gap-1
                   ${filter === "concept"
                     ? "bg-accent border-accent text-white"
                     : "bg-bg-secondary border-border hover:border-accent"
                   }
                 `}
               >
-                📚 <span className="hidden xs:inline">Concepts</span> ({conceptCount})
+                <BooksIcon size={14} /> <span className="hidden xs:inline">Concepts</span> ({conceptCount})
               </button>
             </div>
 
@@ -192,14 +193,14 @@ function FavoriteCard({ favorite }: { favorite: FavoriteItem }) {
           {/* Type indicator */}
           <div
             className={`
-              w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center text-xl sm:text-2xl shrink-0 border-2
+              w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center shrink-0 border-2
               ${isPost
-                ? "bg-accent/10 border-accent"
-                : "bg-emerald-50 dark:bg-emerald-900/30 border-emerald-400"
+                ? "bg-accent/10 border-accent text-accent"
+                : "bg-emerald-50 dark:bg-emerald-900/30 border-emerald-400 text-emerald-600 dark:text-emerald-400"
               }
             `}
           >
-            {isPost ? "📝" : "📚"}
+            {isPost ? <ArticleIcon size={24} /> : <BooksIcon size={24} />}
           </div>
 
           <div className="flex-1 min-w-0 pr-8 sm:pr-10">

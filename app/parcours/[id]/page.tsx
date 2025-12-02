@@ -6,6 +6,7 @@ import { useGamification } from "@/contexts/GamificationContext";
 import Link from "next/link";
 import { notFound, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { IconByName, TrophyIcon, CelebrationIcon, SparklesIcon, WarningIcon, CheckIcon } from "@/components/icons";
 
 const levelColors = {
   debutant: "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 border-emerald-400",
@@ -78,13 +79,13 @@ export default function ParcoursDetailPage() {
       <div className="mb-12 animate-fade-up">
         <div className="flex items-start gap-6">
           <div className={`
-            w-20 h-20 flex items-center justify-center text-4xl border-3 shrink-0
+            w-20 h-20 flex items-center justify-center border-3 shrink-0
             ${isCompleted
-              ? "bg-emerald-100 dark:bg-emerald-900/50 border-emerald-500"
-              : "bg-accent/10 border-accent"
+              ? "bg-emerald-100 dark:bg-emerald-900/50 border-emerald-500 text-emerald-600"
+              : "bg-accent/10 border-accent text-accent"
             }
           `}>
-            {path.icon}
+            <IconByName name={path.icon} size={40} />
           </div>
 
           <div className="flex-1">
@@ -95,7 +96,7 @@ export default function ParcoursDetailPage() {
               <span className="text-sm text-text-muted">{path.estimatedTime}</span>
               {isCompleted && (
                 <span className="text-sm text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
-                  <span>✓</span> Complété
+                  <CheckIcon size={14} /> Complété
                 </span>
               )}
             </div>
@@ -140,8 +141,8 @@ export default function ParcoursDetailPage() {
       {/* Prerequisites */}
       {prerequisitePaths.length > 0 && (
         <div className="mb-8 p-4 bg-amber-50 dark:bg-amber-900/20 border-3 border-amber-400 animate-fade-up">
-          <h3 className="font-semibold text-amber-700 dark:text-amber-400 mb-2">
-            ⚠️ Prérequis recommandés
+          <h3 className="font-semibold text-amber-700 dark:text-amber-400 mb-2 flex items-center gap-2">
+            <WarningIcon size={18} /> Prérequis recommandés
           </h3>
           <p className="text-sm text-text-muted mb-3">
             Pour tirer le meilleur parti de ce parcours, complétez d'abord :
@@ -163,9 +164,9 @@ export default function ParcoursDetailPage() {
                     }
                   `}
                 >
-                  <span>{prereq.icon}</span>
+                  <IconByName name={prereq.icon} size={16} />
                   <span>{prereq.title}</span>
-                  {prereqCompleted && <span>✓</span>}
+                  {prereqCompleted && <CheckIcon size={14} />}
                 </Link>
               );
             })}
@@ -214,7 +215,7 @@ export default function ParcoursDetailPage() {
                     }
                   `}
                 >
-                  {isStepCompleted ? "✓" : index + 1}
+                  {isStepCompleted ? <CheckIcon size={18} /> : index + 1}
                 </div>
 
                 {/* Content */}
@@ -258,7 +259,7 @@ export default function ParcoursDetailPage() {
       {/* Completion reward info */}
       <div className="mt-12 bg-bg-tertiary border-3 border-border p-6 animate-fade-up">
         <div className="flex items-center gap-4">
-          <div className="text-4xl">🏆</div>
+          <div className="text-amber-500"><TrophyIcon size={40} /></div>
           <div>
             <h3 className="font-semibold text-text-primary">
               Récompense à la complétion
@@ -275,7 +276,7 @@ export default function ParcoursDetailPage() {
       {showCompletedModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-bg-secondary border-3 border-border shadow-brutal-lg max-w-md w-full p-8 text-center animate-scale-up">
-            <div className="text-6xl mb-4">🎉</div>
+            <div className="flex justify-center text-amber-500 mb-4"><CelebrationIcon size={64} /></div>
             <h2 className="font-display text-3xl text-text-primary mb-2">
               Parcours Complété !
             </h2>
@@ -283,7 +284,7 @@ export default function ParcoursDetailPage() {
               Félicitations ! Vous avez terminé le parcours "{path.title}".
             </p>
             <div className="flex items-center justify-center gap-2 mb-6 p-3 bg-accent/10 border-2 border-accent">
-              <span className="text-2xl">✨</span>
+              <span className="text-accent"><SparklesIcon size={24} /></span>
               <span className="font-mono text-xl font-bold text-accent">+100 XP</span>
             </div>
             <button
