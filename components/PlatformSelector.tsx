@@ -35,8 +35,7 @@ export default function PlatformSelector() {
         aria-label={`Plateforme: ${current.label}`}
         title="Changer de plateforme"
       >
-        <span className="text-base">{current.icon}</span>
-        <span className="hidden sm:inline font-medium">{current.label}</span>
+        <span className="font-mono text-xs font-bold">{current.shortLabel}</span>
         <svg
           width="12"
           height="12"
@@ -72,8 +71,8 @@ export default function PlatformSelector() {
                       : "hover:bg-bg-tertiary text-text-primary"
                   }`}
                 >
-                  <span className="text-xl">{value.icon}</span>
-                  <div className="text-left">
+                  <span className="font-mono text-xs font-bold w-12">{value.shortLabel}</span>
+                  <div className="text-left flex-1">
                     <p className="font-body font-semibold text-sm">{value.label}</p>
                     <p
                       className={`font-mono text-xs ${

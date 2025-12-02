@@ -355,15 +355,15 @@ function SettingsDropdown() {
                       key={key}
                       onClick={() => setPlatform(key)}
                       className={`
-                        flex-1 py-2 border-3 text-lg transition-all
+                        flex-1 py-2 border-3 font-mono text-xs font-bold transition-all
                         ${platform === key
-                          ? "border-accent bg-accent"
-                          : "border-border bg-bg-tertiary hover:border-accent"
+                          ? "border-accent bg-accent text-text-inverse"
+                          : "border-border bg-bg-tertiary hover:border-accent text-text-muted"
                         }
                       `}
                       title={value.label}
                     >
-                      {value.icon}
+                      {value.shortLabel}
                     </button>
                   )
                 )}
@@ -734,10 +734,10 @@ function MobileSettingsPanel() {
               <button
                 key={key}
                 onClick={() => setPlatform(key)}
-                className={`flex-1 py-2 border-3 text-xl ${platform === key ? "border-accent bg-accent" : "border-border bg-bg-secondary"}`}
+                className={`flex-1 py-2 border-3 font-mono text-xs font-bold ${platform === key ? "border-accent bg-accent text-text-inverse" : "border-border bg-bg-secondary text-text-muted"}`}
                 title={value.label}
               >
-                {value.icon}
+                {value.shortLabel}
               </button>
             )
           )}
