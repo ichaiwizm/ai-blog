@@ -1,0 +1,74 @@
+---
+title: "TypeScript"
+description: "Langage de programmation ajoutant un système de types statiques à JavaScript."
+icon: "code"
+level: "intermediaire"
+order: 6
+---
+
+## Définition
+
+TypeScript est un langage de programmation développé par Microsoft. Il constitue un sur-ensemble de JavaScript, ajoutant un système de types statiques optionnel. Le code TypeScript est compilé en JavaScript standard pour être exécuté.
+
+## Système de types
+
+### Types primitifs
+
+TypeScript supporte les types de base de JavaScript avec une syntaxe de déclaration explicite :
+
+- `string` : Chaînes de caractères
+- `number` : Nombres entiers et décimaux
+- `boolean` : Valeurs true/false
+- `null` et `undefined` : Valeurs nulles
+- `symbol` : Identifiants uniques
+- `bigint` : Grands entiers
+
+### Types composés
+
+- **Array** : Collections ordonnées d'éléments
+- **Tuple** : Arrays à longueur et types fixes
+- **Object** : Structures de données avec propriétés typées
+- **Enum** : Ensembles de constantes nommées
+
+### Types avancés
+
+- **Union** : Variable pouvant être de plusieurs types
+- **Intersection** : Combinaison de plusieurs types
+- **Generics** : Types paramétrables
+- **Utility Types** : Types utilitaires prédéfinis (Partial, Required, Pick, Omit)
+
+## Interfaces et Types
+
+### Interface
+
+Définit la structure d'un objet. Extensible par héritage.
+
+### Type Alias
+
+Crée un alias pour tout type. Plus flexible, permet les unions et intersections.
+
+| Aspect | Interface | Type |
+|--------|-----------|------|
+| Extension | `extends` | Intersection `&` |
+| Déclaration multiple | Fusion automatique | Erreur |
+| Usage recommandé | Objets, classes | Types complexes |
+
+## Avantages
+
+- **Détection d'erreurs** : Les erreurs de type sont identifiées à la compilation, avant l'exécution
+- **Autocomplétion** : Les éditeurs proposent des suggestions contextuelles précises
+- **Refactoring** : Le renommage et la restructuration du code sont sécurisés
+- **Documentation** : Les types servent de documentation intégrée au code
+
+## Compilation
+
+TypeScript utilise le compilateur `tsc` pour transformer le code en JavaScript. Le fichier `tsconfig.json` configure les options de compilation :
+
+- Version JavaScript cible
+- Strictness des vérifications de types
+- Chemins de résolution des modules
+- Fichiers à inclure/exclure
+
+## Adoption
+
+TypeScript peut être adopté progressivement. Les fichiers JavaScript existants fonctionnent sans modification. L'ajout de types s'effectue fichier par fichier selon les besoins.

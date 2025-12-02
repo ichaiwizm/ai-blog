@@ -1,0 +1,67 @@
+---
+title: "Next.js"
+description: "Framework React pour la création d'applications web avec rendu côté serveur et génération statique."
+icon: "code"
+level: "intermediaire"
+order: 5
+---
+
+## Définition
+
+Next.js est un framework open-source basé sur React, développé par Vercel. Il fournit une structure et des outils pour créer des applications web performantes avec un minimum de configuration.
+
+## Modes de rendu
+
+### Server-Side Rendering (SSR)
+
+Les pages sont générées sur le serveur à chaque requête. Le HTML complet est envoyé au navigateur, améliorant le référencement et le temps de premier affichage.
+
+### Static Site Generation (SSG)
+
+Les pages sont générées au moment du build. Le contenu statique est servi directement depuis un CDN, offrant des performances optimales.
+
+### Incremental Static Regeneration (ISR)
+
+Combine les avantages du SSG et du SSR. Les pages statiques peuvent être régénérées en arrière-plan sans rebuild complet.
+
+### Client-Side Rendering (CSR)
+
+Le rendu s'effectue dans le navigateur. Utilisé pour les parties dynamiques ne nécessitant pas de SEO.
+
+## Architecture App Router
+
+Depuis la version 13, Next.js propose l'App Router :
+
+- **Server Components** : Composants rendus exclusivement côté serveur
+- **Layouts** : Interfaces partagées entre plusieurs pages
+- **Loading States** : Gestion native des états de chargement
+- **Error Handling** : Gestion centralisée des erreurs
+- **Route Groups** : Organisation logique des routes
+
+## Fonctionnalités intégrées
+
+| Fonctionnalité | Description |
+|----------------|-------------|
+| Routing | Système de routage basé sur le système de fichiers |
+| API Routes | Endpoints backend intégrés au projet |
+| Image Optimization | Optimisation automatique des images |
+| Font Optimization | Chargement optimisé des polices |
+| Middleware | Logique exécutée avant le rendu |
+
+## Écosystème
+
+Next.js s'intègre avec les outils standard de l'écosystème React :
+
+- **TypeScript** : Support natif
+- **Tailwind CSS** : Configuration préconfigurée
+- **MDX** : Markdown enrichi avec composants React
+- **Prisma, Drizzle** : ORM pour bases de données
+- **NextAuth.js** : Authentification
+
+## Prérequis
+
+La maîtrise de Next.js requiert une connaissance préalable de :
+
+- JavaScript ES6+
+- React (composants, hooks, state)
+- Node.js (notions de base)
