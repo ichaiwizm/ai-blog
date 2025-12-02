@@ -19,8 +19,10 @@ Avant de procéder à l'installation, assurez-vous de disposer des éléments su
 
 L'utilisation de Claude Code nécessite l'un des abonnements suivants :
 
-- **Claude Pro** (20$/mois) : permet environ 10 à 40 prompts avec Claude Code toutes les cinq heures
-- **Claude Max 5x** (100$/mois) : permet environ 50 à 200 prompts toutes les cinq heures, avec accès aux modèles Sonnet et Opus
+- **Claude Pro** (20$/mois) : permet environ 45 messages avec Claude toutes les cinq heures
+- **Claude Max 5x** (100$/mois) : permet environ 225 messages toutes les cinq heures, avec accès aux modèles Opus
+- **Claude Max 20x** (200$/mois) : permet environ 900 messages toutes les cinq heures, avec accès aux modèles Opus
+
 
 <Callout type="info">
 Les abonnements Pro et Max incluent également l'accès à l'interface web Claude.ai, offrant ainsi une solution unifiée pour tous vos besoins.
@@ -122,17 +124,6 @@ claude
 
 Suivez le processus OAuth pour vous connecter avec vos identifiants Claude.ai (Pro ou Max).
 
-<Callout type="warning">
-**Variable d'environnement ANTHROPIC_API_KEY**
-
-Si la variable `ANTHROPIC_API_KEY` est définie dans votre environnement, Claude Code l'utilisera en priorité, générant des frais d'utilisation de l'API au lieu d'utiliser votre abonnement.
-
-Pour vérifier l'état de votre authentification :
-```bash
-/status
-```
-</Callout>
-
 ### Commandes d'authentification utiles
 
 | Commande | Description |
@@ -140,7 +131,9 @@ Pour vérifier l'état de votre authentification :
 | `claude login` | Se connecter à votre compte |
 | `/logout` | Se déconnecter de la session actuelle |
 | `/status` | Vérifier l'état de l'authentification |
-| `/model` | Changer de modèle (Sonnet/Opus pour Max) |
+| `/model` | Changer de modèle (Haiku/Sonnet/Opus pour Max) |
+| `/usage` | Voir l'utilisation en cours et restante |
+
 
 ## Vérification de l'installation
 
