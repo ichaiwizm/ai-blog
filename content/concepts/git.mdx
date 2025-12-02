@@ -1,0 +1,58 @@
+---
+title: "Git"
+description: "Système de contrôle de version distribué permettant de suivre l'historique des modifications d'un projet."
+icon: "code"
+level: "debutant"
+order: 3
+---
+
+## Définition
+
+Git est un système de contrôle de version distribué créé par Linus Torvalds en 2005. Il permet de suivre les modifications apportées aux fichiers d'un projet, de collaborer à plusieurs sur un même codebase, et de revenir à des états antérieurs si nécessaire.
+
+## Concepts fondamentaux
+
+### Repository (dépôt)
+
+Un repository est un espace de stockage contenant l'ensemble des fichiers d'un projet ainsi que l'historique complet de leurs modifications. Il peut être local (sur une machine) ou distant (sur un serveur).
+
+### Commit
+
+Un commit représente un instantané du projet à un moment donné. Chaque commit possède un identifiant unique, un message descriptif, un auteur, et une date. L'ensemble des commits forme l'historique du projet.
+
+### Branch (branche)
+
+Une branche est une ligne de développement indépendante. Elle permet de travailler sur une fonctionnalité sans affecter le code principal. La branche par défaut se nomme généralement "main" ou "master".
+
+### Merge (fusion)
+
+Le merge consiste à intégrer les modifications d'une branche dans une autre. Cette opération combine les historiques des deux branches.
+
+### Push
+
+Le push envoie les commits locaux vers un repository distant. Cette action synchronise le travail local avec le serveur.
+
+### Pull
+
+Le pull récupère les modifications du repository distant et les intègre au repository local.
+
+## Architecture distribuée
+
+Contrairement aux systèmes centralisés, Git est distribué. Chaque copie du repository contient l'historique complet du projet. Cette architecture permet de travailler hors ligne et offre une redondance naturelle des données.
+
+## Plateformes Git
+
+Git est un outil en ligne de commande. Plusieurs plateformes proposent une interface web et des fonctionnalités collaboratives :
+
+- **GitHub** : Plateforme la plus utilisée, propriété de Microsoft
+- **GitLab** : Alternative open-source avec CI/CD intégré
+- **Bitbucket** : Solution Atlassian, intégrée à Jira
+
+## Workflow standard
+
+1. Création d'une branche pour la nouvelle fonctionnalité
+2. Développement et commits successifs
+3. Push de la branche vers le serveur distant
+4. Création d'une Pull Request pour revue
+5. Merge dans la branche principale après validation
+6. Suppression de la branche de travail
