@@ -70,6 +70,49 @@ export const GLOSSARY: GlossaryTerm[] = [
     shortDefinition: "Contenu IA de mauvaise qualité",
     category: "ia",
   },
+  {
+    id: "prompt",
+    term: "Prompt",
+    definition: "Instruction textuelle envoyée à un modèle d'intelligence artificielle pour obtenir une réponse ou déclencher une action. La qualité du prompt influence directement la pertinence du résultat.",
+    shortDefinition: "Instruction envoyée à une IA",
+    category: "ia",
+    relatedConcepts: ["prompt"],
+    relatedTerms: ["llm", "claude", "chatgpt"],
+  },
+  {
+    id: "fenetre-contexte",
+    term: "Fenêtre de contexte",
+    definition: "Quantité maximale de texte (mesurée en tokens) qu'un modèle de langage peut traiter en une seule requête. Une fenêtre plus grande permet d'analyser plus de contexte mais coûte plus cher.",
+    shortDefinition: "Limite de texte qu'une IA peut traiter",
+    category: "ia",
+    relatedTerms: ["token", "llm"],
+  },
+  {
+    id: "agent-ia",
+    term: "Agent IA",
+    definition: "Système d'intelligence artificielle capable d'agir de manière autonome pour accomplir des tâches complexes. Un agent peut planifier, utiliser des outils externes et itérer jusqu'à atteindre son objectif.",
+    shortDefinition: "IA autonome capable d'actions complexes",
+    category: "ia",
+    relatedTerms: ["ia", "llm", "mcp"],
+    relatedConcepts: ["claude-code"],
+  },
+  {
+    id: "mcp",
+    term: "MCP (Model Context Protocol)",
+    definition: "Protocole open-source développé par Anthropic permettant aux modèles d'IA de se connecter à des outils et sources de données externes de manière standardisée.",
+    shortDefinition: "Protocole de connexion IA vers outils externes",
+    category: "ia",
+    relatedTerms: ["agent-ia", "claude", "api"],
+  },
+  {
+    id: "anthropic",
+    term: "Anthropic",
+    definition: "Entreprise américaine d'intelligence artificielle fondée en 2021, créatrice de Claude. Anthropic se concentre sur la recherche en sécurité de l'IA et le développement de systèmes fiables.",
+    shortDefinition: "Entreprise créatrice de Claude",
+    category: "ia",
+    relatedTerms: ["claude", "ia"],
+    relatedConcepts: ["claude-code"],
+  },
 
   // ===== DÉVELOPPEMENT =====
   {
@@ -199,6 +242,31 @@ export const GLOSSARY: GlossaryTerm[] = [
     shortDefinition: "Système de commentaires via GitHub",
     category: "dev",
     relatedTerms: ["github"],
+  },
+  {
+    id: "nodejs",
+    term: "Node.js",
+    definition: "Environnement d'exécution JavaScript côté serveur, basé sur le moteur V8 de Chrome. Node.js permet de créer des applications backend, des outils CLI et des scripts en JavaScript.",
+    shortDefinition: "JavaScript côté serveur",
+    category: "dev",
+    relatedTerms: ["npm", "javascript"],
+  },
+  {
+    id: "javascript",
+    term: "JavaScript",
+    definition: "Langage de programmation dynamique principalement utilisé pour le développement web. JavaScript s'exécute dans les navigateurs et côté serveur via Node.js.",
+    shortDefinition: "Langage de programmation du web",
+    category: "dev",
+    relatedConcepts: ["typescript"],
+    relatedTerms: ["nodejs", "react", "jsx"],
+  },
+  {
+    id: "cdn",
+    term: "CDN (Content Delivery Network)",
+    definition: "Réseau de serveurs distribués géographiquement qui met en cache et délivre du contenu web. Un CDN réduit la latence en servant les fichiers depuis le serveur le plus proche de l'utilisateur.",
+    shortDefinition: "Réseau de distribution de contenu",
+    category: "dev",
+    relatedTerms: ["cloud", "deploy"],
   },
 
   // ===== TERMINAL & CLI =====
@@ -337,6 +405,14 @@ export const GLOSSARY: GlossaryTerm[] = [
     definition: "Logiciel dont le code source est public et librement modifiable. Les licences open source définissent les conditions de réutilisation et de distribution.",
     shortDefinition: "Logiciel à code source public et modifiable",
     category: "general",
+  },
+  {
+    id: "oauth",
+    term: "OAuth",
+    definition: "Protocole d'autorisation permettant à une application d'accéder aux ressources d'un utilisateur sur un autre service, sans partager le mot de passe. Utilisé pour les boutons 'Se connecter avec Google/GitHub'.",
+    shortDefinition: "Protocole d'authentification délégué",
+    category: "general",
+    relatedTerms: ["api", "github"],
   },
 ];
 
