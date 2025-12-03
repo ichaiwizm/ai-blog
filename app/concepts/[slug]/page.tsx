@@ -5,6 +5,7 @@ import { compileMDXContent } from "@/lib/mdx";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import ConceptCompleteButton from "./ConceptCompleteButton";
 import FavoriteButton from "@/components/FavoriteButton";
+import { IconByName } from "@/components/icons";
 
 interface Props {
   params: { slug: string };
@@ -75,7 +76,9 @@ export default async function ConceptPage({ params }: Props) {
 
           {/* Icon and Level */}
           <div className="flex items-center gap-4 mb-6 animate-fade-up stagger-1">
-            <span className="text-5xl">{concept.icon}</span>
+            <span className="text-accent">
+              <IconByName name={concept.icon} size={48} />
+            </span>
             <span
               className={`px-3 py-1 font-mono text-xs font-semibold uppercase ${
                 concept.level === "debutant"

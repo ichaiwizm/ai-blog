@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useConcepts } from "@/contexts/ConceptsContext";
 import { ConceptMeta, CONCEPT_LEVELS } from "@/lib/concepts-types";
+import { IconByName } from "@/components/icons";
 
 const HIDDEN_STORAGE_KEY = "hide-prerequisites";
 
@@ -240,7 +241,9 @@ function PrerequisiteItem({ concept, isCompleted }: PrerequisiteItemProps) {
             <path d="M20 6L9 17l-5-5" />
           </svg>
         ) : (
-          <span className="text-lg">{concept.icon}</span>
+          <span className="text-accent">
+            <IconByName name={concept.icon} size={20} />
+          </span>
         )}
       </div>
 
@@ -312,7 +315,9 @@ export function PrerequisitesCompact({ concepts }: PrerequisitesCompactProps) {
             }`}
             title={concept.description}
           >
-            <span>{concept.icon}</span>
+            <span className="text-current">
+              <IconByName name={concept.icon} size={14} />
+            </span>
             <span>{concept.title}</span>
             {completed && (
               <svg

@@ -12,29 +12,29 @@ Git est un système de contrôle de version distribué créé par Linus Torvalds
 
 ## Concepts fondamentaux
 
-### Repository (dépôt)
+### <Term>Repository</Term> (dépôt)
 
-Un repository est un espace de stockage contenant l'ensemble des fichiers d'un projet ainsi que l'historique complet de leurs modifications. Il peut être local (sur une machine) ou distant (sur un serveur).
+Un <Term>repo</Term> est un espace de stockage contenant l'ensemble des fichiers d'un projet ainsi que l'historique complet de leurs modifications. Il peut être local (sur une machine) ou distant (sur un serveur).
 
-### Commit
+### <Term>Commit</Term>
 
-Un commit représente un instantané du projet à un moment donné. Chaque commit possède un identifiant unique, un message descriptif, un auteur, et une date. L'ensemble des commits forme l'historique du projet.
+Un <Term>commit</Term> représente un instantané du projet à un moment donné. Chaque commit possède un identifiant unique, un message descriptif, un auteur, et une date. L'ensemble des commits forme l'historique du projet.
 
-### Branch (branche)
+### <Term>Branch</Term> (branche)
 
-Une branche est une ligne de développement indépendante. Elle permet de travailler sur une fonctionnalité sans affecter le code principal. La branche par défaut se nomme généralement "main" ou "master".
+Une <Term>branch</Term> est une ligne de développement indépendante. Elle permet de travailler sur une fonctionnalité sans affecter le code principal. La branche par défaut se nomme généralement "main" ou "master".
 
-### Merge (fusion)
+### <Term>Merge</Term> (fusion)
 
-Le merge consiste à intégrer les modifications d'une branche dans une autre. Cette opération combine les historiques des deux branches.
+Le <Term>merge</Term> consiste à intégrer les modifications d'une branche dans une autre. Cette opération combine les historiques des deux branches.
 
-### Push
+### <Term>Push</Term>
 
-Le push envoie les commits locaux vers un repository distant. Cette action synchronise le travail local avec le serveur.
+Le <Term>push</Term> envoie les commits locaux vers un <Term>repo</Term> distant. Cette action synchronise le travail local avec le serveur.
 
-### Pull
+### <Term>Pull</Term>
 
-Le pull récupère les modifications du repository distant et les intègre au repository local.
+Le <Term>pull</Term> récupère les modifications du repository distant et les intègre au repository local.
 
 ## Architecture distribuée
 
@@ -42,17 +42,17 @@ Contrairement aux systèmes centralisés, Git est distribué. Chaque copie du re
 
 ## Plateformes Git
 
-Git est un outil en ligne de commande. Plusieurs plateformes proposent une interface web et des fonctionnalités collaboratives :
+Git est un outil en ligne de commande (<Term>CLI</Term>). Plusieurs plateformes proposent une interface web et des fonctionnalités collaboratives :
 
-- **GitHub** : Plateforme la plus utilisée, propriété de Microsoft
-- **GitLab** : Alternative open-source avec CI/CD intégré
+- **<Term>GitHub</Term>** : Plateforme la plus utilisée, propriété de Microsoft
+- **GitLab** : Alternative <Term>Open Source</Term> avec CI/CD intégré
 - **Bitbucket** : Solution Atlassian, intégrée à Jira
 
 ## Workflow standard
 
-1. Création d'une branche pour la nouvelle fonctionnalité
-2. Développement et commits successifs
-3. Push de la branche vers le serveur distant
-4. Création d'une Pull Request pour revue
-5. Merge dans la branche principale après validation
+1. Création d'une <Term>branch</Term> pour la nouvelle fonctionnalité
+2. Développement et <Term>commit</Term>s successifs
+3. <Term>Push</Term> de la branche vers le serveur distant
+4. Création d'une <Term>Pull Request</Term> pour revue
+5. <Term>Merge</Term> dans la branche principale après validation
 6. Suppression de la branche de travail
