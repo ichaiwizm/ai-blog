@@ -1,0 +1,106 @@
+---
+title: "WSL (Windows Subsystem for Linux)"
+description: "Environnement Linux intégré à Windows, indispensable pour utiliser Claude Code sur Windows."
+icon: "terminal"
+level: "debutant"
+order: 10
+---
+
+## Définition
+
+WSL (Windows Subsystem for Linux) est une fonctionnalité de Windows permettant d'exécuter un environnement Linux directement sur Windows, sans machine virtuelle traditionnelle. C'est **obligatoire** pour utiliser <Term>Claude Code</Term> sur Windows.
+
+## Pourquoi WSL pour Claude Code ?
+
+<Term>Claude Code</Term> nécessite un environnement POSIX (Unix/Linux) pour fonctionner. Sur Windows, il n'y a pas de support natif : PowerShell et CMD ne sont pas compatibles. <Term>Anthropic</Term> a choisi WSL2 pour garantir une expérience identique sur tous les systèmes.
+
+### Avantages de cette approche
+
+- **Cohérence** : Mêmes commandes que sur Mac et Linux
+- **Mises à jour immédiates** : Pas de version Windows séparée à maintenir
+- **Écosystème complet** : Accès à tous les outils Linux (npm, git, etc.)
+
+## Prérequis système
+
+- **Windows 11** version 21H2 ou supérieure (recommandé)
+- **Windows 10** version 2004 ou supérieure (build 19041+)
+- Virtualisation activée dans le BIOS
+
+## Installation de WSL2
+
+Ouvrir PowerShell en administrateur et exécuter :
+
+```powershell
+wsl --install
+```
+
+Cette commande installe WSL2 avec Ubuntu par défaut. Redémarrer ensuite l'ordinateur.
+
+### Vérifier l'installation
+
+```powershell
+wsl --version
+```
+
+### Mettre à jour vers WSL2 si nécessaire
+
+```powershell
+wsl --set-default-version 2
+```
+
+## Configuration initiale
+
+Au premier lancement d'Ubuntu, créer un nom d'utilisateur et mot de passe Linux. Ces identifiants sont indépendants de Windows.
+
+### Mise à jour du système
+
+```bash
+sudo apt update && sudo apt upgrade -y
+```
+
+### Installation de Node.js (requis pour Claude Code)
+
+```bash
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
+
+Vérifier :
+
+```bash
+node --version  # Doit afficher v20.x ou supérieur
+npm --version
+```
+
+## Différences avec Windows natif
+
+| Aspect | Windows (PowerShell/CMD) | WSL (Linux) |
+|--------|-------------------------|-------------|
+| Chemins | `C:\Users\nom` | `/home/nom` |
+| Séparateurs | Antislash `\` | Slash `/` |
+| Permissions | ACL Windows | chmod/chown |
+| Packages | Chocolatey, winget | apt, npm |
+
+## Accès aux fichiers
+
+### Depuis WSL vers Windows
+
+Les disques Windows sont montés sous `/mnt/` :
+
+```bash
+ls /mnt/c/Users/  # Accès au dossier Users de C:
+```
+
+### Depuis Windows vers WSL
+
+Accéder aux fichiers WSL via l'explorateur Windows :
+
+```
+\\wsl$\Ubuntu\home\votre-nom
+```
+
+## Points importants
+
+- **Travailler dans le home WSL** : Les performances sont meilleures dans `/home/` que dans `/mnt/c/`
+- **Ne pas mélanger les Node.js** : Installer Node.js dans WSL, pas sur Windows
+- **Terminal intégré** : VS Code et Cursor peuvent se connecter directement à WSL

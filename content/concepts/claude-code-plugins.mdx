@@ -1,0 +1,139 @@
+---
+title: "Plugins Claude Code"
+description: "Étendre Claude Code avec des plugins, commandes slash, et serveurs MCP."
+icon: "sparkles"
+level: "intermediaire"
+order: 15
+---
+
+## Définition
+
+Les plugins <Term>Claude Code</Term> sont des extensions qui ajoutent des fonctionnalités spécialisées. Ils regroupent des commandes slash, des subagents, des serveurs <Term>MCP</Term> et des hooks.
+
+## Types de composants
+
+### Commandes Slash
+
+Des raccourcis personnalisés pour des opérations fréquentes :
+
+```
+/mon-commande argument
+```
+
+### Subagents
+
+Des agents spécialisés pour des tâches précises (design, tests, docs, etc.).
+
+### Serveurs MCP
+
+<Term>MCP</Term> (Model Context Protocol) permet de connecter Claude à des outils et sources de données externes.
+
+### Hooks
+
+Des points d'accroche pour personnaliser le comportement à des moments clés du workflow.
+
+## Installation de plugins
+
+### Via la commande /plugin
+
+```
+/plugin marketplace add user-or-org/repo-name
+```
+
+### Niveaux de scope
+
+| Scope | Portée | Cas d'usage |
+|-------|--------|-------------|
+| Local | Votre session uniquement | Données personnelles/sensibles |
+| Project | Partagé dans le projet | Configuration d'équipe |
+| User | Tous vos projets | Préférences personnelles globales |
+
+## Plugin Frontend-Design
+
+Le plugin **frontend-design** est particulièrement remarquable pour le design d'interfaces.
+
+### Installation
+
+```bash
+npx claude-plugins install @anthropics/claude-code-plugins/frontend-design
+```
+
+### Ce qu'il fait
+
+Génère des interfaces **distinctives** et production-ready qui évitent l'esthétique générique de l'IA (dégradés violets, polices Arial, etc.).
+
+### Tonalités de design disponibles
+
+- **Brutally minimal** : Épuré à l'extrême
+- **Maximalist** : Riche et dense
+- **Retro-futuristic** : Style rétro-futuriste
+- **Organic/Natural** : Formes organiques
+- **Luxury/Refined** : Luxe et élégance
+- **Playful/Toy-like** : Ludique
+- **Editorial/Magazine** : Style éditorial
+- **Brutalist** : Design brutaliste
+- **Art deco** : Années 20-30
+- **Soft/Pastel** : Couleurs douces
+- **Industrial/Utilitarian** : Fonctionnel industriel
+
+### Exemples de prompts
+
+```
+Crée un dashboard pour une app de streaming musical
+```
+
+```
+Design une landing page pour une startup de sécurité IA
+```
+
+```
+Construis un panneau de settings avec dark mode
+```
+
+### Principes appliqués
+
+- **Typographie unique** : Polices distinctives, pas Arial ou Inter
+- **Couleurs dominantes** : Couleurs fortes avec accents vifs
+- **Variables CSS** : Cohérence via les custom properties
+- **Anti-convergence** : Évite les patterns génériques
+
+## Pourquoi les plugins sont nécessaires
+
+Sans guidance, les LLM souffrent de "convergence distributionnelle" : ils prédisent les choix safe (dégradés violets, animations minimales) car ces patterns dominent les données d'entraînement.
+
+Les plugins comme frontend-design forcent des choix plus distinctifs.
+
+## Autres plugins populaires
+
+### Pour le frontend
+
+| Plugin | Spécialité |
+|--------|------------|
+| frontend-excellence | React 19, Next.js 15, performance |
+| ui-designer | Design systems, composants |
+| senior-frontend | React, TypeScript, Tailwind |
+
+### Serveurs MCP utiles
+
+| Serveur | Fonctionnalité |
+|---------|----------------|
+| Brave Search MCP | Recherche web en temps réel |
+| Puppeteer MCP | Automatisation web avec vision IA |
+| Supabase MCP | Intégration Supabase |
+| Claudia | GUI avec agents custom et analytics |
+
+## Créer ses propres plugins
+
+Les plugins sont des packages légers. Structure typique :
+
+```
+mon-plugin/
+├── commands/      # Commandes slash
+├── subagents/     # Agents spécialisés
+├── mcp/           # Serveurs MCP
+└── hooks/         # Hooks personnalisés
+```
+
+## Gestion des permissions
+
+Utiliser `/permissions` pour gérer visuellement les accès des plugins sans éditer de JSON.

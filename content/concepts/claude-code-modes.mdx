@@ -1,0 +1,129 @@
+---
+title: "Modes Claude Code : Plan & Edit"
+description: "Maîtriser les modes Plan et Edit avec Shift+Tab pour contrôler le comportement de Claude Code."
+icon: "focus"
+level: "debutant"
+order: 13
+---
+
+## Définition
+
+<Term>Claude Code</Term> propose plusieurs modes de fonctionnement qui contrôlent si Claude peut modifier des fichiers ou seulement planifier. La touche `Shift+Tab` permet de basculer entre ces modes.
+
+## Les trois modes
+
+### Mode par défaut (Edit)
+
+Le mode normal où Claude peut :
+- Lire et analyser votre code
+- Proposer des modifications
+- Exécuter des commandes (avec votre permission)
+- Créer et éditer des fichiers
+
+Chaque action requiert une validation avant exécution.
+
+### Mode Auto-accept
+
+Indiqué par `⏵⏵` dans le terminal.
+
+Dans ce mode, Claude exécute automatiquement les modifications sans demander de confirmation à chaque étape. Utile pour :
+- Les tâches routinières de confiance
+- Accélérer les workflows répétitifs
+- Les corrections simples en série
+
+**Attention** : À utiliser uniquement quand vous faites confiance aux actions proposées.
+
+### Mode Plan
+
+Indiqué par `⏸ plan mode on`.
+
+Claude **ne modifie rien**. Il :
+- Analyse le code
+- Propose un plan d'action détaillé
+- Explique ce qu'il ferait
+- Attend votre approbation avant toute action
+
+**Idéal pour** :
+- Comprendre ce que Claude va faire avant qu'il le fasse
+- Planifier des changements complexes
+- Demander une stratégie avant l'implémentation
+- Apprendre en voyant le raisonnement
+
+## Basculer entre les modes
+
+### Raccourci principal
+
+`Shift+Tab` fait cycler entre les modes dans cet ordre :
+
+```
+Mode par défaut → Auto-accept → Plan → Mode par défaut → ...
+```
+
+### Sur Windows
+
+Sur certains terminaux Windows, le raccourci peut être `Alt+M` au lieu de `Shift+Tab`.
+
+### Autres raccourcis utiles
+
+| Raccourci | Action |
+|-----------|--------|
+| `Tab` | Active/désactive le mode "Thinking" (réflexion visible) |
+| `Shift+Tab` | Cycle entre les modes |
+| `Ctrl+C` | Annule la génération en cours |
+| `Esc+Esc` | Édite le message précédent |
+| `?` | Affiche tous les raccourcis disponibles |
+
+## Workflow recommandé
+
+### Pour les débutants
+
+1. **Commencer en mode Plan** : Demander à Claude ce qu'il compte faire
+2. **Lire le plan** : Comprendre les étapes proposées
+3. **Basculer en mode Edit** : Laisser Claude exécuter
+4. **Vérifier** : Examiner les changements
+
+### Pour les tâches complexes
+
+1. Activer le mode Plan
+2. Décrire la fonctionnalité souhaitée
+3. Demander : "Explique-moi ton plan avant de commencer"
+4. Valider ou ajuster le plan
+5. Basculer en mode Edit pour l'exécution
+
+### Pour les tâches simples
+
+Rester en mode par défaut et valider chaque action individuellement.
+
+## Exemple pratique
+
+```
+Vous: [Shift+Tab x2 pour activer Plan mode]
+Vous: Je veux ajouter une authentification JWT à mon API
+
+Claude: Voici mon plan :
+1. Installer les dépendances (jsonwebtoken, bcrypt)
+2. Créer un middleware d'authentification
+3. Ajouter les routes login/register
+4. Protéger les routes existantes
+5. Configurer les variables d'environnement
+
+Voulez-vous que je procède ?
+
+Vous: [Shift+Tab pour revenir en mode Edit]
+Vous: Oui, commence par le middleware
+```
+
+## Quand utiliser chaque mode
+
+| Situation | Mode recommandé |
+|-----------|-----------------|
+| Première utilisation | Plan |
+| Découverte d'un codebase | Plan |
+| Refactoring majeur | Plan puis Edit |
+| Correction de bug simple | Edit (défaut) |
+| Tâches répétitives de confiance | Auto-accept |
+| Apprentissage | Plan (pour voir le raisonnement) |
+
+## Combinaison avec le mode Thinking
+
+Le mode "Thinking" (activé via `Tab`) est indépendant et montre le raisonnement interne de Claude. Combiner Plan mode + Thinking donne un maximum de visibilité sur le processus de réflexion.

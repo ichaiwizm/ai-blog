@@ -1,0 +1,154 @@
+---
+title: "Mode Pédagogie Claude Code"
+description: "Apprendre en codant avec les modes d'apprentissage et explicatifs de Claude Code."
+icon: "lightbulb"
+level: "debutant"
+order: 14
+---
+
+## Définition
+
+<Term>Claude Code</Term> propose des modes de sortie orientés apprentissage qui transforment l'outil d'un simple assistant de code en un véritable tuteur. Ces modes évitent le "brain rot" : copier-coller du code sans comprendre.
+
+## Les styles de sortie
+
+Utiliser la commande `/output-styles` pour sélectionner un mode :
+
+### Mode Default
+
+Le mode standard. Claude génère du code efficacement sans explications supplémentaires. Idéal pour les développeurs expérimentés qui veulent aller vite.
+
+### Mode Explanatory
+
+Claude devient un **compagnon éducatif** qui enseigne en travaillant :
+
+- Explique le **pourquoi**, pas juste le **quoi**
+- Détaille les décisions architecturales
+- Présente les compromis et alternatives
+- Partage les bonnes pratiques contextuelles
+
+**Exemple** :
+```
+Vous: Crée un hook React pour gérer un formulaire
+
+Claude: Je vais créer un hook useForm. Voici pourquoi j'utilise
+useReducer plutôt que useState ici : les formulaires ont souvent
+des états interdépendants (valeurs, erreurs, touched). Un reducer
+centralise cette logique et évite les bugs de synchronisation...
+```
+
+### Mode Learning (Socratique)
+
+Le mode le plus éducatif. Claude utilise la **méthode socratique** :
+
+- Pose des questions exploratoires au lieu de donner les réponses
+- Guide étape par étape vers la solution
+- Insère des `// TODO` pour vous faire écrire vous-même
+- Encourage la réflexion active
+
+**Exemple** :
+```
+Vous: Comment gérer l'authentification ?
+
+Claude: Bonne question ! Avant de coder, réfléchissons :
+- Quel type d'authentification correspond à ton use case ?
+- As-tu besoin de sessions persistantes ou de tokens stateless ?
+- Quelles routes doivent être protégées ?
+
+// TODO: Écris ici la fonction qui vérifie le token (5-10 lignes)
+// Indice: utilise jwt.verify() et gère l'erreur TokenExpiredError
+```
+
+## Activer un mode pédagogique
+
+### Via commande slash
+
+```
+/output-styles
+```
+
+Puis sélectionner le mode souhaité.
+
+### Via CLAUDE.md
+
+Ajouter dans le fichier `CLAUDE.md` du projet :
+
+```markdown
+## Style de réponse
+- Explique toujours le raisonnement derrière les choix techniques
+- Utilise un ton pédagogique
+- Propose des exercices quand c'est pertinent
+```
+
+### Via le prompt
+
+Préciser directement dans vos messages :
+
+- "Explique-moi pourquoi tu fais ça"
+- "Montre-moi le raisonnement"
+- "Apprends-moi à le faire moi-même"
+
+## Résultats observés
+
+Selon les retours de la communauté :
+
+| Contexte | Amélioration |
+|----------|--------------|
+| Juniors après 2 semaines | +40% compréhension Next.js |
+| Classes avec mode Learning | +65% aux tests de compréhension |
+| Engagement étudiant | Collaboration vs dépendance |
+
+## Cas d'usage
+
+### Apprendre un nouveau framework
+
+```
+Vous: Je découvre React. Montre-moi comment créer un composant,
+mais explique chaque ligne.
+```
+
+### Comprendre du code existant
+
+```
+Vous: [Mode Explanatory]
+Explique-moi cette fonction ligne par ligne,
+pourquoi ces choix ont été faits.
+```
+
+### S'exercer activement
+
+```
+Vous: [Mode Learning]
+Je veux implémenter une pagination.
+Guide-moi mais laisse-moi écrire le code.
+```
+
+## Bonnes pratiques
+
+### Pour maximiser l'apprentissage
+
+1. **Activer le mode Learning** pour les concepts nouveaux
+2. **Poser des questions de suivi** : "Pourquoi pas X à la place ?"
+3. **Compléter les TODO** avant de demander la solution
+4. **Reformuler** ce que vous avez appris
+
+### Pour les équipes
+
+- Mode Explanatory pour les code reviews
+- Mode Learning pour l'onboarding des nouveaux
+- Documenter les apprentissages dans le projet
+
+## Ressources complémentaires
+
+- **Cours Coursera** : "Claude Code: Software Engineering with Generative AI Agents" (Vanderbilt University)
+- **Programmes Anthropic** : Formations officielles pour développeurs
+
+## Le concept de "brain rot"
+
+Le "brain rot" en développement, c'est quand on copie-colle du code généré par IA sans comprendre. À terme :
+
+- On perd la capacité de débugger
+- On ne sait plus pourquoi ça marche
+- On accumule de la dette technique invisible
+
+Les modes pédagogiques combattent ça en forçant la compréhension active.

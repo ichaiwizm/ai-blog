@@ -1,0 +1,153 @@
+---
+title: "Terminal & Navigation WSL"
+description: "Maîtriser le terminal Linux dans WSL pour naviguer et lancer Claude Code efficacement."
+icon: "terminal"
+level: "debutant"
+order: 11
+---
+
+## Définition
+
+Le terminal est l'interface en ligne de commande permettant d'interagir avec le système. Dans le contexte de <Term>Claude Code</Term> sur Windows, il s'agit de basculer depuis PowerShell vers le terminal <Term>WSL</Term> Linux.
+
+## Ouvrir le bon terminal
+
+### Depuis PowerShell
+
+Taper simplement :
+
+```powershell
+wsl
+```
+
+Le prompt change alors de `PS C:\Users\nom>` à quelque chose comme `user@machine:~$`. Vous êtes maintenant dans Linux.
+
+### Depuis Windows Terminal
+
+Windows Terminal (disponible sur le Microsoft Store) permet d'ouvrir directement un onglet Ubuntu/WSL.
+
+### Depuis VS Code ou Cursor
+
+1. Ouvrir le terminal intégré (`Ctrl+``)
+2. Cliquer sur la flèche à côté du `+`
+3. Sélectionner "Ubuntu (WSL)" ou utiliser la palette de commandes : `WSL: New WSL Window`
+
+## Comprendre où vous êtes
+
+### Le "home" WSL
+
+Quand vous tapez `wsl` depuis PowerShell, vous atterrissez souvent dans `/mnt/c/Users/votre-nom`. Ce n'est **pas** le vrai home Linux !
+
+Pour aller dans votre vrai répertoire home :
+
+```bash
+cd ~
+# ou
+cd /home/votre-nom
+```
+
+### Vérifier votre position
+
+```bash
+pwd  # Affiche le chemin actuel
+```
+
+Vous devriez voir `/home/votre-nom` et non `/mnt/c/...`.
+
+## Pourquoi travailler dans /home ?
+
+| Emplacement | Performances | Recommandé |
+|-------------|--------------|------------|
+| `/home/user/` | Excellentes | Oui |
+| `/mnt/c/...` | Lentes | Non |
+
+Les fichiers dans `/mnt/c/` passent par une couche de traduction Windows-Linux. Cela ralentit considérablement les opérations d'I/O, notamment pour npm et <Term>Git</Term>.
+
+## Commandes de navigation essentielles
+
+### Se déplacer
+
+```bash
+cd chemin        # Aller dans un dossier
+cd ..            # Remonter d'un niveau
+cd ~             # Aller au home
+cd -             # Retourner au dossier précédent
+```
+
+### Lister les fichiers
+
+```bash
+ls               # Liste simple
+ls -la           # Liste détaillée avec fichiers cachés
+ls -lh           # Liste avec tailles lisibles
+```
+
+### Créer des dossiers
+
+```bash
+mkdir mon-projet           # Créer un dossier
+mkdir -p projets/web/app   # Créer une arborescence
+```
+
+## Workflow recommandé
+
+### 1. Créer un dossier projets dans le home WSL
+
+```bash
+cd ~
+mkdir -p projets
+cd projets
+```
+
+### 2. Cloner ou créer un projet
+
+```bash
+git clone https://github.com/user/repo.git
+# ou
+mkdir nouveau-projet && cd nouveau-projet
+```
+
+### 3. Ouvrir dans VS Code/Cursor
+
+Depuis le terminal WSL, dans le dossier du projet :
+
+```bash
+code .    # Ouvre VS Code
+cursor .  # Ouvre Cursor
+```
+
+L'éditeur se connecte automatiquement à WSL.
+
+### 4. Lancer Claude Code
+
+Toujours depuis le terminal WSL, dans le dossier du projet :
+
+```bash
+claude
+```
+
+## Raccourcis utiles
+
+| Raccourci | Action |
+|-----------|--------|
+| `Tab` | Autocomplétion |
+| `Ctrl+C` | Annuler la commande en cours |
+| `Ctrl+L` | Effacer l'écran |
+| `↑` / `↓` | Historique des commandes |
+| `Ctrl+R` | Rechercher dans l'historique |
+
+## Pièges courants
+
+### Erreur "No suitable shell found"
+
+```
+Error: No suitable shell found. Claude CLI requires a POSIX shell environment.
+```
+
+**Cause** : Vous lancez `claude` depuis PowerShell, pas depuis WSL.
+
+**Solution** : Taper `wsl` d'abord, puis `claude`.
+
+### Node.js non trouvé
+
+Si `node --version` ne fonctionne pas dans WSL, c'est que Node.js n'est pas installé dans l'environnement Linux. L'installation Windows n'est pas partagée.
