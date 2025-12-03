@@ -281,6 +281,22 @@ export function RocketIcon({ size = 18, className = "" }: IconProps) {
   );
 }
 
+export function CloudIcon({ size = 18, className = "" }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+      <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />
+    </svg>
+  );
+}
+
+export function ChatIcon({ size = 18, className = "" }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+    </svg>
+  );
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Control Icons
 // ─────────────────────────────────────────────────────────────────────────────
@@ -563,6 +579,8 @@ export const ICON_MAP: Record<string, (props: IconProps) => ReactNode> = {
   "code": CodeIcon,
   "terminal": TerminalIcon,
   "rocket": RocketIcon,
+  "cloud": CloudIcon,
+  "chat": ChatIcon,
   "play": PlayIcon,
   "pause": PauseIcon,
   "reset": ResetIcon,

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useConcepts } from "@/contexts/ConceptsContext";
 import { ConceptMeta, CONCEPT_LEVELS } from "@/lib/concepts-types";
+import { IconByName } from "@/components/icons";
 
 interface ConceptCardClientProps {
   concept: ConceptMeta;
@@ -22,7 +23,9 @@ export default function ConceptCardClient({ concept }: ConceptCardClientProps) {
     >
       {/* Header */}
       <div className="flex items-start justify-between gap-4 mb-4">
-        <span className="text-4xl">{concept.icon}</span>
+        <span className="text-accent">
+          <IconByName name={concept.icon} size={40} />
+        </span>
         {completed && (
           <div className="w-8 h-8 bg-accent border-2 border-border flex items-center justify-center flex-shrink-0">
             <svg
