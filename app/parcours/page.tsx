@@ -5,6 +5,7 @@ import { useConcepts } from "@/contexts/ConceptsContext";
 import { useGamification } from "@/contexts/GamificationContext";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { IconByName } from "@/components/icons";
 
 const levelColors = {
   debutant: "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 border-emerald-400",
@@ -137,7 +138,7 @@ export default function ParcoursPage() {
                           : "bg-accent/10 border-accent"
                         }
                       `}>
-                        {path.icon}
+                        <IconByName name={path.icon} size={28} />
                       </div>
                       <div className="flex-1 min-w-0">
                         <h3 className="font-semibold text-base sm:text-lg text-text-primary group-hover:text-accent transition-colors">
