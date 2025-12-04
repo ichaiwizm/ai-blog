@@ -18,8 +18,88 @@ export interface LearningPath {
   prerequisites?: string[]; // IDs of other paths
 }
 
-// Parcours vides - à remplir avec le contenu
-export const LEARNING_PATHS: LearningPath[] = [];
+// Parcours d'apprentissage
+export const LEARNING_PATHS: LearningPath[] = [
+  {
+    id: "maitriser-claude-code",
+    title: "Maîtriser Claude Code",
+    description:
+      "De l'installation WSL au workflow Git complet : apprenez à utiliser Claude Code efficacement pour vos projets de développement.",
+    icon: "robot",
+    level: "debutant",
+    estimatedTime: "2h30",
+    steps: [
+      {
+        type: "concept",
+        slug: "wsl",
+        title: "Comprendre WSL",
+        description:
+          "Pourquoi Windows a besoin de WSL pour Claude Code et comment l'installer",
+      },
+      {
+        type: "concept",
+        slug: "terminal-wsl",
+        title: "Naviguer dans le terminal WSL",
+        description:
+          "Basculer depuis PowerShell, trouver le vrai home, et naviguer efficacement",
+      },
+      {
+        type: "concept",
+        slug: "git",
+        title: "Les bases de Git",
+        description:
+          "Comprendre les concepts fondamentaux de Git avant d'initialiser un projet",
+      },
+      {
+        type: "article",
+        slug: "guide-installation-claude-code-cli",
+        title: "Installer Claude Code",
+        description: "Guide pratique d'installation et configuration",
+      },
+      {
+        type: "concept",
+        slug: "claude-code",
+        title: "Découvrir Claude Code",
+        description: "Les fonctionnalités principales et cas d'usage",
+      },
+      {
+        type: "concept",
+        slug: "claude-code-modeles",
+        title: "Choisir le bon modèle",
+        description:
+          "Haiku, Sonnet, Opus : comprendre les différences et quand les utiliser",
+      },
+      {
+        type: "concept",
+        slug: "claude-code-modes",
+        title: "Modes Plan & Edit",
+        description:
+          "Utiliser Shift+Tab pour contrôler ce que Claude fait ou planifie",
+      },
+      {
+        type: "concept",
+        slug: "claude-code-pedagogie",
+        title: "Apprendre en codant",
+        description:
+          "Activer les modes pédagogiques pour comprendre, pas juste copier",
+      },
+      {
+        type: "concept",
+        slug: "claude-code-plugins",
+        title: "Plugins et extensions",
+        description:
+          "Étendre Claude Code avec frontend-design et autres plugins",
+      },
+      {
+        type: "concept",
+        slug: "git-workflow-claude",
+        title: "Workflow Git efficace",
+        description:
+          "Commits fréquents, tâches petites, et bonnes pratiques avec Claude",
+      },
+    ],
+  },
+];
 
 // Helper functions
 export function getLearningPathById(id: string): LearningPath | undefined {

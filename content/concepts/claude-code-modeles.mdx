@@ -1,0 +1,117 @@
+---
+title: "Modèles Claude : Haiku, Sonnet, Opus"
+description: "Comprendre les différents modèles Claude et choisir le bon en fonction de la tâche."
+icon: "brain"
+level: "debutant"
+order: 12
+---
+
+## Définition
+
+<Term>Claude Code</Term> permet d'utiliser différents modèles <Term>Claude</Term>, chacun avec ses caractéristiques. Le choix du modèle impacte la qualité des réponses, la vitesse, et le coût (pour les utilisateurs API).
+
+## Les trois modèles
+
+### Claude Haiku (Le Sprinter)
+
+**Caractéristiques** :
+- Le plus rapide et le moins cher
+- Lit un document de 10 000 <Term>Token</Term>s en moins de 3 secondes
+- Intelligence "near-frontier" : proche des meilleurs, mais pas le top
+
+**Idéal pour** :
+- Corrections rapides et petites modifications
+- Génération de scaffolding UI basique
+- Tâches simples et répétitives
+- Chatbots temps réel
+- Quand le budget ou la latence sont critiques
+
+**Coût API** : ~$0.25/MTok entrée, $1.25/MTok sortie
+
+### Claude Sonnet (Le Builder)
+
+**Caractéristiques** :
+- Meilleur équilibre intelligence/vitesse/coût
+- Modèle recommandé par défaut
+- Haute endurance pour les déploiements à grande échelle
+
+**Idéal pour** :
+- Développement quotidien
+- Écriture de logique métier
+- Gestion d'état et connexion d'APIs
+- Workflows d'agents complexes
+- La plupart des tâches de coding
+
+**Coût API** : ~$3/MTok entrée, $15/MTok sortie
+
+**Recommandation Anthropic** : Si vous ne savez pas quel modèle choisir, commencez par Sonnet.
+
+### Claude Opus (Le Reviewer)
+
+**Caractéristiques** :
+- Le plus puissant et le plus cher
+- Capture les subtilités que les autres modèles manquent
+- Plus lent mais insights plus profonds
+
+**Idéal pour** :
+- Revues de code approfondies
+- Analyses de recherche complexes
+- Raisonnement approfondi et planification stratégique
+- Vérification finale avant release
+- Tâches critiques nécessitant la meilleure qualité
+
+**Coût API** : ~$15/MTok entrée, $75/MTok sortie
+
+## Stratégie de workflow
+
+Une approche efficace combine les trois modèles :
+
+```
+Haiku (sprinter) → Sonnet (builder) → Opus (reviewer)
+```
+
+1. **Haiku** pour les itérations rapides et le prototypage
+2. **Sonnet** pour le développement principal
+3. **Opus** comme filet de sécurité avant les merges critiques
+
+## Sélectionner un modèle
+
+### En ligne de commande
+
+```bash
+claude --model claude-sonnet-4-5-20250929
+claude --model claude-opus-4-20250514
+claude --model claude-haiku-3-5-20241022
+```
+
+### Pendant une session
+
+Utiliser la commande `/model` pour changer de modèle en cours de session.
+
+## Tableau comparatif
+
+| Critère | Haiku | Sonnet | Opus |
+|---------|-------|--------|------|
+| Vitesse | ⚡⚡⚡ | ⚡⚡ | ⚡ |
+| Intelligence | ★★★ | ★★★★ | ★★★★★ |
+| Coût | $ | $$ | $$$ |
+| Usage type | Quick fixes | Dev quotidien | Revue critique |
+
+## Avec un abonnement Claude Max
+
+Les utilisateurs <Term>Claude</Term> Max ont accès aux trois modèles sans coût par token. Dans ce cas, le choix se fait principalement sur :
+
+- **La vitesse** : Haiku pour les réponses instantanées
+- **La qualité** : Opus pour les tâches critiques
+- **L'équilibre** : Sonnet pour le reste
+
+## Cas pratiques
+
+| Tâche | Modèle recommandé |
+|-------|-------------------|
+| "Ajoute un console.log ici" | Haiku |
+| "Implémente cette feature complète" | Sonnet |
+| "Review ce code avant le merge en prod" | Opus |
+| "Génère un composant React basique" | Haiku ou Sonnet |
+| "Refactorise cette architecture" | Opus |
+| "Corrige cette typo" | Haiku |

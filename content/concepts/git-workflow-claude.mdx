@@ -1,0 +1,194 @@
+---
+title: "Workflow Git avec Claude Code"
+description: "Bonnes pratiques pour les commits, branches et PRs en travaillant avec Claude Code."
+icon: "code"
+level: "intermediaire"
+order: 16
+---
+
+## Définition
+
+Travailler avec <Term>Claude Code</Term> implique une discipline <Term>Git</Term> particulière. Des commits fréquents et des tâches découpées garantissent un historique propre et des changements réversibles.
+
+## Principe fondamental : tâches petites
+
+### Pourquoi des tâches petites ?
+
+- **Meilleure compréhension IA** : Claude travaille mieux sur des scopes réduits
+- **Facilité de review** : Changements plus faciles à vérifier
+- **Réversibilité** : Plus simple de revenir en arrière
+- **Feedback rapide** : Détection précoce des problèmes
+
+### Taille optimale
+
+- **5 à 20 fichiers** par batch de changements
+- Un batch = un sous-ensemble logique qui compile et teste de manière indépendante
+
+## Commits fréquents
+
+### La règle d'or
+
+> Commit et push régulièrement, jamais de gros diffs non reviewables.
+
+### Format recommandé : Conventional Commits
+
+```
+type: description courte
+
+Corps optionnel expliquant le pourquoi
+```
+
+Types courants :
+- `feat:` nouvelle fonctionnalité
+- `fix:` correction de bug
+- `refactor:` restructuration sans changement fonctionnel
+- `docs:` documentation
+- `test:` ajout/modification de tests
+- `chore:` maintenance, dépendances
+
+**Exemples** :
+```
+feat: add user authentication endpoint
+
+fix: resolve login timeout issue
+
+refactor: extract validation logic to utils
+```
+
+## Workflow recommandé avec Claude Code
+
+### 1. Planifier d'abord
+
+Avant de coder, documenter l'intention :
+
+```markdown
+## Dans CLAUDE.md ou un fichier de tâche
+
+### Objectif
+Ajouter l'authentification JWT
+
+### Critères d'acceptation
+- [ ] Route /login fonctionnelle
+- [ ] Token JWT valide 24h
+- [ ] Middleware de protection
+
+### Modules impactés
+- routes/auth.ts
+- middleware/jwt.ts
+- config/security.ts
+```
+
+### 2. Demander à Claude de planifier
+
+```
+Planifie et implémente la première petite étape
+```
+
+Claude devrait proposer un scope limité plutôt que tout implémenter d'un coup.
+
+### 3. Valider et commiter chaque étape
+
+```
+Stage et commit quand cette unité passe les tests
+```
+
+### 4. Itérer
+
+Répéter pour chaque petite unité jusqu'à complétion.
+
+## Branches et Pull Requests
+
+### Nommage des branches
+
+Des noms descriptifs aident Claude à comprendre le contexte :
+
+```
+feature/user-authentication
+fix/login-timeout
+refactor/validation-utils
+```
+
+### Créer une PR
+
+Quand une feature est prête :
+
+1. Vérifier que tous les tests passent
+2. Push la branche
+3. Créer la PR avec description claire
+4. Demander à Claude une review si besoin
+
+## Hooks Git avec Claude Code
+
+### PreToolUse Hook pour la qualité
+
+Configurer un hook qui bloque les commits si les tests échouent :
+
+```
+# Concept : hook PreToolUse sur git commit
+# Vérifie que les tests passent avant d'autoriser le commit
+```
+
+Cela force Claude dans une boucle "test-and-fix" jusqu'à ce que le build soit vert.
+
+## Anti-patterns à éviter
+
+### Ne pas accumuler
+
+```
+❌ Travailler 2 heures sans commit
+❌ Merger des centaines de lignes d'un coup
+❌ "Je commit à la fin quand tout marche"
+```
+
+### Ne pas ignorer les tests
+
+```
+❌ Commit même si les tests échouent
+❌ Désactiver les tests "temporairement"
+❌ Skip les hooks avec --no-verify
+```
+
+### Ne pas laisser dériver
+
+```
+❌ Branch divergée depuis des semaines
+❌ Conflits massifs au moment du merge
+```
+
+## Bonnes pratiques en équipe
+
+1. **Draft PRs** : Ouvrir des PRs en brouillon tôt pour visibilité
+2. **Reviews régulières** : Ne pas attendre la fin
+3. **Sync fréquent** : Pull régulièrement la branche principale
+4. **Documentation inline** : Commenter le "pourquoi" dans le code
+
+## Commandes Git utiles avec Claude
+
+Claude Code peut exécuter Git directement :
+
+```
+Crée une branche feature/nouvelle-fonctionnalite
+```
+
+```
+Commit les changements avec un message conventionnel
+```
+
+```
+Montre-moi le diff depuis main
+```
+
+```
+Push et crée une PR
+```
+
+## Résumé du workflow idéal
+
+```
+1. Planifier (CLAUDE.md)
+2. Petite tâche → Code → Test
+3. Commit (conventional)
+4. Répéter 2-3
+5. Push
+6. PR quand prêt
+```
