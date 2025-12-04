@@ -26,8 +26,6 @@ order: 12
 - Chatbots temps réel
 - Quand le budget ou la latence sont critiques
 
-**Coût API** : ~$0.25/MTok entrée, $1.25/MTok sortie
-
 ### Claude Sonnet (Le Builder)
 
 **Caractéristiques** :
@@ -41,8 +39,6 @@ order: 12
 - Gestion d'état et connexion d'APIs
 - Workflows d'agents complexes
 - La plupart des tâches de coding
-
-**Coût API** : ~$3/MTok entrée, $15/MTok sortie
 
 **Recommandation Anthropic** : Si vous ne savez pas quel modèle choisir, commencez par Sonnet.
 
@@ -60,8 +56,6 @@ order: 12
 - Vérification finale avant release
 - Tâches critiques nécessitant la meilleure qualité
 
-**Coût API** : ~$15/MTok entrée, $75/MTok sortie
-
 ## Stratégie de workflow
 
 Une approche efficace combine les trois modèles :
@@ -76,14 +70,6 @@ Haiku (sprinter) → Sonnet (builder) → Opus (reviewer)
 
 ## Sélectionner un modèle
 
-### En ligne de commande
-
-```bash
-claude --model claude-sonnet-4-5-20250929
-claude --model claude-opus-4-20250514
-claude --model claude-haiku-3-5-20241022
-```
-
 ### Pendant une session
 
 Utiliser la commande `/model` pour changer de modèle en cours de session.
@@ -97,13 +83,6 @@ Utiliser la commande `/model` pour changer de modèle en cours de session.
 | Coût | $ | $$ | $$$ |
 | Usage type | Quick fixes | Dev quotidien | Revue critique |
 
-## Avec un abonnement Claude Max
-
-Les utilisateurs <Term>Claude</Term> Max ont accès aux trois modèles sans coût par token. Dans ce cas, le choix se fait principalement sur :
-
-- **La vitesse** : Haiku pour les réponses instantanées
-- **La qualité** : Opus pour les tâches critiques
-- **L'équilibre** : Sonnet pour le reste
 
 ## Cas pratiques
 
