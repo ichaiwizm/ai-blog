@@ -1,64 +1,364 @@
-## Qu’est-ce qu’un skill pour Claude Code
+## Définition
 
-Un *skill* dans Claude Code est un module spécialisé. C’est un paquet qui embarque des commandes, des agents dédiés, des connexions externes ou des hooks — bref, un moyen de donner à Claude un savoir-faire précis et réutilisable. 
+Un **skill Claude Code** est un bloc de compétences prêt à l’emploi pour une tâche précise (design frontend, refacto, doc, etc.).
+Un skill peut embarquer :
 
-Plutôt que d’ajouter à chaque prompt toute la logique pour une tâche (ex : design frontend, génération d’UI, etc.), on installe un skill une fois — et ce skill va guider Claude de façon cohérente, project après project. 
+* des commandes slash,
+* des subagents spécialisés,
+* des intégrations **MCP** (outils externes),
+* des **hooks** qui réagissent à des évènements. ([GitHub][1])
 
----
-
-## Installation d’un skill dans Claude Code
-
-Voici les étapes pour ajouter un skill à ton environnement Claude Code :
-
-1. Assure-toi que Claude Code est bien installé (via npm, Homebrew ou le script officiel) et que la commande `claude` est accessible.
-2. Ajoute un marketplace de plugins (si ce n’est pas déjà fait). Par exemple l’officiel :
-
-   ```
-   /plugin marketplace add anthropics/claude-code
-   ```
-
-3. Installe le skill voulu :
-
-   ```
-   /plugin install frontend-design@anthropics/claude-code
-   ```
-
-   Ou, en ligne de commande si tu utilises le CLI de gestion des plugins :
-
-   ```bash
-   npx claude-plugins install @anthropics/claude-code-plugins/frontend-design
-   ```
-
-4. Active le skill si besoin dans les réglages (parfois via l’interface “Skills / Capabilities”).
-
-Une fois installé et activé, Claude prendra en compte le skill automatiquement quand tu demanderas des tâches liées à son domaine d’expertise (ici : frontend / design UI).
+L’idée : arrêter de refaire les mêmes prompts à la main et encapsuler une façon de travailler dans un module réutilisable.
 
 ---
 
-## Focus sur le skill frontend‑design
+## Anatomie d’un skill
 
-### À quoi sert-il
+### Commandes slash
 
-* Il guide Claude pour générer des interfaces frontend **esthétiques, distinctives, prêtes pour la production** — pas un design “IA générique”. 
-* Il impose une intention forte : choisir un style clair (minimaliste, rétro-futuriste, luxe, brutaliste, etc.), réfléchir au contexte utilisateur et aux contraintes techniques, et produire un code HTML/CSS/JS ou un composant React/Vue soigné, cohérent, mémorable.
+Des raccourcis pour lancer des actions ciblées du skill.
 
-### Philosophie & pratique
+```text
+/ui-wireframe home-page ecommerce minimal
+```
 
-* Avant tout code, réfléchir au **contexte** : quel usage, quel public, quelles contraintes, quel “mood” visuel. 
-* Choisir une **direction esthétique forte** — que ce soit l’épure extrême, le maximalisme, le rétro, le luxe, le fun, etc. — et s’y tenir pour éviter un résultat fade ou “générique IA”. ([Claude Code Plugins][6])
-* Produire du **code utilisable en production** : pas un concept visuel figé, mais un résultat concret, avec HTML/CSS/JS, composants, structure, etc. 
+Exemples typiques dans un skill frontend :
 
----
-
-## Pourquoi utiliser un skill plutôt que des prompts ad-hoc
-
-* Un prompt seul impose le design pour chaque demande — tu dois répéter chaque fois les contraintes visuelles. Avec un skill, tu encapsules ces choix dans un “package” réutilisable. 
-* C’est plus robuste quand le projet grandit ou s’équipe : tous les développeurs/jeunes agents qui utilisent ce skill respectent le même langage visuel et les mêmes standards — ça assure de la cohérence. 
+* `/ui-wireframe` : propose une structure d’écran
+* `/ui-refine` : raffine une maquette existante
+* `/ui-audit` : audit de cohérence typographie/couleurs
 
 ---
 
-## En résumé
+### Subagents
 
-Si tu veux que Claude génère des interfaces frontend qui ne ressemblent pas à “ce que toute IA sort par défaut”, installe le skill frontend-design. Il encode des principes de design forts, impose une architecture esthétique et produit du code prêt pour la prod — sans que tu aies à répéter à chaque fois les mêmes consignes.
+Des “mini-Claude” spécialisés dans un sous-problème, par exemple dans un skill frontend :
 
-Tu gagnes en cohérence, en qualité visuelle, et en productivité.
+* `design-ux` : se concentre sur le parcours utilisateur
+* `design-ui` : se concentre sur la grille, la hiérarchie visuelle
+* `design-accessibility` : vérifie contrastes, tailles de texte, ARIA
+
+Tu peux les appeler directement dans Claude Code (suivant le skill) :
+
+```text
+@design-ui Crée une variation plus brutaliste de cette page de profil.
+```
+
+---
+
+### MCP intégrés
+
+**MCP (Model Context Protocol)** sert à connecter le skill à des outils externes : GitHub, DigitalOcean, une base de données, un moteur de recherche, etc. ([code.claude.com][2])
+
+Un skill peut déclarer des MCP qu’il utilise en interne (par exemple : récupérer la liste des issues GitHub puis générer un dashboard d’admin).
+
+---
+
+### Hooks
+
+Les **hooks** sont des scripts déclenchés automatiquement à des moments clés : début de session, après exécution d’un outil, fin de session, etc. ([code.claude.com][3])
+
+Un skill peut les utiliser pour automatiser la routine :
+
+* charger du contexte à chaque ouverture de projet,
+* lancer des tests,
+* générer un récap de session,
+* mettre à jour la doc.
+
+---
+
+## Installer un skill
+
+### 1. Ajouter (si besoin) un marketplace de plugins/skills
+
+Un skill arrive souvent via un plugin dans un marketplace.
+
+```text
+/plugin marketplace add my-org/claude-plugins
+```
+
+### 2. Installer le skill
+
+Selon la façon dont il est distribué, tu peux l’installer via la commande `/plugin` ou via le CLI :
+
+```text
+/plugin install frontend-design@my-org
+```
+
+ou côté terminal :
+
+```bash
+npx claude-plugins install @anthropics/claude-code-plugins/frontend-design
+```
+
+([claude.com][4])
+
+### 3. Choisir le scope
+
+Les skills suivent les mêmes scopes que le reste de la config :
+
+| Scope   | Portée                    | Cas d’usage typique                  |
+| ------- | ------------------------- | ------------------------------------ |
+| Local   | Ce projet uniquement      | PoC, tests, env perso                |
+| Project | Tous les users de ce repo | Standard d’équipe pour ce projet     |
+| User    | Tous tes projets Claude   | Préférences “globals” sur ta machine |
+
+---
+
+## Skill **frontend-design**
+
+### Objectif
+
+Le skill **frontend-design** sert à casser le look “UI IA générique” (dégradés violets, gros cards ronds, Inter partout) et à produire des interfaces **nettes, variées et prêtes pour la prod**. ([claude.com][4])
+
+Concrètement, il pousse Claude à prendre des décisions **fortes** en design :
+
+* choisir une direction esthétique claire,
+* utiliser une typo de caractère,
+* construire une palette cohérente,
+* proposer du HTML/CSS/JS ou des composants modernes, exploitables.
+
+### Installation rapide
+
+```bash
+npx claude-plugins install @anthropics/claude-code-plugins/frontend-design
+```
+
+ou :
+
+```text
+/plugin install frontend-design@anthropics
+```
+
+Après ça, tu peux simplement dire à Claude :
+
+```text
+Utilise le skill frontend-design et propose 3 variantes de cette page dashboard.
+```
+
+---
+
+### Tonalités de design disponibles (exemples)
+
+Un même skill peut supporter plusieurs “modes” visuels, par exemple :
+
+* **Brutally minimal** : ultra épuré, peu de couleurs, beaucoup d’espace blanc
+* **Maximalist** : visuel dense, typographie expressive, grosses highlights
+* **Retro-futuristic** : néons, formes géométriques, vibe années 80–90
+* **Luxury / Refined** : palette sombre + accents dorés, serif élégantes
+* **Playful / Toy-like** : couleurs vives, arrondis, micro-animations ludiques
+
+Tu peux les appeler dans le prompt :
+
+```text
+Crée une landing page pour une app de budget perso, en mode “Luxury / Refined”.
+```
+
+---
+
+### Exemples de prompts avec le skill frontend-design
+
+```text
+Utilise le skill frontend-design.
+Crée un dashboard web pour une app de trading, mode “Brutally minimal”, prêt en React + Tailwind.
+```
+
+```text
+Avec le skill frontend-design, design une page de settings avec dark mode,
+réglages de notifications et gestion de comptes liés.
+```
+
+```text
+Toujours avec frontend-design, propose une UI mobile first pour un
+planner d’habitudes, style playful, avec un système de badges.
+```
+
+---
+
+### Principes appliqués par le skill
+
+Le skill encode plusieurs règles implicites :
+
+* **Typographie** : pas de combo Arial/Inter par défaut, mais des pairs de typos avec une vraie personnalité.
+* **Couleurs** : palette simple (2–3 couleurs dominantes), plus des accents ciblés, au lieu d’un arc-en-ciel informe.
+* **Variables CSS / tokens** : couleurs, espacements, radius, z-index… centralisés dans des variables ou design tokens.
+* **Anti-convergence** : bannir les patterns ultra récurrents dans les datas (dégradés violet/bleu, hero “SaaS générique”, etc.). ([Medium][5])
+
+---
+
+## Utiliser MCP avec un skill
+
+### Rappel : c’est quoi MCP ?
+
+**MCP** connecte Claude à des outils externes via un protocole standardisé : serveurs GitHub, recherche, cloud, etc. Le skill peut ensuite exploiter ces serveurs comme s’ils faisaient partie de son “cerveau étendu”. ([code.claude.com][2])
+
+### Ajouter un serveur MCP
+
+Exemple avec un serveur GitHub :
+
+```bash
+claude mcp add github --scope user
+```
+
+Exemple avec un serveur DigitalOcean (local au projet) :
+
+```bash
+claude mcp add digitalocean-mcp-local \
+  -e DIGITALOCEAN_API_TOKEN=TON_TOKEN \
+  -- npx "@digitalocean/mcp"
+```
+
+([DigitalOcean][6])
+
+Tu peux voir ce qui est configuré :
+
+```bash
+claude mcp list
+```
+
+Et souvent déclencher l’UI d’authentification / gestion dans Claude Code en tapant :
+
+```text
+/mcp
+```
+
+### Exemple : skill frontend-design + MCP GitHub
+
+Scénario :
+
+1. Tu ajoutes un MCP GitHub.
+2. Un skill “frontend-design” étendu sait appeler ce MCP pour :
+
+   * lister les issues,
+   * lire le contenu d’un fichier de config,
+   * récupérer les labels existants.
+3. Tu lui demandes :
+
+```text
+Utilise le skill frontend-design et le MCP GitHub.
+Génère un dashboard de product management avec :
+- colonne par label GitHub
+- métriques avec le nombre d’issues par label
+- un panneau latéral “Issue details”.
+```
+
+Le skill peut alors *réellement* se brancher sur ton repo, lire les données via MCP, et produire une UI adaptée à ton cas réel.
+
+---
+
+## Utiliser des hooks dans un skill
+
+### Rappel : à quoi servent les hooks ?
+
+Les **hooks** sont lancés automatiquement à certains moments, par exemple : ([code.claude.com][3])
+
+* `SessionStart` : au lancement ou à la reprise d’une session Claude Code
+* `PostToolUse` : après l’exécution d’un outil ou d’une commande
+* `Stop` : à la fin d’une session
+
+Ils sont déclarés dans la config Claude Code (fichiers de settings global, projet, local, etc.) et peuvent être packagés dans un skill.
+
+### Exemple de hook “SessionStart” dans un skill frontend
+
+Idée : à chaque fois que tu démarres Claude dans un projet frontend, le skill :
+
+1. vérifie que les deps sont installées,
+2. génère un fichier `design-context.md` avec :
+
+   * la palette actuelle,
+   * les typos utilisées,
+   * les composants principaux.
+
+Pseudo-config dans `.claude/settings.json` :
+
+```json
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "name": "prepare-frontend-design-context",
+        "command": ["node", "scripts/build-design-context.js"],
+        "when": { "projectType": "frontend" }
+      }
+    ]
+  }
+}
+```
+
+Le script Node peut lui-même appeler Claude via le skill pour synthétiser la doc.
+
+### Exemple : hooks orientés “qualité”
+
+Beaucoup de plugins/skills “sérieux” utilisent des hooks pour : ([Reddit][7])
+
+* générer automatiquement un résumé de session (`Stop`),
+* forcer un passage de linter ou de tests après certains outils (`PostToolUse`),
+* tenir un `CHANGELOG.md` ou un `DESIGN_NOTES.md` à jour.
+
+Tu peux très bien combiner ça avec un skill frontend :
+
+* `PostToolUse` : après chaque grosse refonte d’UI, lancer un script qui :
+
+  * prend le diff,
+  * demande au skill d’expliquer ce qui a changé côté UX/UI,
+  * met à jour un fichier `ui-changelog.md`.
+
+---
+
+## Créer ton propre skill
+
+Structure typique :
+
+```text
+mon-skill-frontend/
+├── skill.json          # manifest : nom, description, composants
+├── commands/           # commandes slash exposées
+├── agents/             # subagents spécialisés
+├── mcp.json            # MCP servers à déclarer / configurer
+└── hooks/              # scripts de hooks (sessionStart, stop, etc.)
+```
+
+([ClaudeCode Plugin Directory][8])
+
+Tu décris dans `skill.json` :
+
+* le contexte d’usage (ex : “design web B2B sobre”),
+* les styles pris en charge,
+* les MCP sur lesquels le skill s’appuie,
+* les hooks qu’il veut enregistrer.
+
+Ensuite tu publies ça via un marketplace, et les autres peuvent faire :
+
+```text
+/plugin marketplace add my-org/skills
+/plugin install mon-skill-frontend@my-org
+```
+
+---
+
+## Gestion des permissions
+
+Dernier point important : **les skills héritent des permissions des plugins/MCP/hooks qu’ils utilisent**.
+
+* Tu peux gérer ça avec une UX dédiée (`/permissions` suivant la config) pour voir quels skills ont accès à quoi.
+* Pour les MCP, fais attention aux scopes (`local`, `project`, `user`) et aux variables d’environnement (tokens API, secrets).
+* Un skill bien conçu doit être clair sur ce qu’il peut faire : “lit les issues GitHub”, “déploie sur DigitalOcean”, “écrit dans ce dossier seulement”, etc.
+
+---
+
+## En bref
+
+* Les **skills** emballent une vraie façon de travailler (frontend, tests, docs…) dans un module installable.
+* **MCP** donne aux skills des bras longs vers tes outils réels (GitHub, cloud, DB…).
+* Les **hooks** automatisent la routine autour de ces skills (setup, qualité, récap de session).
+
+Et le skill **frontend-design** est le bon point de départ si tu veux que Claude arrête de pondre des interfaces clonées sur tout le web et commence à produire du vrai design exploitable.
+
+[1]: https://github.com/anthropics/claude-code/blob/main/plugins/README.md?utm_source=chatgpt.com "claude-code/plugins/README.md at main"
+[2]: https://code.claude.com/docs/en/mcp?utm_source=chatgpt.com "Connect Claude Code to tools via MCP"
+[3]: https://code.claude.com/docs/en/hooks?utm_source=chatgpt.com "Hooks reference - Claude Code Docs"
+[4]: https://www.claude.com/blog/improving-frontend-design-through-skills?utm_source=chatgpt.com "Improving frontend design through Skills"
+[5]: https://alirezarezvani.medium.com/improving-frontend-design-through-claude-skills-breaking-free-from-ai-slop-2c9351d53ce4?utm_source=chatgpt.com "Claude Skills: Fix AI-Generated Frontend UI Design | Medium"
+[6]: https://www.digitalocean.com/community/tutorials/claude-code-mcp-server?utm_source=chatgpt.com "Setting Up the DigitalOcean MCP Server in Claude Code"
+[7]: https://www.reddit.com/r/ClaudeCode/comments/1o7jyim/i_built_5_productionready_hook_plugins_for_claude/?utm_source=chatgpt.com "I built 5 production-ready hook plugins for Claude Code ..."
+[8]: https://www.claudecodeplugin.com/?utm_source=chatgpt.com "Claude Code Plugin Directory & Skills | Marketplace ..."
