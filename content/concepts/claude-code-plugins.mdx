@@ -81,7 +81,7 @@ Exemple : `assets/logo.png`, `assets/template.pptx`, `assets/starter-app/`
 Le système fonctionne en **trois niveaux de chargement progressif** :
 
 1. **Métadonnées** (name + description) — toujours en contexte (~100 mots)
-2. **Corps du SKILL.md** — chargé si le skill est déclenché (<5000 mots)
+2. **Corps du SKILL.md** — chargé si le skill est déclenché (moins de 5000 mots)
 3. **Ressources** — chargées à la demande par Claude
 
 Claude lit les métadonnées de tous les skills disponibles. Quand une requête correspond à la description d'un skill, il charge le corps du `SKILL.md` et travaille selon ses instructions.
