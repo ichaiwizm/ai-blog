@@ -6,7 +6,7 @@ Un skill peut embarquer :
 * des commandes slash,
 * des subagents spécialisés,
 * des intégrations **MCP** (outils externes),
-* des **hooks** qui réagissent à des évènements. ([GitHub][1])
+* des **hooks** qui réagissent à des évènements.
 
 L’idée : arrêter de refaire les mêmes prompts à la main et encapsuler une façon de travailler dans un module réutilisable.
 
@@ -48,7 +48,7 @@ Tu peux les appeler directement dans Claude Code (suivant le skill) :
 
 ### MCP intégrés
 
-**MCP (Model Context Protocol)** sert à connecter le skill à des outils externes : GitHub, DigitalOcean, une base de données, un moteur de recherche, etc. ([code.claude.com][2])
+**MCP (Model Context Protocol)** sert à connecter le skill à des outils externes : GitHub, DigitalOcean, une base de données, un moteur de recherche, etc.
 
 Un skill peut déclarer des MCP qu’il utilise en interne (par exemple : récupérer la liste des issues GitHub puis générer un dashboard d’admin).
 
@@ -56,7 +56,7 @@ Un skill peut déclarer des MCP qu’il utilise en interne (par exemple : récup
 
 ### Hooks
 
-Les **hooks** sont des scripts déclenchés automatiquement à des moments clés : début de session, après exécution d’un outil, fin de session, etc. ([code.claude.com][3])
+Les **hooks** sont des scripts déclenchés automatiquement à des moments clés : début de session, après exécution d'un outil, fin de session, etc.
 
 Un skill peut les utiliser pour automatiser la routine :
 
@@ -91,7 +91,6 @@ ou côté terminal :
 npx claude-plugins install @anthropics/claude-code-plugins/frontend-design
 ```
 
-([claude.com][4])
 
 ### 3. Choisir le scope
 
@@ -109,7 +108,7 @@ Les skills suivent les mêmes scopes que le reste de la config :
 
 ### Objectif
 
-Le skill **frontend-design** sert à casser le look “UI IA générique” (dégradés violets, gros cards ronds, Inter partout) et à produire des interfaces **nettes, variées et prêtes pour la prod**. ([claude.com][4])
+Le skill **frontend-design** sert à casser le look "UI IA générique" (dégradés violets, gros cards ronds, Inter partout) et à produire des interfaces **nettes, variées et prêtes pour la prod**.
 
 Concrètement, il pousse Claude à prendre des décisions **fortes** en design :
 
@@ -182,7 +181,7 @@ Le skill encode plusieurs règles implicites :
 * **Typographie** : pas de combo Arial/Inter par défaut, mais des pairs de typos avec une vraie personnalité.
 * **Couleurs** : palette simple (2–3 couleurs dominantes), plus des accents ciblés, au lieu d’un arc-en-ciel informe.
 * **Variables CSS / tokens** : couleurs, espacements, radius, z-index… centralisés dans des variables ou design tokens.
-* **Anti-convergence** : bannir les patterns ultra récurrents dans les datas (dégradés violet/bleu, hero “SaaS générique”, etc.). ([Medium][5])
+* **Anti-convergence** : bannir les patterns ultra récurrents dans les datas (dégradés violet/bleu, hero "SaaS générique", etc.).
 
 ---
 
@@ -190,7 +189,7 @@ Le skill encode plusieurs règles implicites :
 
 ### Rappel : c’est quoi MCP ?
 
-**MCP** connecte Claude à des outils externes via un protocole standardisé : serveurs GitHub, recherche, cloud, etc. Le skill peut ensuite exploiter ces serveurs comme s’ils faisaient partie de son “cerveau étendu”. ([code.claude.com][2])
+**MCP** connecte Claude à des outils externes via un protocole standardisé : serveurs GitHub, recherche, cloud, etc. Le skill peut ensuite exploiter ces serveurs comme s'ils faisaient partie de son "cerveau étendu".
 
 ### Ajouter un serveur MCP
 
@@ -208,7 +207,6 @@ claude mcp add digitalocean-mcp-local \
   -- npx "@digitalocean/mcp"
 ```
 
-([DigitalOcean][6])
 
 Tu peux voir ce qui est configuré :
 
@@ -250,7 +248,7 @@ Le skill peut alors *réellement* se brancher sur ton repo, lire les données vi
 
 ### Rappel : à quoi servent les hooks ?
 
-Les **hooks** sont lancés automatiquement à certains moments, par exemple : ([code.claude.com][3])
+Les **hooks** sont lancés automatiquement à certains moments, par exemple :
 
 * `SessionStart` : au lancement ou à la reprise d’une session Claude Code
 * `PostToolUse` : après l’exécution d’un outil ou d’une commande
@@ -289,7 +287,7 @@ Le script Node peut lui-même appeler Claude via le skill pour synthétiser la d
 
 ### Exemple : hooks orientés “qualité”
 
-Beaucoup de plugins/skills “sérieux” utilisent des hooks pour : ([Reddit][7])
+Beaucoup de plugins/skills "sérieux" utilisent des hooks pour :
 
 * générer automatiquement un résumé de session (`Stop`),
 * forcer un passage de linter ou de tests après certains outils (`PostToolUse`),
@@ -318,7 +316,6 @@ mon-skill-frontend/
 └── hooks/              # scripts de hooks (sessionStart, stop, etc.)
 ```
 
-([ClaudeCode Plugin Directory][8])
 
 Tu décris dans `skill.json` :
 
@@ -353,12 +350,3 @@ Dernier point important : **les skills héritent des permissions des plugins/MCP
 * Les **hooks** automatisent la routine autour de ces skills (setup, qualité, récap de session).
 
 Et le skill **frontend-design** est le bon point de départ si tu veux que Claude arrête de pondre des interfaces clonées sur tout le web et commence à produire du vrai design exploitable.
-
-[1]: https://github.com/anthropics/claude-code/blob/main/plugins/README.md "claude-code/plugins/README.md at main"
-[2]: https://code.claude.com/docs/en/mcp "Connect Claude Code to tools via MCP"
-[3]: https://code.claude.com/docs/en/hooks "Hooks reference - Claude Code Docs"
-[4]: https://www.claude.com/blog/improving-frontend-design-through-skills "Improving frontend design through Skills"
-[5]: https://alirezarezvani.medium.com/improving-frontend-design-through-claude-skills-breaking-free-from-ai-slop-2c9351d53ce4 "Claude Skills: Fix AI-Generated Frontend UI Design | Medium"
-[6]: https://www.digitalocean.com/community/tutorials/claude-code-mcp-server "Setting Up the DigitalOcean MCP Server in Claude Code"
-[7]: https://www.reddit.com/r/ClaudeCode/comments/1o7jyim/i_built_5_productionready_hook_plugins_for_claude/ "I built 5 production-ready hook plugins for Claude Code ..."
-[8]: https://www.claudecodeplugin.com/ "Claude Code Plugin Directory & Skills | Marketplace ..."
