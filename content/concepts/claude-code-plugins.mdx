@@ -1,352 +1,516 @@
-## Définition
+# Skills et MCP dans Claude Code — Guide complet
 
-Un **skill Claude Code** est un bloc de compétences prêt à l’emploi pour une tâche précise (design frontend, refacto, doc, etc.).
+## Partie 1 : Les Skills
+
+### Définition
+
+Un **skill Claude Code** est un module réutilisable qui étend les capacités de Claude avec des connaissances spécialisées, des workflows et des outils. C'est comme un "guide d'intégration" pour un domaine précis : il transforme Claude d'un agent généraliste en un agent spécialisé équipé de savoir-faire procédural.
+
 Un skill peut embarquer :
 
-* des commandes slash,
-* des subagents spécialisés,
-* des intégrations **MCP** (outils externes),
-* des **hooks** qui réagissent à des évènements.
+- des **instructions** (dans `SKILL.md`),
+- des **scripts** exécutables (Python, Bash...),
+- des **références** (documentation, schémas, specs),
+- des **assets** (templates, images, polices...).
 
-L’idée : arrêter de refaire les mêmes prompts à la main et encapsuler une façon de travailler dans un module réutilisable.
-
----
-
-## Anatomie d’un skill
-
-### Commandes slash
-
-Des raccourcis pour lancer des actions ciblées du skill.
-
-```text
-/ui-wireframe home-page ecommerce minimal
-```
-
-Exemples typiques dans un skill frontend :
-
-* `/ui-wireframe` : propose une structure d’écran
-* `/ui-refine` : raffine une maquette existante
-* `/ui-audit` : audit de cohérence typographie/couleurs
+L'idée : encapsuler une façon de travailler dans un module que Claude peut invoquer automatiquement selon le contexte.
 
 ---
 
-### Subagents
+### Anatomie d'un skill
 
-Des “mini-Claude” spécialisés dans un sous-problème, par exemple dans un skill frontend :
+Tout skill a une structure simple :
 
-* `design-ux` : se concentre sur le parcours utilisateur
-* `design-ui` : se concentre sur la grille, la hiérarchie visuelle
-* `design-accessibility` : vérifie contrastes, tailles de texte, ARIA
-
-Tu peux les appeler directement dans Claude Code (suivant le skill) :
-
-```text
-@design-ui Crée une variation plus brutaliste de cette page de profil.
 ```
+skill-name/
+├── SKILL.md              # Obligatoire : instructions + métadonnées
+├── scripts/              # Optionnel : code exécutable
+├── references/           # Optionnel : documentation de référence
+└── assets/               # Optionnel : fichiers utilisés dans les outputs
+```
+
+#### SKILL.md (obligatoire)
+
+C'est le cœur du skill. Il contient :
+
+1. **Un frontmatter YAML** avec `name` et `description` — c'est ce que Claude lit pour décider quand utiliser le skill.
+2. **Un corps en Markdown** — les instructions détaillées, chargées uniquement si le skill est déclenché.
+
+Exemple :
+
+```yaml
+---
+name: frontend-design
+description: Création d'interfaces web distinctives et production-ready. Utiliser quand l'utilisateur demande de créer des composants, pages ou applications web (sites, landing pages, dashboards, composants React, layouts HTML/CSS).
+---
+```
+
+Le corps contient ensuite les instructions de travail.
+
+#### scripts/ (optionnel)
+
+Code exécutable pour les tâches qui demandent une fiabilité déterministe ou qui seraient réécrites à chaque fois.
+
+- **Quand l'utiliser** : opérations répétitives (rotation de PDF, conversion d'images...), tâches fragiles où la cohérence est critique.
+- **Avantage** : économie de tokens, exécution sans charger le code en contexte.
+
+Exemple : `scripts/rotate_pdf.py`
+
+#### references/ (optionnel)
+
+Documentation que Claude charge en contexte selon ses besoins.
+
+- **Quand l'utiliser** : schémas de base de données, specs d'API, documentation métier, politiques d'entreprise.
+- **Avantage** : garde le `SKILL.md` léger, chargé uniquement à la demande.
+
+Exemple : `references/api_docs.md`, `references/brand_guidelines.md`
+
+#### assets/ (optionnel)
+
+Fichiers utilisés dans les outputs, pas chargés en contexte.
+
+- **Quand l'utiliser** : templates, images, polices, boilerplate de projet.
+- **Avantage** : Claude peut utiliser ces fichiers sans les lire.
+
+Exemple : `assets/logo.png`, `assets/template.pptx`, `assets/starter-app/`
 
 ---
 
-### MCP intégrés
+### Comment Claude utilise les skills
 
-**MCP (Model Context Protocol)** sert à connecter le skill à des outils externes : GitHub, DigitalOcean, une base de données, un moteur de recherche, etc.
+Le système fonctionne en **trois niveaux de chargement progressif** :
 
-Un skill peut déclarer des MCP qu’il utilise en interne (par exemple : récupérer la liste des issues GitHub puis générer un dashboard d’admin).
+1. **Métadonnées** (name + description) — toujours en contexte (~100 mots)
+2. **Corps du SKILL.md** — chargé si le skill est déclenché (<5000 mots)
+3. **Ressources** — chargées à la demande par Claude
 
----
-
-### Hooks
-
-Les **hooks** sont des scripts déclenchés automatiquement à des moments clés : début de session, après exécution d'un outil, fin de session, etc.
-
-Un skill peut les utiliser pour automatiser la routine :
-
-* charger du contexte à chaque ouverture de projet,
-* lancer des tests,
-* générer un récap de session,
-* mettre à jour la doc.
+Claude lit les métadonnées de tous les skills disponibles. Quand une requête correspond à la description d'un skill, il charge le corps du `SKILL.md` et travaille selon ses instructions.
 
 ---
 
-## Installer un skill
+### Installer et utiliser un skill
 
-### 1. Ajouter (si besoin) un marketplace de plugins/skills
+#### Emplacement des skills
 
-Un skill arrive souvent via un plugin dans un marketplace.
+Les skills sont placés dans des dossiers sous `/mnt/skills/` :
 
-```text
-/plugin marketplace add my-org/claude-plugins
+- `/mnt/skills/public/` — skills publics fournis par Anthropic
+- `/mnt/skills/user/` — skills ajoutés par l'utilisateur
+- `/mnt/skills/examples/` — skills d'exemple
+
+#### Utilisation
+
+Pas besoin de commande spéciale. Claude détecte automatiquement quand un skill est pertinent grâce à sa description.
+
+Tu peux aussi demander explicitement :
+
 ```
-
-### 2. Installer le skill
-
-Selon la façon dont il est distribué, tu peux l’installer via la commande `/plugin` ou via le CLI :
-
-```text
-/plugin install frontend-design@my-org
-```
-
-ou côté terminal :
-
-```bash
-npx claude-plugins install @anthropics/claude-code-plugins/frontend-design
-```
-
-
-### 3. Choisir le scope
-
-Les skills suivent les mêmes scopes que le reste de la config :
-
-| Scope   | Portée                    | Cas d’usage typique                  |
-| ------- | ------------------------- | ------------------------------------ |
-| Local   | Ce projet uniquement      | PoC, tests, env perso                |
-| Project | Tous les users de ce repo | Standard d’équipe pour ce projet     |
-| User    | Tous tes projets Claude   | Préférences “globals” sur ta machine |
-
----
-
-## Skill **frontend-design**
-
-### Objectif
-
-Le skill **frontend-design** sert à casser le look "UI IA générique" (dégradés violets, gros cards ronds, Inter partout) et à produire des interfaces **nettes, variées et prêtes pour la prod**.
-
-Concrètement, il pousse Claude à prendre des décisions **fortes** en design :
-
-* choisir une direction esthétique claire,
-* utiliser une typo de caractère,
-* construire une palette cohérente,
-* proposer du HTML/CSS/JS ou des composants modernes, exploitables.
-
-### Installation rapide
-
-```bash
-npx claude-plugins install @anthropics/claude-code-plugins/frontend-design
-```
-
-ou :
-
-```text
-/plugin install frontend-design@anthropics
-```
-
-Après ça, tu peux simplement dire à Claude :
-
-```text
-Utilise le skill frontend-design et propose 3 variantes de cette page dashboard.
+Utilise le skill frontend-design et crée un dashboard pour une app de trading.
 ```
 
 ---
 
-### Tonalités de design disponibles (exemples)
+### Le skill frontend-design
 
-Un même skill peut supporter plusieurs “modes” visuels, par exemple :
+#### Objectif
 
-* **Brutally minimal** : ultra épuré, peu de couleurs, beaucoup d’espace blanc
-* **Maximalist** : visuel dense, typographie expressive, grosses highlights
-* **Retro-futuristic** : néons, formes géométriques, vibe années 80–90
-* **Luxury / Refined** : palette sombre + accents dorés, serif élégantes
-* **Playful / Toy-like** : couleurs vives, arrondis, micro-animations ludiques
+Le skill **frontend-design** guide Claude pour créer des interfaces web **distinctives et production-ready**, en évitant l'esthétique "IA générique" (dégradés violets, Inter partout, cards rondes...).
 
-Tu peux les appeler dans le prompt :
+#### Ce qu'il fait
 
-```text
-Crée une landing page pour une app de budget perso, en mode “Luxury / Refined”.
+Il pousse Claude à :
+
+- choisir une direction esthétique **audacieuse** et claire,
+- utiliser des typographies avec du caractère (pas Arial, pas Inter),
+- construire des palettes cohérentes avec des couleurs dominantes et des accents marqués,
+- produire du code fonctionnel (HTML/CSS/JS, React, Vue...).
+
+#### Directions esthétiques suggérées
+
+Le skill encourage à choisir un ton extrême parmi (liste non exhaustive) :
+
+- **Brutally minimal** : épuré, peu de couleurs, beaucoup d'espace
+- **Maximalist** : dense, typographie expressive, animations riches
+- **Retro-futuristic** : néons, géométrie, vibe années 80
+- **Luxury / Refined** : palette sombre, accents dorés, serif élégantes
+- **Playful / Toy-like** : couleurs vives, arrondis, micro-animations ludiques
+- **Editorial / Magazine** : layouts asymétriques, typo éditoriale
+- **Brutalist / Raw** : brut, sans fioritures, impact visuel
+
+#### Exemple d'utilisation
+
 ```
-
----
-
-### Exemples de prompts avec le skill frontend-design
-
-```text
 Utilise le skill frontend-design.
-Crée un dashboard web pour une app de trading, mode “Brutally minimal”, prêt en React + Tailwind.
+Crée une landing page pour une app de méditation, style "Luxury / Refined", 
+avec un hero animé et une section témoignages.
 ```
 
-```text
-Avec le skill frontend-design, design une page de settings avec dark mode,
-réglages de notifications et gestion de comptes liés.
+#### Principes appliqués
+
+- **Typographie** : polices distinctives, pas de fonts génériques.
+- **Couleurs** : palette restreinte (2-3 dominantes) + accents ciblés, variables CSS.
+- **Mouvement** : animations soignées sur les moments clés (chargement, hover, scroll).
+- **Composition** : layouts asymétriques, overlap, grilles cassées, espace négatif généreux.
+- **Détails visuels** : textures, gradients mesh, ombres dramatiques, grain...
+
+---
+
+### Créer ton propre skill
+
+#### Étape 1 : Initialiser le skill
+
+Utilise le script d'initialisation :
+
+```bash
+python /mnt/skills/examples/skill-creator/scripts/init_skill.py mon-skill --path /home/claude/
 ```
 
-```text
-Toujours avec frontend-design, propose une UI mobile first pour un
-planner d’habitudes, style playful, avec un système de badges.
+Ça crée la structure de base avec des exemples.
+
+#### Étape 2 : Écrire le SKILL.md
+
+**Frontmatter** : écris un `name` et une `description` claire. La description est cruciale — c'est ce qui déclenche le skill.
+
+```yaml
+---
+name: mon-skill-custom
+description: Description claire de ce que fait le skill et QUAND l'utiliser. Inclure des exemples de requêtes qui devraient déclencher ce skill.
+---
+```
+
+**Corps** : instructions concises. Claude est intelligent — n'explique que ce qu'il ne sait pas déjà.
+
+#### Étape 3 : Ajouter les ressources
+
+- `scripts/` : code à exécuter (tester avant d'inclure !)
+- `references/` : documentation à consulter
+- `assets/` : fichiers à utiliser dans les outputs
+
+#### Étape 4 : Valider et packager
+
+```bash
+python /mnt/skills/examples/skill-creator/scripts/package_skill.py /home/claude/mon-skill
+```
+
+Le script valide la structure et crée un fichier `.skill` distribuable.
+
+---
+
+### Bonnes pratiques pour les skills
+
+#### Concision
+
+Le contexte est une ressource partagée. Chaque token compte. Préfère les exemples concis aux explications verbeuses.
+
+#### Progressive disclosure
+
+- Garde le `SKILL.md` sous 500 lignes.
+- Déplace les détails dans `references/`.
+- Référence clairement les fichiers depuis le `SKILL.md`.
+
+#### Ne pas inclure
+
+- README.md, CHANGELOG.md, guides d'installation — le skill est pour Claude, pas pour des humains.
+- Documentation du processus de création.
+- Fichiers qui ne servent pas directement à l'exécution.
+
+---
+
+## Partie 2 : MCP (Model Context Protocol)
+
+### C'est quoi MCP ?
+
+**MCP** est un protocole open-source qui permet à Claude de se connecter à des outils externes : bases de données, APIs, services cloud, outils de développement... C'est comme un port USB-C universel pour l'IA : une façon standardisée de connecter Claude à n'importe quelle source de données ou outil.
+
+MCP fonctionne via des **serveurs MCP** qui exposent des capacités à Claude :
+
+- **Tools** : fonctions que Claude peut appeler (avec approbation utilisateur)
+- **Resources** : données que Claude peut lire (comme des réponses API ou du contenu de fichiers)
+- **Prompts** : templates pré-écrits disponibles comme commandes slash
+
+---
+
+### Ce que tu peux faire avec MCP
+
+Avec des serveurs MCP connectés, tu peux demander à Claude :
+
+- *"Implémente la feature décrite dans le ticket JIRA ENG-4521 et crée une PR sur GitHub."*
+- *"Vérifie Sentry pour voir les erreurs récentes sur la feature ENG-4521."*
+- *"Trouve les emails de 10 utilisateurs aléatoires dans notre base Postgres."*
+- *"Mets à jour notre template email avec les nouveaux designs Figma."*
+- *"Crée des brouillons Gmail pour inviter ces utilisateurs à une session feedback."*
+
+---
+
+### Serveurs MCP populaires
+
+#### Développement & Monitoring
+
+| Serveur | Description | Commande d'installation |
+|---------|-------------|------------------------|
+| **Sentry** | Monitoring d'erreurs, debug production | `claude mcp add --transport http sentry https://mcp.sentry.dev/mcp` |
+| **Socket** | Analyse de sécurité des dépendances | `claude mcp add --transport http socket https://mcp.socket.dev/` |
+| **Hugging Face** | Accès aux modèles et apps Gradio | `claude mcp add --transport http hugging-face https://huggingface.co/mcp` |
+| **GitHub** | Repos, issues, PRs, code | `claude mcp add github --env GITHUB_TOKEN=ton-token -- npx -y @modelcontextprotocol/server-github` |
+
+#### Gestion de projet & Documentation
+
+| Serveur | Description | Commande d'installation |
+|---------|-------------|------------------------|
+| **Asana** | Gestion de tâches et projets | `claude mcp add --transport sse asana https://mcp.asana.com/sse` |
+| **Atlassian** | Jira + Confluence | `claude mcp add --transport sse atlassian https://mcp.atlassian.com/v1/sse` |
+| **Linear** | Issue tracking moderne | `claude mcp add --transport sse linear https://mcp.linear.app/sse` |
+| **Notion** | Docs, pages, tâches | `claude mcp add --transport http notion https://mcp.notion.com/mcp` |
+| **Monday** | Boards, items, CRM | `claude mcp add --transport sse monday https://mcp.monday.com/sse` |
+
+#### Bases de données & Data
+
+| Serveur | Description | Commande d'installation |
+|---------|-------------|------------------------|
+| **PostgreSQL** | Requêtes SQL | `claude mcp add postgres --env DATABASE_URL=ton-url -- npx -y @modelcontextprotocol/server-postgres` |
+| **Airtable** | Bases et records | `claude mcp add airtable --env AIRTABLE_API_KEY=ta-clé -- npx -y airtable-mcp-server` |
+| **HubSpot** | CRM : contacts, deals | `claude mcp add --transport http hubspot https://mcp.hubspot.com/anthropic` |
+
+#### Paiements & Commerce
+
+| Serveur | Description | Commande d'installation |
+|---------|-------------|------------------------|
+| **Stripe** | Paiements, abonnements | `claude mcp add --transport http stripe https://mcp.stripe.com` |
+| **PayPal** | Commerce, transactions | `claude mcp add --transport http paypal https://mcp.paypal.com/mcp` |
+| **Square** | Paiements, inventaire | `claude mcp add --transport sse square https://mcp.squareup.com/sse` |
+
+#### Design & Media
+
+| Serveur | Description | Commande d'installation |
+|---------|-------------|------------------------|
+| **Figma** | Accès aux designs, export assets | `claude mcp add --transport http figma-dev-mode-mcp-server http://127.0.0.1:3845/mcp` |
+| **Canva** | Création et génération de designs | `claude mcp add --transport http canva https://mcp.canva.com/mcp` |
+| **InVideo** | Création vidéo | `claude mcp add --transport sse invideo https://mcp.invideo.io/sse` |
+
+#### Infrastructure & DevOps
+
+| Serveur | Description | Commande d'installation |
+|---------|-------------|------------------------|
+| **Vercel** | Déploiements, logs, projets | `claude mcp add --transport http vercel https://mcp.vercel.com/` |
+| **Netlify** | Déploiements, secrets, forms | `claude mcp add --transport http netlify https://netlify-mcp.netlify.app/mcp` |
+
+#### Filesystem & Recherche
+
+| Serveur | Description | Commande d'installation |
+|---------|-------------|------------------------|
+| **Filesystem** | Lecture/écriture de fichiers locaux | `claude mcp add filesystem -- npx -y @modelcontextprotocol/server-filesystem ~/Documents ~/Projects` |
+| **Brave Search** | Recherche web | `claude mcp add search --env BRAVE_API_KEY=ta-clé -- npx -y @modelcontextprotocol/server-brave-search` |
+
+---
+
+### Installer un serveur MCP
+
+Il existe trois types de serveurs MCP :
+
+#### 1. Serveurs HTTP (recommandé pour le cloud)
+
+```bash
+claude mcp add --transport http <nom> <url>
+```
+
+Exemple :
+```bash
+claude mcp add --transport http notion https://mcp.notion.com/mcp
+```
+
+#### 2. Serveurs SSE (Server-Sent Events)
+
+```bash
+claude mcp add --transport sse <nom> <url>
+```
+
+Exemple :
+```bash
+claude mcp add --transport sse asana https://mcp.asana.com/sse
+```
+
+#### 3. Serveurs stdio (locaux)
+
+Ces serveurs tournent comme des processus locaux sur ta machine.
+
+```bash
+claude mcp add <nom> -- <commande>
+```
+
+Le `--` sépare les options de Claude de la commande à exécuter.
+
+Exemples :
+
+```bash
+# GitHub avec token
+claude mcp add github --env GITHUB_TOKEN=ghp_xxx -- npx -y @modelcontextprotocol/server-github
+
+# PostgreSQL avec URL de connexion
+claude mcp add postgres --env DATABASE_URL=postgresql://user:pass@host/db -- npx -y @modelcontextprotocol/server-postgres
+
+# Filesystem avec accès à des dossiers spécifiques
+claude mcp add filesystem -- npx -y @modelcontextprotocol/server-filesystem ~/Documents ~/Projects
+```
+
+**Note Windows** : Sur Windows natif (pas WSL), ajoute `cmd /c` devant les commandes npx :
+```bash
+claude mcp add github -- cmd /c npx -y @modelcontextprotocol/server-github
 ```
 
 ---
 
-### Principes appliqués par le skill
-
-Le skill encode plusieurs règles implicites :
-
-* **Typographie** : pas de combo Arial/Inter par défaut, mais des pairs de typos avec une vraie personnalité.
-* **Couleurs** : palette simple (2–3 couleurs dominantes), plus des accents ciblés, au lieu d’un arc-en-ciel informe.
-* **Variables CSS / tokens** : couleurs, espacements, radius, z-index… centralisés dans des variables ou design tokens.
-* **Anti-convergence** : bannir les patterns ultra récurrents dans les datas (dégradés violet/bleu, hero "SaaS générique", etc.).
-
----
-
-## Utiliser MCP avec un skill
-
-### Rappel : c’est quoi MCP ?
-
-**MCP** connecte Claude à des outils externes via un protocole standardisé : serveurs GitHub, recherche, cloud, etc. Le skill peut ensuite exploiter ces serveurs comme s'ils faisaient partie de son "cerveau étendu".
-
-### Ajouter un serveur MCP
-
-Exemple avec un serveur GitHub :
+### Gérer les serveurs MCP
 
 ```bash
-claude mcp add github --scope user
-```
-
-Exemple avec un serveur DigitalOcean (local au projet) :
-
-```bash
-claude mcp add digitalocean-mcp-local \
-  -e DIGITALOCEAN_API_TOKEN=TON_TOKEN \
-  -- npx "@digitalocean/mcp"
-```
-
-
-Tu peux voir ce qui est configuré :
-
-```bash
+# Lister tous les serveurs configurés
 claude mcp list
+
+# Voir les détails d'un serveur
+claude mcp get <nom>
+
+# Supprimer un serveur
+claude mcp remove <nom>
 ```
 
-Et souvent déclencher l’UI d’authentification / gestion dans Claude Code en tapant :
-
-```text
-/mcp
-```
-
-### Exemple : skill frontend-design + MCP GitHub
-
-Scénario :
-
-1. Tu ajoutes un MCP GitHub.
-2. Un skill “frontend-design” étendu sait appeler ce MCP pour :
-
-   * lister les issues,
-   * lire le contenu d’un fichier de config,
-   * récupérer les labels existants.
-3. Tu lui demandes :
-
-```text
-Utilise le skill frontend-design et le MCP GitHub.
-Génère un dashboard de product management avec :
-- colonne par label GitHub
-- métriques avec le nombre d’issues par label
-- un panneau latéral “Issue details”.
-```
-
-Le skill peut alors *réellement* se brancher sur ton repo, lire les données via MCP, et produire une UI adaptée à ton cas réel.
+Dans Claude Code, tape `/mcp` pour voir et gérer les serveurs, notamment pour l'authentification OAuth.
 
 ---
 
-## Utiliser des hooks dans un skill
+### Scopes : où stocker la config ?
 
-### Rappel : à quoi servent les hooks ?
+Chaque serveur MCP peut être configuré à différents niveaux :
 
-Les **hooks** sont lancés automatiquement à certains moments, par exemple :
+| Scope | Portée | Fichier de config | Usage typique |
+|-------|--------|-------------------|---------------|
+| `local` (défaut) | Toi seul, ce projet | Settings utilisateur projet | Serveurs perso, expérimentations |
+| `project` | Toute l'équipe | `.mcp.json` à la racine du projet | Outils partagés en équipe |
+| `user` | Toi, tous tes projets | Config utilisateur globale | Outils personnels cross-projets |
 
-* `SessionStart` : au lancement ou à la reprise d’une session Claude Code
-* `PostToolUse` : après l’exécution d’un outil ou d’une commande
-* `Stop` : à la fin d’une session
+```bash
+# Ajouter en scope user (disponible partout)
+claude mcp add github -s user --env GITHUB_TOKEN=xxx -- npx -y @modelcontextprotocol/server-github
 
-Ils sont déclarés dans la config Claude Code (fichiers de settings global, projet, local, etc.) et peuvent être packagés dans un skill.
+# Ajouter en scope project (partagé avec l'équipe via .mcp.json)
+claude mcp add shared-tools -s project -- npx -y @your-team/mcp-tools
+```
 
-### Exemple de hook “SessionStart” dans un skill frontend
+---
 
-Idée : à chaque fois que tu démarres Claude dans un projet frontend, le skill :
+### Authentification OAuth
 
-1. vérifie que les deps sont installées,
-2. génère un fichier `design-context.md` avec :
+Beaucoup de serveurs cloud nécessitent une authentification :
 
-   * la palette actuelle,
-   * les typos utilisées,
-   * les composants principaux.
+1. Ajoute le serveur :
+```bash
+claude mcp add --transport http notion https://mcp.notion.com/mcp
+```
 
-Pseudo-config dans `.claude/settings.json` :
+2. Dans Claude Code, tape `/mcp` et suis les étapes dans ton navigateur.
+
+Les tokens sont stockés de façon sécurisée et rafraîchis automatiquement.
+
+---
+
+### Importer depuis Claude Desktop
+
+Si tu as déjà configuré des serveurs MCP dans Claude Desktop :
+
+```bash
+claude mcp import-from-claude-desktop
+```
+
+Un dialogue interactif te permet de choisir quels serveurs importer.
+
+---
+
+### Variables d'environnement dans .mcp.json
+
+Pour les configs d'équipe, tu peux utiliser des variables d'environnement :
 
 ```json
 {
-  "hooks": {
-    "SessionStart": [
-      {
-        "name": "prepare-frontend-design-context",
-        "command": ["node", "scripts/build-design-context.js"],
-        "when": { "projectType": "frontend" }
+  "mcpServers": {
+    "database": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-postgres"],
+      "env": {
+        "DATABASE_URL": "${DATABASE_URL}"
       }
-    ]
+    },
+    "custom-server": {
+      "command": "${HOME}/scripts/my-server.py",
+      "args": ["--config", "${CONFIG_PATH:-/default/path}"]
+    }
   }
 }
 ```
 
-Le script Node peut lui-même appeler Claude via le skill pour synthétiser la doc.
-
-### Exemple : hooks orientés “qualité”
-
-Beaucoup de plugins/skills "sérieux" utilisent des hooks pour :
-
-* générer automatiquement un résumé de session (`Stop`),
-* forcer un passage de linter ou de tests après certains outils (`PostToolUse`),
-* tenir un `CHANGELOG.md` ou un `DESIGN_NOTES.md` à jour.
-
-Tu peux très bien combiner ça avec un skill frontend :
-
-* `PostToolUse` : après chaque grosse refonte d’UI, lancer un script qui :
-
-  * prend le diff,
-  * demande au skill d’expliquer ce qui a changé côté UX/UI,
-  * met à jour un fichier `ui-changelog.md`.
+Syntaxe supportée :
+- `${VAR}` — valeur de la variable
+- `${VAR:-default}` — valeur ou défaut si non définie
 
 ---
 
-## Créer ton propre skill
+### Exemple concret : monitoring avec Sentry
 
-Structure typique :
+```bash
+# 1. Ajouter Sentry
+claude mcp add --transport http sentry https://mcp.sentry.dev/mcp
 
-```text
-mon-skill-frontend/
-├── skill.json          # manifest : nom, description, composants
-├── commands/           # commandes slash exposées
-├── agents/             # subagents spécialisés
-├── mcp.json            # MCP servers à déclarer / configurer
-└── hooks/              # scripts de hooks (sessionStart, stop, etc.)
-```
+# 2. S'authentifier
+# Dans Claude Code : /mcp → Sentry → Login
 
-
-Tu décris dans `skill.json` :
-
-* le contexte d’usage (ex : “design web B2B sobre”),
-* les styles pris en charge,
-* les MCP sur lesquels le skill s’appuie,
-* les hooks qu’il veut enregistrer.
-
-Ensuite tu publies ça via un marketplace, et les autres peuvent faire :
-
-```text
-/plugin marketplace add my-org/skills
-/plugin install mon-skill-frontend@my-org
+# 3. Utiliser
+# "Montre-moi les erreurs récentes sur le projet frontend"
+# "Quels sont les bugs les plus fréquents cette semaine ?"
 ```
 
 ---
 
-## Gestion des permissions
+### Ressources et Prompts MCP
 
-Dernier point important : **les skills héritent des permissions des plugins/MCP/hooks qu’ils utilisent**.
+#### Utiliser les ressources
 
-* Tu peux gérer ça avec une UX dédiée (`/permissions` suivant la config) pour voir quels skills ont accès à quoi.
-* Pour les MCP, fais attention aux scopes (`local`, `project`, `user`) et aux variables d’environnement (tokens API, secrets).
-* Un skill bien conçu doit être clair sur ce qu’il peut faire : “lit les issues GitHub”, “déploie sur DigitalOcean”, “écrit dans ce dossier seulement”, etc.
+Les serveurs MCP peuvent exposer des ressources référençables avec `@` :
+
+```
+@notion://page/12345 Résume cette page Notion
+```
+
+Tape `@` pour voir les ressources disponibles.
+
+#### Utiliser les prompts
+
+Les serveurs peuvent exposer des prompts comme commandes slash :
+
+```
+/mcp__sentry__recent_errors
+/mcp__github__create_pr feature-branch "Add new feature"
+```
+
+Tape `/` pour voir les commandes disponibles.
 
 ---
 
-## En bref
+### Trouver plus de serveurs MCP
 
-* Les **skills** emballent une vraie façon de travailler (frontend, tests, docs…) dans un module installable.
-* **MCP** donne aux skills des bras longs vers tes outils réels (GitHub, cloud, DB…).
-* Les **hooks** automatisent la routine autour de ces skills (setup, qualité, récap de session).
+- **Galerie officielle** : https://github.com/modelcontextprotocol/servers
+- **Créer le tien** : https://modelcontextprotocol.io/quickstart/server
 
-Et le skill **frontend-design** est le bon point de départ si tu veux que Claude arrête de pondre des interfaces clonées sur tout le web et commence à produire du vrai design exploitable.
+⚠️ **Attention** : les serveurs tiers ne sont pas vérifiés par Anthropic. Utilise-les à tes risques.
+
+---
+
+## En résumé
+
+| Concept | Ce que c'est |
+|---------|--------------|
+| **Skill** | Module avec `SKILL.md` + ressources optionnelles — étend le savoir-faire de Claude |
+| **MCP** | Protocole de connexion aux outils externes — étend les bras de Claude |
+| **Serveur MCP** | Service qui expose des tools/resources/prompts à Claude |
+
+Les **skills** encapsulent une expertise (frontend, docs, data...) dans un format que Claude active automatiquement.
+
+**MCP** connecte Claude au monde extérieur : GitHub, Notion, bases de données, APIs, services cloud...
+
+Les deux sont complémentaires : un skill peut s'appuyer sur des serveurs MCP configurés dans l'environnement pour accomplir des tâches complexes.
