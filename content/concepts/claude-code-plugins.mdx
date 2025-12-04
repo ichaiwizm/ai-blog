@@ -1,139 +1,64 @@
+## Qu’est-ce qu’un skill pour Claude Code
+
+Un *skill* dans Claude Code est un module spécialisé. C’est un paquet qui embarque des commandes, des agents dédiés, des connexions externes ou des hooks — bref, un moyen de donner à Claude un savoir-faire précis et réutilisable. 
+
+Plutôt que d’ajouter à chaque prompt toute la logique pour une tâche (ex : design frontend, génération d’UI, etc.), on installe un skill une fois — et ce skill va guider Claude de façon cohérente, project après project. 
+
 ---
-title: "Plugins Claude Code"
-description: "Étendre Claude Code avec des plugins, commandes slash, et serveurs MCP."
-icon: "sparkles"
-level: "intermediaire"
-order: 15
+
+## Installation d’un skill dans Claude Code
+
+Voici les étapes pour ajouter un skill à ton environnement Claude Code :
+
+1. Assure-toi que Claude Code est bien installé (via npm, Homebrew ou le script officiel) et que la commande `claude` est accessible.
+2. Ajoute un marketplace de plugins (si ce n’est pas déjà fait). Par exemple l’officiel :
+
+   ```
+   /plugin marketplace add anthropics/claude-code
+   ```
+
+3. Installe le skill voulu :
+
+   ```
+   /plugin install frontend-design@anthropics/claude-code
+   ```
+
+   Ou, en ligne de commande si tu utilises le CLI de gestion des plugins :
+
+   ```bash
+   npx claude-plugins install @anthropics/claude-code-plugins/frontend-design
+   ```
+
+4. Active le skill si besoin dans les réglages (parfois via l’interface “Skills / Capabilities”).
+
+Une fois installé et activé, Claude prendra en compte le skill automatiquement quand tu demanderas des tâches liées à son domaine d’expertise (ici : frontend / design UI).
+
 ---
 
-## Définition
+## Focus sur le skill frontend‑design
 
-Les plugins <Term>Claude Code</Term> sont des extensions qui ajoutent des fonctionnalités spécialisées. Ils regroupent des commandes slash, des subagents, des serveurs <Term>MCP</Term> et des hooks.
+### À quoi sert-il
 
-## Types de composants
+* Il guide Claude pour générer des interfaces frontend **esthétiques, distinctives, prêtes pour la production** — pas un design “IA générique”. 
+* Il impose une intention forte : choisir un style clair (minimaliste, rétro-futuriste, luxe, brutaliste, etc.), réfléchir au contexte utilisateur et aux contraintes techniques, et produire un code HTML/CSS/JS ou un composant React/Vue soigné, cohérent, mémorable.
 
-### Commandes Slash
+### Philosophie & pratique
 
-Des raccourcis personnalisés pour des opérations fréquentes :
+* Avant tout code, réfléchir au **contexte** : quel usage, quel public, quelles contraintes, quel “mood” visuel. 
+* Choisir une **direction esthétique forte** — que ce soit l’épure extrême, le maximalisme, le rétro, le luxe, le fun, etc. — et s’y tenir pour éviter un résultat fade ou “générique IA”. ([Claude Code Plugins][6])
+* Produire du **code utilisable en production** : pas un concept visuel figé, mais un résultat concret, avec HTML/CSS/JS, composants, structure, etc. 
 
-```
-/mon-commande argument
-```
+---
 
-### Subagents
+## Pourquoi utiliser un skill plutôt que des prompts ad-hoc
 
-Des agents spécialisés pour des tâches précises (design, tests, docs, etc.).
+* Un prompt seul impose le design pour chaque demande — tu dois répéter chaque fois les contraintes visuelles. Avec un skill, tu encapsules ces choix dans un “package” réutilisable. 
+* C’est plus robuste quand le projet grandit ou s’équipe : tous les développeurs/jeunes agents qui utilisent ce skill respectent le même langage visuel et les mêmes standards — ça assure de la cohérence. 
 
-### Serveurs MCP
+---
 
-<Term>MCP</Term> (Model Context Protocol) permet de connecter Claude à des outils et sources de données externes.
+## En résumé
 
-### Hooks
+Si tu veux que Claude génère des interfaces frontend qui ne ressemblent pas à “ce que toute IA sort par défaut”, installe le skill frontend-design. Il encode des principes de design forts, impose une architecture esthétique et produit du code prêt pour la prod — sans que tu aies à répéter à chaque fois les mêmes consignes.
 
-Des points d'accroche pour personnaliser le comportement à des moments clés du workflow.
-
-## Installation de plugins
-
-### Via la commande /plugin
-
-```
-/plugin marketplace add user-or-org/repo-name
-```
-
-### Niveaux de scope
-
-| Scope | Portée | Cas d'usage |
-|-------|--------|-------------|
-| Local | Votre session uniquement | Données personnelles/sensibles |
-| Project | Partagé dans le projet | Configuration d'équipe |
-| User | Tous vos projets | Préférences personnelles globales |
-
-## Plugin Frontend-Design
-
-Le plugin **frontend-design** est particulièrement remarquable pour le design d'interfaces.
-
-### Installation
-
-```bash
-npx claude-plugins install @anthropics/claude-code-plugins/frontend-design
-```
-
-### Ce qu'il fait
-
-Génère des interfaces **distinctives** et production-ready qui évitent l'esthétique générique de l'IA (dégradés violets, polices Arial, etc.).
-
-### Tonalités de design disponibles
-
-- **Brutally minimal** : Épuré à l'extrême
-- **Maximalist** : Riche et dense
-- **Retro-futuristic** : Style rétro-futuriste
-- **Organic/Natural** : Formes organiques
-- **Luxury/Refined** : Luxe et élégance
-- **Playful/Toy-like** : Ludique
-- **Editorial/Magazine** : Style éditorial
-- **Brutalist** : Design brutaliste
-- **Art deco** : Années 20-30
-- **Soft/Pastel** : Couleurs douces
-- **Industrial/Utilitarian** : Fonctionnel industriel
-
-### Exemples de prompts
-
-```
-Crée un dashboard pour une app de streaming musical
-```
-
-```
-Design une landing page pour une startup de sécurité IA
-```
-
-```
-Construis un panneau de settings avec dark mode
-```
-
-### Principes appliqués
-
-- **Typographie unique** : Polices distinctives, pas Arial ou Inter
-- **Couleurs dominantes** : Couleurs fortes avec accents vifs
-- **Variables CSS** : Cohérence via les custom properties
-- **Anti-convergence** : Évite les patterns génériques
-
-## Pourquoi les plugins sont nécessaires
-
-Sans guidance, les LLM souffrent de "convergence distributionnelle" : ils prédisent les choix safe (dégradés violets, animations minimales) car ces patterns dominent les données d'entraînement.
-
-Les plugins comme frontend-design forcent des choix plus distinctifs.
-
-## Autres plugins populaires
-
-### Pour le frontend
-
-| Plugin | Spécialité |
-|--------|------------|
-| frontend-excellence | React 19, Next.js 15, performance |
-| ui-designer | Design systems, composants |
-| senior-frontend | React, TypeScript, Tailwind |
-
-### Serveurs MCP utiles
-
-| Serveur | Fonctionnalité |
-|---------|----------------|
-| Brave Search MCP | Recherche web en temps réel |
-| Puppeteer MCP | Automatisation web avec vision IA |
-| Supabase MCP | Intégration Supabase |
-| Claudia | GUI avec agents custom et analytics |
-
-## Créer ses propres plugins
-
-Les plugins sont des packages légers. Structure typique :
-
-```
-mon-plugin/
-├── commands/      # Commandes slash
-├── subagents/     # Agents spécialisés
-├── mcp/           # Serveurs MCP
-└── hooks/         # Hooks personnalisés
-```
-
-## Gestion des permissions
-
-Utiliser `/permissions` pour gérer visuellement les accès des plugins sans éditer de JSON.
+Tu gagnes en cohérence, en qualité visuelle, et en productivité.
