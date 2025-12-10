@@ -94,7 +94,7 @@ export default function Home() {
                 Derniers articles
               </span>
               <h2 className="font-display text-2xl sm:text-3xl md:text-4xl text-text-primary">
-                Publications recentes
+                Publications récentes
               </h2>
             </div>
             <Link

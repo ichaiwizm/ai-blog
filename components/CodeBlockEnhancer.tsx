@@ -21,7 +21,7 @@ export default function CodeBlockEnhancer() {
       // Create copy button
       const button = document.createElement("button");
       button.className =
-        "code-copy-btn absolute top-3 right-3 p-2 rounded border border-[var(--border-light)] bg-[var(--bg-tertiary)] text-[var(--text-muted)] hover:text-[var(--text-inverse)] hover:bg-[var(--accent)] hover:border-[var(--accent)] transition-all opacity-0 group-hover:opacity-100 z-10";
+        "code-copy-btn absolute top-3 right-3 p-2 rounded border border-[var(--border-light)] bg-[var(--bg-tertiary)] text-[var(--text-muted)] hover:text-[var(--text-inverse)] hover:bg-[var(--accent)] hover:border-[var(--accent)] transition-all opacity-60 hover:opacity-100 z-10";
       button.setAttribute("aria-label", "Copier le code");
       button.setAttribute("title", "Copier le code");
 

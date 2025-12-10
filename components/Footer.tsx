@@ -46,11 +46,11 @@ export default function Footer() {
             {/* Categories */}
             <div>
               <h3 className="font-body text-sm font-semibold text-text-primary uppercase tracking-wider mb-5">
-                Categories
+                Catégories
               </h3>
               <ul className="space-y-3">
                 <FooterLink href="/category/tutoriels">Tutoriels</FooterLink>
-                <FooterLink href="/category/actualites">Actualites</FooterLink>
+                <FooterLink href="/category/actualites">Actualités</FooterLink>
                 <FooterLink href="/category/opinions">Opinions</FooterLink>
                 <FooterLink href="/category/comparatifs">Comparatifs</FooterLink>
               </ul>
@@ -93,7 +93,7 @@ export default function Footer() {
         <div className="container-default py-6">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <p className="font-mono text-xs text-text-muted">
-              &copy; {new Date().getFullYear()} AI Blog. Tous droits reserves.
+              &copy; {new Date().getFullYear()} AI Blog. Tous droits réservés.
             </p>
             <div className="flex items-center gap-6">
               <a
@@ -102,7 +102,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="font-mono text-xs text-text-muted hover:text-accent transition-colors"
               >
-                Deploye sur Vercel
+                Déployé sur Vercel
               </a>
             </div>
           </div>

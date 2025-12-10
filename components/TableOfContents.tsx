@@ -36,8 +36,8 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
   if (headings.length === 0) return null;
 
   return (
-    <nav className="hidden xl:block fixed right-8 top-32 w-64 max-h-[calc(100vh-10rem)] overflow-y-auto">
-      <div className="border-3 border-border bg-bg-secondary p-5">
+    <nav className="hidden lg:block fixed right-4 xl:right-8 top-32 w-56 xl:w-64 max-h-[calc(100vh-10rem)] overflow-y-auto">
+      <div className="border-3 border-border bg-bg-secondary p-4 xl:p-5">
         <h4 className="font-body text-xs font-semibold text-text-primary uppercase tracking-wider mb-4">
           Sommaire
         </h4>
