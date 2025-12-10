@@ -1,0 +1,148 @@
+---
+title: "Refondre entièrement un frontend avec le skill Frontend Design"
+description: "Découvrez comment utiliser le skill frontend-design de Claude Code pour revoir complètement le design d'une application. Un outil qui fait de véritables miracles."
+date: "2024-12-10"
+tags: ["Claude Code", "Frontend", "Design", "Skills", "UI/UX"]
+category: "tutoriels"
+published: true
+image: "https://images.unsplash.com/photo-1545235617-9465d2a55698?w=1200&q=80"
+prerequisites: ["claude-code", "terminal-wsl"]
+---
+
+Parmi les skills disponibles pour <Term>Claude Code</Term>, le **frontend-design** est sans doute le plus impressionnant. Ce n'est pas juste un outil qui génère du code — c'est un véritable directeur artistique embarqué dans votre terminal, capable de repenser entièrement l'identité visuelle d'un projet.
+
+J'ai testé ce skill sur plusieurs projets. Le résultat ? Des interfaces qui n'ont plus rien à voir avec l'esthétique "IA générique" qu'on voit partout. Vraiment à tester.
+
+## Ce que fait le skill frontend-design
+
+Le skill **frontend-design** n'est pas un simple générateur de composants. C'est un prompt spécialisé qui pousse Claude à :
+
+- Choisir une **direction esthétique audacieuse** (et pas le sempiternel dégradé violet)
+- Utiliser des **typographies avec du caractère** (exit Arial et Inter)
+- Construire des **palettes cohérentes** avec des couleurs dominantes et des accents marqués
+- Produire du code **fonctionnel et production-ready**
+
+<Callout type="info">
+Un skill Claude Code, c'est essentiellement un prompt expert encapsulé dans un module. Le skill frontend-design contient des instructions précises sur les principes de design, les directions esthétiques possibles, et les standards de qualité attendus.
+</Callout>
+
+## Étape 1 : Naviguer jusqu'au projet
+
+Comme pour toute session Claude Code, commencez par ouvrir votre terminal et naviguer jusqu'à la racine de votre projet.
+
+Sur Windows, ouvrez <Term>WSL</Term> :
+
+```bash
+wsl
+```
+
+Puis naviguez jusqu'à votre projet :
+
+```bash
+cd /chemin/vers/mon-projet
+```
+
+## Étape 2 : Installer le skill (si nécessaire)
+
+Avant de lancer Claude Code, vérifiez si le skill est installé. Si ce n'est pas le cas, installez-le avec cette commande :
+
+```bash
+npx claude-plugins skills install @anthropics/claude-code/frontend-design
+```
+
+<Alert variant="warning">
+Si vous êtes déjà dans une session Claude Code, vous devez **sortir** d'abord (tapez `/exit` ou `Ctrl+C`), installer le skill, puis relancer Claude Code. Le skill ne sera chargé qu'au démarrage d'une nouvelle session.
+</Alert>
+
+## Étape 3 : Lancer Claude Code en mode plan
+
+Une fois le skill installé, lancez Claude Code :
+
+```bash
+claude
+```
+
+Ensuite, passez en **mode plan** avec le raccourci :
+
+```
+Shift + Tab
+```
+
+Le mode plan permet à Claude d'analyser d'abord la situation, de poser des questions si nécessaire, et de planifier son approche avant d'écrire du code. C'est essentiel pour une refonte de design — on veut que Claude comprenne le contexte avant de tout modifier.
+
+## Étape 4 : Demander la refonte
+
+Maintenant, demandez à Claude de revoir le design en utilisant son skill :
+
+```
+Revois tout le design de mon application, de A à Z,
+en utilisant ton skill de frontend design.
+```
+
+Vous pouvez être plus précis selon votre situation :
+
+```
+Utilise le skill frontend-design pour repenser entièrement
+l'interface de ce projet Next.js. Je veux quelque chose de moderne
+et distinctif, pas le style "IA générique" habituel.
+```
+
+Ou donner une direction esthétique :
+
+```
+Avec ton skill frontend-design, refais le design de cette landing page.
+Direction : brutalist, minimaliste, avec une typographie forte.
+```
+
+## Ce qui se passe ensuite
+
+Une fois le skill chargé, Claude va :
+
+1. **Explorer votre codebase** pour comprendre la structure existante
+2. **Vous poser des questions** (optionnel) — sur vos préférences, votre cible, vos contraintes
+3. **Définir une direction esthétique** claire et cohérente
+4. **Refondre progressivement** chaque composant, page ou section
+
+La magie opère grâce à la qualité du prompt dans le skill. Claude ne se contente pas d'appliquer des styles — il **pense design**. Il considère la hiérarchie visuelle, le contraste, l'espacement, les transitions, la cohérence globale.
+
+<Callout type="info">
+Le skill peut suggérer des directions comme "Brutally minimal", "Retro-futuristic", "Luxury / Refined", "Editorial / Magazine" ou "Playful". Si vous n'avez pas de préférence, laissez Claude proposer — ses choix sont souvent pertinents par rapport au contexte du projet.
+</Callout>
+
+## Résultats concrets
+
+Ce qui distingue le skill frontend-design des prompts génériques :
+
+| Sans le skill | Avec le skill |
+|---------------|---------------|
+| Dégradés violets génériques | Palettes cohérentes et distinctives |
+| Inter ou Arial partout | Typographies avec du caractère |
+| Cards rondes et shadows floues | Compositions audacieuses |
+| Interfaces interchangeables | Identité visuelle unique |
+
+Le skill pousse Claude à faire des **choix forts** plutôt que de jouer la sécurité. Et c'est exactement ce qu'on veut quand on refond un design.
+
+## Conseils pour de meilleurs résultats
+
+- **Passez en mode plan** avant de lancer la refonte — ça évite que Claude fonce tête baissée
+- **Donnez du contexte** : type d'audience, ton souhaité, contraintes techniques
+- **Soyez ouvert aux propositions** — le skill est conçu pour sortir des sentiers battus
+- **Itérez** : demandez des ajustements si une direction ne vous convient pas
+
+## En résumé
+
+Le skill **frontend-design** transforme Claude Code en directeur artistique capable de repenser entièrement l'identité visuelle d'un projet. C'est l'un des skills les plus impressionnants disponibles — et probablement le plus satisfaisant à utiliser.
+
+```bash
+# Résumé des commandes
+npx claude-plugins skills install @anthropics/claude-code/frontend-design
+claude
+# Shift + Tab pour le mode plan
+# "Revois le design avec ton skill frontend-design"
+```
+
+Si vous en avez marre des interfaces génériques générées par IA, ce skill est fait pour vous. Testez-le sur votre prochain projet — les résultats parlent d'eux-mêmes.
+
+---
+
+*Pour en savoir plus sur les skills et leur fonctionnement, consultez notre [guide complet sur les Skills et MCP](/concepts/claude-code-plugins).*
