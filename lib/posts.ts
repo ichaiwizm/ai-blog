@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import readingTime from "reading-time";
+import GithubSlugger from "github-slugger";
 
 const postsDirectory = path.join(process.cwd(), "content/posts");
 
@@ -156,15 +157,14 @@ export interface TocHeading {
 export function extractHeadings(content: string): TocHeading[] {
   const headingRegex = /^(#{2,3})\s+(.+)$/gm;
   const headings: TocHeading[] = [];
+  const slugger = new GithubSlugger();
   let match;
 
   while ((match = headingRegex.exec(content)) !== null) {
     const level = match[1].length;
     const text = match[2].trim();
-    const id = text
-      .toLowerCase()
-      .replace(/[^a-z0-9\s-]/g, "")
-      .replace(/\s+/g, "-");
+    // Use github-slugger to match rehype-slug's ID generation
+    const id = slugger.slug(text);
 
     headings.push({ id, text, level });
   }

@@ -19,6 +19,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import Prerequisites from "@/components/Prerequisites";
 import ArticleTracker from "@/components/ArticleTracker";
 import ArticleActions from "@/components/ArticleActions";
+import CodeBlockEnhancer from "@/components/CodeBlockEnhancer";
 
 interface Props {
   params: { slug: string };
@@ -195,6 +196,7 @@ export default async function PostPage({ params }: Props) {
           )}
 
           <div className="prose prose-lg max-w-none">{content}</div>
+          <CodeBlockEnhancer />
 
           {/* Reactions */}
           <div className="mt-16 pt-8 border-t-2 border-border">
