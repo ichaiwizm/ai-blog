@@ -1,6 +1,6 @@
 {
-  "name": "AI Blog - Développer avec l'IA",
-  "short_name": "AI Blog",
+  "name": "Wizycode Blog - Développer avec l'IA",
+  "short_name": "Wizycode Blog",
   "description": "Guides et bonnes pratiques pour développer avec l'intelligence artificielle",
   "start_url": "/",
   "display": "standalone",

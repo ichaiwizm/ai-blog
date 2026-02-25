@@ -10,7 +10,7 @@ import { AccessibilityProvider } from "@/contexts/AccessibilityContext";
 import BadgeNotification from "@/components/BadgeNotification";
 import { PomodoroWidget } from "@/components/FocusModeToggle";
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ai-blog.vercel.app";
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ai-blog.wizycode.fr";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -22,8 +22,8 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: "AI Blog",
-    template: "%s | AI Blog",
+    default: "Wizycode Blog",
+    template: "%s | Wizycode Blog",
   },
   description: "Guides et bonnes pratiques pour développer avec l'intelligence artificielle",
   metadataBase: new URL(baseUrl),
@@ -31,16 +31,16 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "AI Blog",
+    title: "Wizycode Blog",
   },
   formatDetection: {
     telephone: false,
   },
   openGraph: {
-    title: "AI Blog",
+    title: "Wizycode Blog",
     description: "Guides et bonnes pratiques pour développer avec l'intelligence artificielle",
     type: "website",
-    siteName: "AI Blog",
+    siteName: "Wizycode Blog",
     locale: "fr_FR",
   },
   twitter: {
@@ -75,7 +75,7 @@ export default function RootLayout({
         <link
           rel="alternate"
           type="application/rss+xml"
-          title="AI Blog RSS Feed"
+          title="Wizycode Blog RSS Feed"
           href="/feed.xml"
         />
       </head>

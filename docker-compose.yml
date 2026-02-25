@@ -1,0 +1,17 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_SITE_URL=https://ai-blog.wizycode.fr
+    container_name: ai-blog
+    restart: unless-stopped
+    environment:
+      - NEXT_PUBLIC_SITE_URL=https://ai-blog.wizycode.fr
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
