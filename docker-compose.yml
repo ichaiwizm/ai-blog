@@ -5,12 +5,31 @@ services:
       dockerfile: Dockerfile
       args:
         - NEXT_PUBLIC_SITE_URL=https://ai-blog.wizycode.fr
+        - NEXT_PUBLIC_POCKETBASE_URL=https://pb-ai-blog.wizycode.fr
     container_name: ai-blog
     restart: unless-stopped
+    volumes:
+      - /root/apps/ai-blog/public/images:/app/public/images
     environment:
       - NEXT_PUBLIC_SITE_URL=https://ai-blog.wizycode.fr
+      - NEXT_PUBLIC_POCKETBASE_URL=https://pb-ai-blog.wizycode.fr
+      - POCKETBASE_URL=http://pocketbase-ai-blog:8090
+    depends_on:
+      - pocketbase-ai-blog
     networks:
       - proxy
+
+  pocketbase-ai-blog:
+    image: ghcr.io/muchobien/pocketbase:latest
+    container_name: pocketbase-ai-blog
+    restart: unless-stopped
+    volumes:
+      - pocketbase_ai-blog_data:/pb_data
+    networks:
+      - proxy
+
+volumes:
+  pocketbase_ai-blog_data:
 
 networks:
   proxy:
