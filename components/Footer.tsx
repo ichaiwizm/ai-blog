@@ -12,16 +12,16 @@ export default function Footer() {
             <div className="flex items-center gap-3 mb-4 sm:mb-6">
               <div className="w-9 h-9 sm:w-10 sm:h-10 bg-accent border-3 border-border flex items-center justify-center">
                 <span className="font-body text-xs sm:text-sm font-bold text-text-inverse">
-                  AI
+                  IA
                 </span>
               </div>
               <span className="font-display text-xl sm:text-2xl text-text-primary">
-                Blog
+                Codia
               </span>
             </div>
             <p className="text-text-muted text-sm sm:text-base leading-relaxed mb-6 sm:mb-8 max-w-xs">
-              Développer mieux avec l&apos;IA. Tutoriels, bonnes pratiques et
-              retours d&apos;expérience pour les développeurs.
+              Le blog francophone sur les outils IA pour développeurs.
+              Tutoriels, comparatifs et retours d&apos;expérience.
             </p>
             {/* Newsletter */}
             <div className="max-w-sm">
@@ -93,16 +93,16 @@ export default function Footer() {
         <div className="container-default py-6">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <p className="font-mono text-xs text-text-muted">
-              &copy; {new Date().getFullYear()} AI Blog. Tous droits réservés.
+              &copy; {new Date().getFullYear()} Codia. Tous droits réservés.
             </p>
             <div className="flex items-center gap-6">
               <a
-                href="https://vercel.com"
+                href="https://wizycode.fr"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-mono text-xs text-text-muted hover:text-accent transition-colors"
               >
-                Déployé sur Vercel
+                Propulsé par Wizycode.fr — développement web &amp; IA
               </a>
             </div>
           </div>

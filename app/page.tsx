@@ -24,13 +24,13 @@ export default function Home() {
               {/* Overline */}
               <div className="animate-fade-up">
                 <span className="category-badge mb-4 sm:mb-6 md:mb-8 inline-block text-xs sm:text-sm">
-                  Développement avec l&apos;IA
+                  Outils IA pour développeurs
                 </span>
               </div>
 
               {/* Main Title */}
               <h1 className="font-display text-4xl xs:text-5xl sm:text-6xl lg:text-7xl text-text-primary leading-[1.05] mb-4 sm:mb-6 animate-fade-up stagger-1">
-                Développer avec
+                Coder avec
                 <br />
                 <span className="text-accent">l&apos;IA</span>
                 <span className="block w-32 sm:w-40 md:w-48 h-1 bg-border mt-3 sm:mt-4" />
@@ -38,8 +38,9 @@ export default function Home() {
 
               {/* Subtitle */}
               <p className="text-base sm:text-lg md:text-xl text-text-muted max-w-lg mb-6 sm:mb-8 md:mb-10 animate-fade-up stagger-2">
-                Guides pratiques, bonnes pratiques et retours d&apos;expérience
-                pour développer efficacement avec l&apos;intelligence artificielle.
+                Guides pratiques, comparatifs et retours d&apos;expérience
+                sur les meilleurs outils IA pour développeurs.
+                Claude Code, Cursor, Copilot et bien d&apos;autres.
               </p>
 
               {/* CTA */}
@@ -58,7 +59,7 @@ export default function Home() {
                   </svg>
                 </Link>
                 <span className="font-mono text-xs sm:text-sm text-text-muted">
-                  {totalPosts} article{totalPosts > 1 ? "s" : ""} publie
+                  {totalPosts} article{totalPosts > 1 ? "s" : ""} publié
                   {totalPosts > 1 ? "s" : ""}
                 </span>
               </div>
@@ -71,7 +72,7 @@ export default function Home() {
                 <div className="aspect-square bg-accent border-3 border-border flex items-center justify-center">
                   <div className="text-center">
                     <span className="font-display text-8xl text-text-inverse">
-                      AI
+                      IA
                     </span>
                     <div className="w-16 h-0.5 bg-text-inverse mx-auto mt-4" />
                   </div>
@@ -143,8 +144,8 @@ export default function Home() {
                 le dev avec l&apos;IA
               </h2>
               <p className="text-text-muted text-base sm:text-lg mb-6 sm:mb-8">
-                Suivez les derniers tutoriels et bonnes pratiques pour coder
-                avec l&apos;IA.
+                Découvrez les meilleurs outils IA pour développeurs
+                et apprenez à coder plus efficacement.
               </p>
               <div className="flex flex-col xs:flex-row flex-wrap gap-3 sm:gap-4">
                 <a
@@ -157,7 +158,7 @@ export default function Home() {
                   Flux RSS
                 </a>
                 <a
-                  href="https://github.com"
+                  href="https://github.com/ichaiwizm/codia"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="brutal-btn-secondary w-full xs:w-auto justify-center"
@@ -173,7 +174,7 @@ export default function Home() {
               <StatCard number={totalPosts.toString()} label="Articles" />
               <StatCard number="4" label="Categories" />
               <StatCard number="12+" label="Sujets" />
-              <StatCard number="2025" label="Actif depuis" />
+              <StatCard number="2026" label="Actif depuis" />
             </div>
           </div>
         </div>

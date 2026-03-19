@@ -68,11 +68,11 @@ export default function Header() {
           <Link href="/" className="group flex items-center gap-2 sm:gap-3">
             <div className="w-10 h-10 sm:w-11 sm:h-11 bg-accent border-3 border-border flex items-center justify-center transition-all group-hover:translate-x-[-2px] group-hover:translate-y-[-2px] group-hover:shadow-brutal-sm">
               <span className="font-body text-sm sm:text-base font-bold text-text-inverse tracking-tight">
-                AI
+                IA
               </span>
             </div>
             <span className="font-display text-xl sm:text-2xl text-text-primary hidden xs:block">
-              Blog
+              Codia
             </span>
           </Link>
 

@@ -3,9 +3,9 @@ import ArticleCard from "@/components/ArticleCard";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Tous les articles - AI Blog",
+  title: "Tous les articles",
   description:
-    "Liste de tous les articles du blog sur l'intelligence artificielle",
+    "Tous les articles sur les outils IA pour développeurs : tutoriels, comparatifs et retours d'expérience.",
 };
 
 export default function BlogPage() {
@@ -45,8 +45,8 @@ export default function BlogPage() {
           </h1>
 
           <p className="text-xl text-text-muted max-w-xl animate-fade-up stagger-3">
-            Explorez tous les articles sur l&apos;IA, le machine learning et les
-            technologies emergentes.
+            Explorez tous les articles sur les outils IA pour développeurs,
+            les bonnes pratiques et les retours d&apos;expérience.
           </p>
         </div>
       </section>
@@ -81,7 +81,7 @@ export default function BlogPage() {
           {posts.length === 0 ? (
             <div className="text-center py-20 border-3 border-border-light">
               <p className="font-body text-text-muted text-lg">
-                Aucun article trouve...
+                Aucun article trouvé...
               </p>
             </div>
           ) : (

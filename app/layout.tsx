@@ -10,7 +10,7 @@ import { AccessibilityProvider } from "@/contexts/AccessibilityContext";
 import BadgeNotification from "@/components/BadgeNotification";
 import { PomodoroWidget } from "@/components/FocusModeToggle";
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ai-blog.vercel.app";
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://codia.wizycode.fr";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -22,31 +22,35 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: "AI Blog",
-    template: "%s | AI Blog",
+    default: "Codia — Outils IA pour développeurs",
+    template: "%s | Codia",
   },
-  description: "Guides et bonnes pratiques pour développer avec l'intelligence artificielle",
+  description: "Guides pratiques, comparatifs et retours d'expérience sur les outils IA pour développeurs. Claude Code, Cursor, Copilot et plus encore.",
   metadataBase: new URL(baseUrl),
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "AI Blog",
+    title: "Codia",
   },
   formatDetection: {
     telephone: false,
   },
   openGraph: {
-    title: "AI Blog",
-    description: "Guides et bonnes pratiques pour développer avec l'intelligence artificielle",
+    title: "Codia — Outils IA pour développeurs",
+    description: "Guides pratiques, comparatifs et retours d'expérience sur les outils IA pour développeurs. Claude Code, Cursor, Copilot et plus encore.",
     type: "website",
-    siteName: "AI Blog",
+    siteName: "Codia",
     locale: "fr_FR",
+    url: baseUrl,
   },
   twitter: {
     card: "summary_large_image",
+    title: "Codia — Outils IA pour développeurs",
+    description: "Guides pratiques, comparatifs et retours d'expérience sur les outils IA pour développeurs.",
   },
   alternates: {
+    canonical: baseUrl,
     types: {
       "application/rss+xml": "/feed.xml",
     },
@@ -54,6 +58,13 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
+  verification: {
+    google: "PLACEHOLDER_REPLACE_ME",
   },
   icons: {
     icon: [
@@ -75,7 +86,7 @@ export default function RootLayout({
         <link
           rel="alternate"
           type="application/rss+xml"
-          title="AI Blog RSS Feed"
+          title="Codia RSS Feed"
           href="/feed.xml"
         />
       </head>

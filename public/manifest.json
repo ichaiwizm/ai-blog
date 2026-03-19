@@ -1,7 +1,7 @@
 {
-  "name": "AI Blog - Développer avec l'IA",
-  "short_name": "AI Blog",
-  "description": "Guides et bonnes pratiques pour développer avec l'intelligence artificielle",
+  "name": "Codia — Outils IA pour développeurs",
+  "short_name": "Codia",
+  "description": "Guides pratiques, comparatifs et retours d'expérience sur les outils IA pour développeurs.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

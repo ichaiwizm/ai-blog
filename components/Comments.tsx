@@ -21,7 +21,7 @@ export default function Comments({ slug }: CommentsProps) {
     script.crossOrigin = "anonymous";
 
     // Configuration Giscus
-    script.setAttribute("data-repo", "ichaiwizm/ai-blog");
+    script.setAttribute("data-repo", "ichaiwizm/codia");
     script.setAttribute("data-repo-id", "R_kgDOQfua2g");
     script.setAttribute("data-category", "General");
     script.setAttribute("data-category-id", "DIC_kwDOQfua2s4CzOFw");
@@ -43,7 +43,7 @@ export default function Comments({ slug }: CommentsProps) {
         Commentaires
       </h2>
       <p className="font-body text-sm text-text-muted mb-8">
-        Connectez-vous avec GitHub pour participer a la discussion.
+        Connectez-vous avec GitHub pour participer à la discussion.
       </p>
       <div
         ref={ref}

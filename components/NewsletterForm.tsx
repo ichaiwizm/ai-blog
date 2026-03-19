@@ -22,26 +22,26 @@ export default function NewsletterForm() {
         },
         body: JSON.stringify({
           email,
-          tags: ["ai-blog"],
+          tags: ["codia"],
         }),
       });
 
       if (res.ok || res.status === 201) {
         setStatus("success");
-        setMessage("Merci ! Verifiez votre boite mail pour confirmer.");
+        setMessage("Merci ! Vérifiez votre boîte mail pour confirmer.");
         setEmail("");
       } else {
         const data = await res.json();
         if (data.code === "email_already_exists") {
           setStatus("success");
-          setMessage("Vous etes deja inscrit !");
+          setMessage("Vous êtes déjà inscrit !");
         } else {
           throw new Error(data.detail || "Une erreur est survenue");
         }
       }
     } catch {
       setStatus("error");
-      setMessage("Une erreur est survenue. Reessayez plus tard.");
+      setMessage("Une erreur est survenue. Réessayez plus tard.");
     }
 
     setTimeout(() => {
@@ -56,7 +56,7 @@ export default function NewsletterForm() {
         Newsletter
       </h4>
       <p className="text-sm text-text-muted mb-4">
-        Recevez les derniers articles dans votre boite mail.
+        Recevez les derniers articles dans votre boîte mail.
       </p>
       <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-0">
         <input
