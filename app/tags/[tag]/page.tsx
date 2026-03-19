@@ -3,25 +3,24 @@ import Link from "next/link";
 import { getAllTags, getPostsByTag } from "@/lib/posts";
 import ArticleCard from "@/components/ArticleCard";
 
-interface Props {
-  params: { tag: string };
-}
+export const dynamic = "force-dynamic";
 
-export async function generateStaticParams() {
-  const tags = getAllTags();
-  return tags.map((tag) => ({ tag: tag.toLowerCase() }));
+interface Props {
+  params: Promise<{ tag: string }>;
 }
 
 export async function generateMetadata({ params }: Props) {
+  const { tag } = await params;
   return {
-    title: `#${params.tag} - AI Blog`,
-    description: `Tous les articles avec le tag ${params.tag}`,
+    title: `#${tag} - AI Blog`,
+    description: `Tous les articles avec le tag ${tag}`,
   };
 }
 
-export default function TagPage({ params }: Props) {
-  const posts = getPostsByTag(params.tag);
-  const allTags = getAllTags();
+export default async function TagPage({ params }: Props) {
+  const { tag } = await params;
+  const posts = await getPostsByTag(tag);
+  const allTags = await getAllTags();
 
   if (posts.length === 0) {
     notFound();
@@ -36,14 +35,7 @@ export default function TagPage({ params }: Props) {
             href="/blog"
             className="inline-flex items-center gap-2 font-body text-sm font-medium text-text-muted hover:text-accent transition-colors mb-8 animate-fade-up"
           >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M19 12H5M12 19l-7-7 7-7" />
             </svg>
             Tous les articles
@@ -57,7 +49,7 @@ export default function TagPage({ params }: Props) {
 
           <h1 className="font-display text-5xl sm:text-6xl mb-6 animate-fade-up stagger-2">
             <span className="text-accent">#</span>
-            <span className="text-text-primary">{params.tag}</span>
+            <span className="text-text-primary">{tag}</span>
           </h1>
 
           <p className="text-xl text-text-muted animate-fade-up stagger-3">
@@ -75,14 +67,10 @@ export default function TagPage({ params }: Props) {
             </span>
             <div className="flex flex-wrap gap-2">
               {allTags
-                .filter((t) => t.toLowerCase() !== params.tag.toLowerCase())
-                .map((tag) => (
-                  <Link
-                    key={tag}
-                    href={`/tags/${tag.toLowerCase()}`}
-                    className="tag-chip"
-                  >
-                    #{tag}
+                .filter((t) => t.toLowerCase() !== tag.toLowerCase())
+                .map((t) => (
+                  <Link key={t} href={`/tags/${t.toLowerCase()}`} className="tag-chip">
+                    #{t}
                   </Link>
                 ))}
             </div>

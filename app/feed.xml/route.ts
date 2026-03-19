@@ -2,7 +2,7 @@ import { getAllPosts } from "@/lib/posts";
 
 export async function GET() {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ai-blog.wizycode.fr";
-  const posts = getAllPosts();
+  const posts = await getAllPosts();
 
   const feed = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -19,10 +19,9 @@ export async function GET() {
     <item>
       <title><![CDATA[${post.title}]]></title>
       <link>${baseUrl}/blog/${post.slug}</link>
-      <guid isPermaLink="true">${baseUrl}/blog/${post.slug}</guid>
-      <description><![CDATA[${post.description}]]></description>
+      <guid>${baseUrl}/blog/${post.slug}</guid>
       <pubDate>${new Date(post.date).toUTCString()}</pubDate>
-      ${post.tags.map((tag) => `<category>${tag}</category>`).join("\n      ")}
+      <description><![CDATA[${post.description}]]></description>
     </item>`
       )
       .join("")}
@@ -32,7 +31,7 @@ export async function GET() {
   return new Response(feed, {
     headers: {
       "Content-Type": "application/xml",
-      "Cache-Control": "s-maxage=3600, stale-while-revalidate",
+      "Cache-Control": "public, max-age=3600",
     },
   });
 }

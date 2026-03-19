@@ -9,45 +9,37 @@ import {
 import ArticleCard from "@/components/ArticleCard";
 import Breadcrumbs from "@/components/Breadcrumbs";
 
-interface Props {
-  params: { slug: string };
-}
+export const dynamic = "force-dynamic";
 
-export async function generateStaticParams() {
-  const categories = getAllCategories();
-  return categories.map((category) => ({ slug: category }));
+interface Props {
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateMetadata({ params }: Props) {
-  const category = params.slug as Category;
+  const { slug } = await params;
+  const category = slug as Category;
   const categoryInfo = CATEGORIES[category];
-
-  if (!categoryInfo) {
-    return { title: "Categorie non trouvee" };
-  }
-
+  if (!categoryInfo) return { title: "Categorie non trouvee" };
   return {
     title: `${categoryInfo.label} - AI Blog`,
     description: categoryInfo.description,
   };
 }
 
-export default function CategoryPage({ params }: Props) {
-  const category = params.slug as Category;
+export default async function CategoryPage({ params }: Props) {
+  const { slug } = await params;
+  const category = slug as Category;
   const categoryInfo = CATEGORIES[category];
 
-  if (!categoryInfo) {
-    notFound();
-  }
+  if (!categoryInfo) notFound();
 
-  const posts = getPostsByCategory(category);
+  const posts = await getPostsByCategory(category);
 
   return (
     <>
       {/* Header */}
       <section className="border-b-3 border-border bg-bg-secondary">
         <div className="container-default py-16">
-          {/* Breadcrumbs */}
           <div className="mb-8 animate-fade-up">
             <Breadcrumbs
               items={[
