@@ -2,15 +2,16 @@ import { getAllPosts, getAllTags } from "@/lib/posts";
 import ArticleCard from "@/components/ArticleCard";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Tous les articles",
-  description:
-    "Tous les articles sur les outils IA pour développeurs : tutoriels, comparatifs et retours d'expérience.",
+  description: "Tous les articles sur les outils IA pour développeurs : tutoriels, comparatifs et retours d'expérience.",
 };
 
-export default function BlogPage() {
-  const posts = getAllPosts();
-  const tags = getAllTags();
+export default async function BlogPage() {
+  const posts = await getAllPosts();
+  const tags = await getAllTags();
 
   return (
     <>
@@ -21,14 +22,7 @@ export default function BlogPage() {
             href="/"
             className="inline-flex items-center gap-2 font-body text-sm font-medium text-text-muted hover:text-accent transition-colors mb-8 animate-fade-up"
           >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M19 12H5M12 19l-7-7 7-7" />
             </svg>
             Retour
@@ -61,11 +55,7 @@ export default function BlogPage() {
               </span>
               <div className="flex flex-wrap gap-2">
                 {tags.map((tag) => (
-                  <Link
-                    key={tag}
-                    href={`/tags/${tag.toLowerCase()}`}
-                    className="tag-chip"
-                  >
+                  <Link key={tag} href={`/tags/${tag.toLowerCase()}`} className="tag-chip">
                     #{tag}
                   </Link>
                 ))}
@@ -80,9 +70,7 @@ export default function BlogPage() {
         <div className="container-default">
           {posts.length === 0 ? (
             <div className="text-center py-20 border-3 border-border-light">
-              <p className="font-body text-text-muted text-lg">
-                Aucun article trouvé...
-              </p>
+              <p className="font-body text-text-muted text-lg">Aucun article trouve...</p>
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">

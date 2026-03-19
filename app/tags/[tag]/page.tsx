@@ -3,13 +3,10 @@ import Link from "next/link";
 import { getAllTags, getPostsByTag } from "@/lib/posts";
 import ArticleCard from "@/components/ArticleCard";
 
+export const dynamic = "force-dynamic";
+
 interface Props {
   params: Promise<{ tag: string }>;
-}
-
-export async function generateStaticParams() {
-  const tags = getAllTags();
-  return tags.map((tag) => ({ tag: tag.toLowerCase() }));
 }
 
 export async function generateMetadata({ params }: Props) {
@@ -22,8 +19,8 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function TagPage({ params }: Props) {
   const { tag } = await params;
-  const posts = getPostsByTag(tag);
-  const allTags = getAllTags();
+  const posts = await getPostsByTag(tag);
+  const allTags = await getAllTags();
 
   if (posts.length === 0) {
     notFound();
@@ -38,14 +35,7 @@ export default async function TagPage({ params }: Props) {
             href="/blog"
             className="inline-flex items-center gap-2 font-body text-sm font-medium text-text-muted hover:text-accent transition-colors mb-8 animate-fade-up"
           >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M19 12H5M12 19l-7-7 7-7" />
             </svg>
             Tous les articles
@@ -79,11 +69,7 @@ export default async function TagPage({ params }: Props) {
               {allTags
                 .filter((t) => t.toLowerCase() !== tag.toLowerCase())
                 .map((t) => (
-                  <Link
-                    key={t}
-                    href={`/tags/${t.toLowerCase()}`}
-                    className="tag-chip"
-                  >
+                  <Link key={t} href={`/tags/${t.toLowerCase()}`} className="tag-chip">
                     #{t}
                   </Link>
                 ))}

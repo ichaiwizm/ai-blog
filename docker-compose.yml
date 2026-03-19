@@ -1,14 +1,35 @@
 services:
-  codia:
-    build: .
-    ports:
-      - "3200:3000"
-    restart: always
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_SITE_URL=https://codia.wizycode.fr
+        - NEXT_PUBLIC_POCKETBASE_URL=https://pb-codia.wizycode.fr
+    container_name: codia
+    restart: unless-stopped
+    volumes:
+      - /root/apps/codia/public/images:/app/public/images
     environment:
-      - NODE_ENV=production
       - NEXT_PUBLIC_SITE_URL=https://codia.wizycode.fr
+      - NEXT_PUBLIC_POCKETBASE_URL=https://pb-codia.wizycode.fr
+      - POCKETBASE_URL=http://pocketbase-codia:8090
+    depends_on:
+      - pocketbase-codia
     networks:
       - proxy
+
+  pocketbase-codia:
+    image: ghcr.io/muchobien/pocketbase:latest
+    container_name: pocketbase-codia
+    restart: unless-stopped
+    volumes:
+      - pocketbase_codia_data:/pb_data
+    networks:
+      - proxy
+
+volumes:
+  pocketbase_codia_data:
 
 networks:
   proxy:

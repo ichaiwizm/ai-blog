@@ -3,6 +3,7 @@ import path from "path";
 import matter from "gray-matter";
 import readingTime from "reading-time";
 import GithubSlugger from "github-slugger";
+import { getAllArticlesPB, getArticleBySlugPB } from "./pocketbase";
 
 const postsDirectory = path.join(process.cwd(), "content/posts");
 
@@ -25,20 +26,18 @@ export interface PostMeta {
   published: boolean;
   image?: string;
   category?: Category;
-  prerequisites?: string[]; // Concept slugs required before reading this article
+  prerequisites?: string[];
 }
 
 export interface Post extends PostMeta {
   content: string;
 }
 
-export function getAllPosts(): PostMeta[] {
-  if (!fs.existsSync(postsDirectory)) {
-    return [];
-  }
+function getMDXPosts(): PostMeta[] {
+  if (!fs.existsSync(postsDirectory)) return [];
 
   const fileNames = fs.readdirSync(postsDirectory);
-  const posts = fileNames
+  return fileNames
     .filter((name) => name.endsWith(".mdx"))
     .map((fileName) => {
       const slug = fileName.replace(/\.mdx$/, "");
@@ -59,18 +58,12 @@ export function getAllPosts(): PostMeta[] {
         prerequisites: data.prerequisites || undefined,
       };
     })
-    .filter((post) => post.published)
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
-  return posts;
+    .filter((post) => post.published);
 }
 
-export function getPostBySlug(slug: string): Post | null {
+function getMDXPostBySlug(slug: string): Post | null {
   const fullPath = path.join(postsDirectory, `${slug}.mdx`);
-
-  if (!fs.existsSync(fullPath)) {
-    return null;
-  }
+  if (!fs.existsSync(fullPath)) return null;
 
   const fileContents = fs.readFileSync(fullPath, "utf8");
   const { data, content } = matter(fileContents);
@@ -90,54 +83,65 @@ export function getPostBySlug(slug: string): Post | null {
   };
 }
 
-export function getAllTags(): string[] {
-  const posts = getAllPosts();
+export async function getAllPosts(): Promise<PostMeta[]> {
+  const mdxPosts = getMDXPosts();
+  const pbPosts = await getAllArticlesPB();
+
+  // Merge: MDX slugs take precedence, PB fills the rest
+  const mdxSlugs = new Set(mdxPosts.map((p) => p.slug));
+  const uniquePBPosts = pbPosts.filter((p) => !mdxSlugs.has(p.slug));
+
+  const merged = [...mdxPosts, ...uniquePBPosts];
+  return merged.sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+}
+
+export async function getPostBySlug(slug: string): Promise<Post | null> {
+  const mdx = getMDXPostBySlug(slug);
+  if (mdx) return mdx;
+  return getArticleBySlugPB(slug);
+}
+
+export async function getAllTags(): Promise<string[]> {
+  const posts = await getAllPosts();
   const tags = new Set<string>();
   posts.forEach((post) => post.tags.forEach((tag) => tags.add(tag)));
   return Array.from(tags).sort();
 }
 
-export function getPostsByTag(tag: string): PostMeta[] {
-  return getAllPosts().filter((post) =>
+export async function getPostsByTag(tag: string): Promise<PostMeta[]> {
+  const posts = await getAllPosts();
+  return posts.filter((post) =>
     post.tags.map((t) => t.toLowerCase()).includes(tag.toLowerCase())
   );
 }
 
-// Category functions
 export function getAllCategories(): Category[] {
   return Object.keys(CATEGORIES) as Category[];
 }
 
-export function getPostsByCategory(category: Category): PostMeta[] {
-  return getAllPosts().filter((post) => post.category === category);
+export async function getPostsByCategory(category: Category): Promise<PostMeta[]> {
+  const posts = await getAllPosts();
+  return posts.filter((post) => post.category === category);
 }
 
-// Related posts function
-export function getRelatedPosts(currentSlug: string, limit: number = 3): PostMeta[] {
-  const currentPost = getPostBySlug(currentSlug);
+export async function getRelatedPosts(currentSlug: string, limit: number = 3): Promise<PostMeta[]> {
+  const currentPost = await getPostBySlug(currentSlug);
   if (!currentPost) return [];
 
-  const allPosts = getAllPosts().filter((post) => post.slug !== currentSlug);
+  const allPosts = (await getAllPosts()).filter((post) => post.slug !== currentSlug);
 
-  // Score posts based on common tags and same category
   const scoredPosts = allPosts.map((post) => {
     let score = 0;
-
-    // Points for each common tag
     const commonTags = post.tags.filter((tag) =>
       currentPost.tags.map((t) => t.toLowerCase()).includes(tag.toLowerCase())
     );
     score += commonTags.length * 2;
-
-    // Points for same category
-    if (post.category && post.category === currentPost.category) {
-      score += 1;
-    }
-
+    if (post.category && post.category === currentPost.category) score += 1;
     return { post, score };
   });
 
-  // Sort by score (descending) then by date (descending)
   return scoredPosts
     .sort((a, b) => {
       if (b.score !== a.score) return b.score - a.score;
@@ -147,7 +151,6 @@ export function getRelatedPosts(currentSlug: string, limit: number = 3): PostMet
     .map(({ post }) => post);
 }
 
-// Extract headings from MDX content for table of contents
 export interface TocHeading {
   id: string;
   text: string;
@@ -163,9 +166,7 @@ export function extractHeadings(content: string): TocHeading[] {
   while ((match = headingRegex.exec(content)) !== null) {
     const level = match[1].length;
     const text = match[2].trim();
-    // Use github-slugger to match rehype-slug's ID generation
     const id = slugger.slug(text);
-
     headings.push({ id, text, level });
   }
 

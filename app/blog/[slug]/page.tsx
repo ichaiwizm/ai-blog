@@ -21,18 +21,15 @@ import ArticleTracker from "@/components/ArticleTracker";
 import ArticleActions from "@/components/ArticleActions";
 import CodeBlockEnhancer from "@/components/CodeBlockEnhancer";
 
+export const dynamic = "force-dynamic";
+
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
-export async function generateStaticParams() {
-  const posts = getAllPosts();
-  return posts.map((post) => ({ slug: post.slug }));
-}
-
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
   if (!post) return { title: "Article non trouvé" };
 
   const baseUrl =
@@ -63,7 +60,7 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function PostPage({ params }: Props) {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
 
   if (!post) {
     notFound();
@@ -71,7 +68,7 @@ export default async function PostPage({ params }: Props) {
 
   const { content } = await compileMDXContent(post.content);
   const headings = extractHeadings(post.content);
-  const relatedPosts = getRelatedPosts(slug, 3);
+  const relatedPosts = await getRelatedPosts(slug, 3);
   const prerequisiteConcepts = post.prerequisites
     ? getConceptsBySlugs(post.prerequisites)
     : [];
@@ -79,8 +76,50 @@ export default async function PostPage({ params }: Props) {
     process.env.NEXT_PUBLIC_SITE_URL || "https://codia.wizycode.fr";
   const articleUrl = `${baseUrl}/blog/${slug}`;
 
+  // JSON-LD Schema
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.title,
+    description: post.description,
+    datePublished: post.date,
+    dateModified: post.date,
+    author: {
+      "@type": "Person",
+      name: "Ichai Wizman",
+      url: "https://wizycode.fr",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Wizycode",
+      url: "https://wizycode.fr",
+      logo: {
+        "@type": "ImageObject",
+        url: `${baseUrl}/logo-wizycode-opt.png`,
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": articleUrl,
+    },
+    ...(post.image ? { image: { "@type": "ImageObject", url: post.image.startsWith("http") ? post.image : `${baseUrl}${post.image}` } } : {}),
+    keywords: post.tags.join(", "),
+  };
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Accueil", item: baseUrl },
+      { "@type": "ListItem", position: 2, name: "Blog", item: `${baseUrl}/blog` },
+      { "@type": "ListItem", position: 3, name: post.title, item: articleUrl },
+    ],
+  };
+
   return (
     <ArticleTracker slug={slug}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <ReadingProgress />
       <TableOfContents headings={headings} />
 
@@ -165,7 +204,7 @@ export default async function PostPage({ params }: Props) {
               </div>
             )}
 
-            {/* Actions (Favorite + Share) */}
+            {/* Actions */}
             <div className="animate-fade-up stagger-5">
               <ArticleActions slug={slug} title={post.title} url={articleUrl} />
             </div>
@@ -214,10 +253,7 @@ export default async function PostPage({ params }: Props) {
           {/* Footer */}
           <footer className="mt-16 pt-8 border-t-2 border-border">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-              <Link
-                href="/blog"
-                className="brutal-btn-secondary"
-              >
+              <Link href="/blog" className="brutal-btn-secondary">
                 <svg
                   width="16"
                   height="16"
@@ -241,14 +277,7 @@ export default async function PostPage({ params }: Props) {
 
 function CalendarIcon() {
   return (
-    <svg
-      width="14"
-      height="14"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-    >
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
       <line x1="16" y1="2" x2="16" y2="6" />
       <line x1="8" y1="2" x2="8" y2="6" />
@@ -259,14 +288,7 @@ function CalendarIcon() {
 
 function ClockIcon() {
   return (
-    <svg
-      width="14"
-      height="14"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-    >
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <circle cx="12" cy="12" r="10" />
       <path d="M12 6v6l4 2" />
     </svg>

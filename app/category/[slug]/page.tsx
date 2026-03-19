@@ -9,24 +9,19 @@ import {
 import ArticleCard from "@/components/ArticleCard";
 import Breadcrumbs from "@/components/Breadcrumbs";
 
+export const dynamic = "force-dynamic";
+
 interface Props {
   params: Promise<{ slug: string }>;
-}
-
-export async function generateStaticParams() {
-  const categories = getAllCategories();
-  return categories.map((category) => ({ slug: category }));
 }
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const category = slug as Category;
   const categoryInfo = CATEGORIES[category];
-
   if (!categoryInfo) {
     return { title: "Catégorie non trouvée" };
   }
-
   return {
     title: categoryInfo.label,
     description: categoryInfo.description,
@@ -38,30 +33,27 @@ export default async function CategoryPage({ params }: Props) {
   const category = slug as Category;
   const categoryInfo = CATEGORIES[category];
 
-  if (!categoryInfo) {
-    notFound();
-  }
+  if (!categoryInfo) notFound();
 
-  const posts = getPostsByCategory(category);
+  const posts = await getPostsByCategory(category);
 
   return (
     <>
       {/* Header */}
       <section className="border-b-3 border-border bg-bg-secondary">
         <div className="container-default py-16">
-          {/* Breadcrumbs */}
           <div className="mb-8 animate-fade-up">
             <Breadcrumbs
               items={[
                 { label: "Accueil", href: "/" },
-                { label: "Catégories" },
+                { label: "Categories" },
                 { label: categoryInfo.label },
               ]}
             />
           </div>
 
           <div className="animate-fade-up stagger-1">
-            <span className="category-badge mb-6 inline-block">Catégorie</span>
+            <span className="category-badge mb-6 inline-block">Categorie</span>
           </div>
 
           <h1 className="font-display text-5xl sm:text-6xl text-text-primary mb-6 animate-fade-up stagger-2">
@@ -111,7 +103,7 @@ export default async function CategoryPage({ params }: Props) {
           ) : (
             <div className="text-center py-20 border-3 border-border-light">
               <p className="font-body text-text-muted text-lg mb-4">
-                Aucun article dans cette catégorie pour le moment.
+                Aucun article dans cette categorie pour le moment.
               </p>
               <Link href="/blog" className="brutal-btn-secondary">
                 Voir tous les articles
