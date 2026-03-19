@@ -1,0 +1,417 @@
+---
+title: "Comment construire une app Next.js complète avec l'IA en 2026"
+description: "Guide pratique pour créer une application Next.js de A à Z avec les outils IA. Architecture, TypeScript, Tailwind, PocketBase et déploiement. Exemples concrets et workflow détaillé."
+date: "2026-02-15"
+tags: ["Next.js", "Claude Code", "TypeScript", "Tailwind", "PocketBase", "Tutoriel", "Développement"]
+category: "tutoriels"
+published: true
+image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200&q=80"
+---
+
+Construire une application web complète en 2026, c'est une expérience radicalement différente de ce qu'on connaissait il y a seulement deux ans. Les outils IA ont transformé le processus de développement, et il est désormais possible de livrer un produit fonctionnel en une fraction du temps habituel.
+
+Dans ce guide, nous allons construire une application Next.js complète — de l'initialisation du projet au déploiement — en utilisant l'IA comme copilote principal.
+
+## La stack technique
+
+Voici la stack que nous allons utiliser. C'est notre stack standard chez Wizycode pour les projets clients :
+
+- **Next.js 15** (App Router) — framework React full-stack
+- **TypeScript** — typage statique pour un code robuste
+- **Tailwind CSS** — styling utilitaire rapide et cohérent
+- **PocketBase** — backend léger avec base de données, authentification et API en temps réel
+- **Claude Code** — assistant IA pour le développement
+
+Cette stack a été choisie pour son équilibre entre productivité, performance et maintenabilité. Next.js fournit le rendu serveur et le routing. TypeScript attrape les bugs avant l'exécution. Tailwind élimine le besoin de fichiers CSS séparés. PocketBase fournit un backend complet en un seul binaire.
+
+## Étape 1 : Initialisation du projet
+
+On commence par créer le projet Next.js. Ouvrez votre terminal et lancez Claude Code.
+
+```bash
+claude
+```
+
+Puis décrivez votre projet :
+
+```
+Crée un projet Next.js 15 avec App Router, TypeScript et Tailwind CSS.
+Structure le projet avec :
+- app/ pour les pages (App Router)
+- components/ pour les composants réutilisables
+- lib/ pour les utilitaires et la logique métier
+- types/ pour les types TypeScript partagés
+```
+
+Claude Code va exécuter `create-next-app` avec les bonnes options, configurer TypeScript strictement, et mettre en place la structure de dossiers demandée.
+
+### Configuration TypeScript stricte
+
+Un point important : configurez TypeScript en mode strict dès le départ. C'est plus exigeant, mais ça vous évitera des bugs insidieux plus tard.
+
+```json
+{
+  "compilerOptions": {
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitReturns": true,
+    "forceConsistentCasingInFileNames": true
+  }
+}
+```
+
+L'IA respectera ces contraintes et produira du code correctement typé.
+
+## Étape 2 : Architecture des composants
+
+Avant de coder, il faut réfléchir à l'architecture. C'est ici que l'IA est particulièrement utile : elle peut vous aider à concevoir une architecture cohérente avant d'écrire la première ligne de code.
+
+Demandez à Claude Code :
+
+```
+Propose une architecture de composants pour une app de gestion de tâches
+avec : liste de projets, tableau kanban par projet, détail de tâche,
+authentification utilisateur. Utilise les Server Components par défaut
+et les Client Components uniquement quand c'est nécessaire.
+```
+
+### Server Components vs Client Components
+
+La règle d'or avec Next.js App Router : **Server Components par défaut**.
+
+Les Server Components s'exécutent côté serveur et n'ajoutent pas de JavaScript au bundle client. Ils sont parfaits pour :
+- Afficher des données depuis la base de données
+- Rendre du contenu statique ou semi-statique
+- Les layouts et les pages de contenu
+
+Les Client Components sont nécessaires uniquement pour :
+- Les interactions utilisateur (clic, formulaire, drag & drop)
+- Les hooks React (useState, useEffect)
+- Les API du navigateur (localStorage, géolocalisation)
+
+Claude Code comprend cette distinction et placera le `'use client'` uniquement là où c'est nécessaire.
+
+## Étape 3 : Mise en place de PocketBase
+
+PocketBase est un backend open-source qui tient dans un seul binaire. Il fournit :
+- Une base de données SQLite
+- Un système d'authentification complet
+- Une API REST auto-générée
+- Des événements temps réel via SSE
+- Un tableau de bord d'administration
+
+### Installation et lancement
+
+```bash
+# Télécharger PocketBase
+wget https://github.com/pocketbase/pocketbase/releases/download/v0.25.0/pocketbase_0.25.0_linux_amd64.zip
+unzip pocketbase_0.25.0_linux_amd64.zip
+
+# Lancer le serveur
+./pocketbase serve
+```
+
+PocketBase sera disponible sur `http://localhost:8090` avec un dashboard admin sur `http://localhost:8090/_/`.
+
+### Créer le client TypeScript
+
+Demandez à Claude Code de créer un client PocketBase typé :
+
+```
+Crée un client PocketBase typé pour Next.js avec :
+- Connexion au serveur PocketBase
+- Types pour les collections (projets, tâches, utilisateurs)
+- Fonctions utilitaires pour les opérations CRUD
+- Gestion des erreurs avec des types discriminés
+```
+
+Claude Code va produire quelque chose comme :
+
+```typescript
+import PocketBase from 'pocketbase';
+
+const pb = new PocketBase(
+  process.env.NEXT_PUBLIC_POCKETBASE_URL || 'http://localhost:8090'
+);
+
+export interface Project {
+  id: string;
+  name: string;
+  description: string;
+  created: string;
+  updated: string;
+  owner: string;
+}
+
+export interface Task {
+  id: string;
+  title: string;
+  description: string;
+  status: 'todo' | 'in_progress' | 'done';
+  priority: 'low' | 'medium' | 'high';
+  project: string;
+  assignee: string;
+  created: string;
+  updated: string;
+}
+
+export type ApiResult<T> =
+  | { success: true; data: T }
+  | { success: false; error: string };
+
+export async function getProjects(): Promise<ApiResult<Project[]>> {
+  try {
+    const records = await pb.collection('projects').getFullList<Project>();
+    return { success: true, data: records };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Erreur inconnue';
+    return { success: false, error: message };
+  }
+}
+```
+
+Ce pattern de résultat typé (`ApiResult<T>`) est crucial. Il force le code appelant à gérer explicitement les cas d'erreur au lieu de les ignorer silencieusement.
+
+## Étape 4 : Pages et routing
+
+Avec App Router, chaque dossier dans `app/` correspond à une route. Voici la structure typique :
+
+```
+app/
+├── layout.tsx              # Layout racine
+├── page.tsx                # Page d'accueil
+├── (auth)/
+│   ├── login/page.tsx      # Page de connexion
+│   └── register/page.tsx   # Page d'inscription
+├── dashboard/
+│   ├── layout.tsx          # Layout dashboard
+│   └── page.tsx            # Vue d'ensemble
+├── projects/
+│   ├── page.tsx            # Liste des projets
+│   └── [id]/
+│       ├── page.tsx        # Détail d'un projet (kanban)
+│       └── tasks/
+│           └── [taskId]/
+│               └── page.tsx # Détail d'une tâche
+```
+
+Demandez à Claude Code de créer cette structure avec le routing complet :
+
+```
+Crée les pages suivantes avec App Router :
+- Page d'accueil avec présentation du produit
+- Pages auth (login/register) avec formulaires
+- Dashboard avec liste des projets de l'utilisateur
+- Page projet avec vue kanban (3 colonnes : à faire, en cours, terminé)
+- Page détail tâche avec formulaire d'édition
+Utilise PocketBase pour les données et l'authentification.
+```
+
+### Exemple de page avec données serveur
+
+Une page Server Component qui charge des données depuis PocketBase :
+
+```typescript
+import { getProjects } from '@/lib/pocketbase';
+import { ProjectCard } from '@/components/ProjectCard';
+
+export default async function DashboardPage() {
+  const result = await getProjects();
+
+  if (!result.success) {
+    return (
+      <div className="p-8 text-center">
+        <p className="text-red-600">
+          Erreur lors du chargement des projets : {result.error}
+        </p>
+      </div>
+    );
+  }
+
+  const projects = result.data;
+
+  if (projects.length === 0) {
+    return (
+      <div className="p-8 text-center">
+        <p className="text-gray-500">Aucun projet pour le moment.</p>
+        <CreateProjectButton />
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-8">
+      {projects.map((project) => (
+        <ProjectCard key={project.id} project={project} />
+      ))}
+    </div>
+  );
+}
+```
+
+Notez comment la gestion d'erreur est explicite et complète : cas d'erreur, cas vide, cas nominal. L'IA produit naturellement ce genre de code complet quand on lui demande.
+
+## Étape 5 : Composants interactifs
+
+Les composants qui gèrent des interactions nécessitent `'use client'`. Voici un exemple de tableau kanban :
+
+```
+Crée un composant KanbanBoard en Client Component avec :
+- 3 colonnes (À faire, En cours, Terminé)
+- Drag & drop natif (HTML5 API, pas de librairie)
+- Mise à jour optimiste lors du déplacement d'une tâche
+- Appel à PocketBase pour persister le changement
+- Gestion d'erreur avec rollback si le serveur échoue
+```
+
+Claude Code va créer un composant complet avec la logique de drag & drop, les états locaux pour l'optimistic update, et la synchronisation avec PocketBase.
+
+### Server Actions pour les mutations
+
+Pour les formulaires et les mutations de données, utilisez les Server Actions de Next.js :
+
+```typescript
+'use server';
+
+import { revalidatePath } from 'next/cache';
+import { createTask } from '@/lib/pocketbase';
+
+export async function addTask(formData: FormData) {
+  const title = formData.get('title') as string;
+  const projectId = formData.get('projectId') as string;
+
+  if (!title || !projectId) {
+    return { error: 'Titre et projet requis' };
+  }
+
+  const result = await createTask({
+    title,
+    project: projectId,
+    status: 'todo',
+    priority: 'medium',
+  });
+
+  if (!result.success) {
+    return { error: result.error };
+  }
+
+  revalidatePath(`/projects/${projectId}`);
+  return { success: true };
+}
+```
+
+## Étape 6 : Authentification
+
+PocketBase fournit un système d'authentification complet. Demandez à Claude Code de l'intégrer :
+
+```
+Intègre l'authentification PocketBase dans l'app Next.js :
+- Formulaire de login/register
+- Stockage du token dans un cookie HttpOnly
+- Middleware Next.js pour protéger les routes /dashboard et /projects
+- Composant UserMenu avec nom et bouton de déconnexion
+- Redirection automatique vers /login si non authentifié
+```
+
+L'IA va créer le middleware, les Server Actions pour l'authentification, et les composants UI nécessaires.
+
+## Étape 7 : Styling avec Tailwind
+
+Tailwind CSS est l'allié parfait de l'IA. Sa syntaxe déclarative et utilitaire est parfaitement adaptée à la génération de code.
+
+Quelques principes pour obtenir du bon CSS avec l'IA :
+
+1. **Décrivez le résultat visuel** plutôt que les classes CSS : "carte avec ombre légère, coins arrondis, padding généreux"
+2. **Référencez des designs existants** : "style similaire à la page de pricing de Linear"
+3. **Spécifiez le responsive** : "3 colonnes sur desktop, 1 colonne sur mobile"
+
+L'IA produit du Tailwind propre et cohérent. Elle utilise les bonnes classes utilitaires, gère le responsive avec les préfixes `sm:`, `md:`, `lg:`, et applique les bonnes pratiques de spacing et de typographie.
+
+## Étape 8 : Tests et qualité
+
+Même avec l'IA, les tests restent essentiels. Demandez à Claude Code de les écrire après chaque fonctionnalité :
+
+```
+Écris des tests pour le composant KanbanBoard :
+- Test de rendu initial avec les 3 colonnes
+- Test de drag & drop d'une tâche entre colonnes
+- Test de gestion d'erreur si le serveur échoue
+- Test d'état vide
+```
+
+L'IA est excellente pour écrire des tests parce qu'elle comprend l'intention du code qu'elle a elle-même généré.
+
+## Étape 9 : Déploiement
+
+### Build de production
+
+```bash
+npm run build
+```
+
+Vérifiez que le build passe sans erreur TypeScript et sans warning.
+
+### Docker
+
+Pour un déploiement Docker, demandez à Claude Code :
+
+```
+Crée un Dockerfile multi-stage pour Next.js en production
+et un docker-compose.yml qui lance Next.js et PocketBase ensemble.
+```
+
+### Vérifications pré-déploiement
+
+Avant de déployer, vérifiez :
+- Le build TypeScript passe sans erreur
+- Les variables d'environnement de production sont configurées
+- Les images sont optimisées (next/image)
+- Le SEO est en place (metadata, sitemap, robots.txt)
+- Le lighthouse score est correct (performance, accessibilité)
+
+## Workflow quotidien avec l'IA
+
+Voici le workflow que nous utilisons au quotidien chez Wizycode :
+
+1. **Planification** : décrire la fonctionnalité à Claude Code et lui demander un plan d'implémentation
+2. **Implémentation** : confier l'implémentation à Claude Code en mode agent
+3. **Review** : relire le code généré, vérifier la logique et les edge cases
+4. **Tests** : demander à l'IA d'écrire les tests, puis les vérifier
+5. **Ajustements** : corriger les détails manuellement ou via l'IA
+6. **Commit** : utiliser Claude Code pour créer un commit avec un message descriptif
+
+Ce workflow nous permet de livrer des fonctionnalités 3 à 5 fois plus vite qu'en codant manuellement, tout en maintenant un niveau de qualité élevé.
+
+## Pièges à éviter
+
+### Ne pas relire le code généré
+
+L'IA fait des erreurs. Pas souvent, mais ça arrive. Relisez toujours le code généré, surtout pour :
+- La logique métier critique
+- La gestion des permissions
+- Les requêtes de base de données
+- La validation des entrées utilisateur
+
+### Tout déléguer sans comprendre
+
+L'IA est un outil, pas un remplaçant. Vous devez comprendre ce que fait le code pour pouvoir le maintenir, le débugger et le faire évoluer. Si l'IA génère du code que vous ne comprenez pas, demandez-lui de l'expliquer avant de l'accepter.
+
+### Ignorer les erreurs TypeScript
+
+TypeScript est votre filet de sécurité. Si l'IA génère du code avec des erreurs TypeScript, ne les ignorez pas avec des `// @ts-ignore`. Demandez à l'IA de corriger le typage.
+
+### Oublier les edge cases
+
+L'IA gère bien les cas nominaux mais peut oublier les edge cases. Pensez toujours à :
+- Que se passe-t-il si la liste est vide ?
+- Que se passe-t-il si le serveur est indisponible ?
+- Que se passe-t-il si l'utilisateur n'a pas les permissions ?
+- Que se passe-t-il sur mobile avec un petit écran ?
+
+## Conclusion
+
+Construire une application Next.js avec l'IA en 2026, c'est un exercice de collaboration entre votre expertise de développeur et la puissance de l'IA. Vous apportez la vision, les décisions architecturales et le contrôle qualité. L'IA apporte la vitesse d'exécution, la connaissance des API et des patterns, et la capacité à gérer la complexité.
+
+Le résultat, c'est un workflow de développement plus rapide, plus fiable et — soyons honnêtes — plus agréable.
+
+La clé, c'est de trouver le bon équilibre : déléguer assez pour gagner en productivité, mais garder assez de contrôle pour garantir la qualité. C'est un équilibre qui s'affine avec la pratique.
