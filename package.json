@@ -1,7 +1,7 @@
 {
-  "name": "ai-blog",
+  "name": "codia",
   "version": "1.0.0",
-  "description": "",
+  "description": "Codia — Blog francophone sur les outils IA pour développeurs. Propulsé par Wizycode.fr.",
   "main": "index.js",
   "scripts": {
     "dev": "next dev",
@@ -11,25 +11,24 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ichaiwizm/ai-blog.git"
+    "url": "git+https://github.com/ichaiwizm/codia.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["blog", "ia", "developpeurs", "claude-code", "cursor", "next.js"],
+  "author": "Wizycode <contact@wizycode.fr>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ichaiwizm/ai-blog/issues"
+    "url": "https://github.com/ichaiwizm/codia/issues"
   },
-  "homepage": "https://github.com/ichaiwizm/ai-blog#readme",
+  "homepage": "https://codia.wizycode.fr",
   "dependencies": {
     "@tailwindcss/typography": "^0.5.19",
     "fuse.js": "^7.1.0",
     "github-slugger": "^2.0.0",
     "gray-matter": "^4.0.3",
-    "next": "^14.2.33",
+    "next": "^15.5.12",
     "next-mdx-remote": "^5.0.0",
-    "next-pwa": "^5.6.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
     "reading-time": "^1.5.0",
     "rehype-autolink-headings": "^7.1.0",
     "rehype-pretty-code": "^0.14.1",
@@ -39,11 +38,11 @@
   },
   "devDependencies": {
     "@types/node": "^24.10.1",
-    "@types/react": "^19.2.7",
+    "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "autoprefixer": "^10.4.22",
     "eslint": "^9.39.1",
-    "eslint-config-next": "^16.0.5",
+    "eslint-config-next": "^15.5.12",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.18",
     "typescript": "^5.9.3"
