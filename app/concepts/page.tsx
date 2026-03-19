@@ -4,8 +4,8 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import ConceptCardClient from "./ConceptCardClient";
 
 export const metadata = {
-  title: "Concepts - AI Blog",
-  description: "Les concepts fondamentaux pour maîtriser le développement avec l'IA",
+  title: "Concepts",
+  description: "Les concepts fondamentaux pour maîtriser les outils IA de développement.",
 };
 
 export default function ConceptsPage() {
