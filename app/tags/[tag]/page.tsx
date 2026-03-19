@@ -4,7 +4,7 @@ import { getAllTags, getPostsByTag } from "@/lib/posts";
 import ArticleCard from "@/components/ArticleCard";
 
 interface Props {
-  params: { tag: string };
+  params: Promise<{ tag: string }>;
 }
 
 export async function generateStaticParams() {
@@ -13,14 +13,16 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props) {
+  const { tag } = await params;
   return {
-    title: `#${params.tag} - AI Blog`,
-    description: `Tous les articles avec le tag ${params.tag}`,
+    title: `#${tag}`,
+    description: `Tous les articles avec le tag ${tag}`,
   };
 }
 
-export default function TagPage({ params }: Props) {
-  const posts = getPostsByTag(params.tag);
+export default async function TagPage({ params }: Props) {
+  const { tag } = await params;
+  const posts = getPostsByTag(tag);
   const allTags = getAllTags();
 
   if (posts.length === 0) {
@@ -57,7 +59,7 @@ export default function TagPage({ params }: Props) {
 
           <h1 className="font-display text-5xl sm:text-6xl mb-6 animate-fade-up stagger-2">
             <span className="text-accent">#</span>
-            <span className="text-text-primary">{params.tag}</span>
+            <span className="text-text-primary">{tag}</span>
           </h1>
 
           <p className="text-xl text-text-muted animate-fade-up stagger-3">
@@ -75,14 +77,14 @@ export default function TagPage({ params }: Props) {
             </span>
             <div className="flex flex-wrap gap-2">
               {allTags
-                .filter((t) => t.toLowerCase() !== params.tag.toLowerCase())
-                .map((tag) => (
+                .filter((t) => t.toLowerCase() !== tag.toLowerCase())
+                .map((t) => (
                   <Link
-                    key={tag}
-                    href={`/tags/${tag.toLowerCase()}`}
+                    key={t}
+                    href={`/tags/${t.toLowerCase()}`}
                     className="tag-chip"
                   >
-                    #{tag}
+                    #{t}
                   </Link>
                 ))}
             </div>

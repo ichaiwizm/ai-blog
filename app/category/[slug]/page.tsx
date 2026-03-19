@@ -10,7 +10,7 @@ import ArticleCard from "@/components/ArticleCard";
 import Breadcrumbs from "@/components/Breadcrumbs";
 
 interface Props {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
@@ -19,21 +19,23 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props) {
-  const category = params.slug as Category;
+  const { slug } = await params;
+  const category = slug as Category;
   const categoryInfo = CATEGORIES[category];
 
   if (!categoryInfo) {
-    return { title: "Categorie non trouvee" };
+    return { title: "Catégorie non trouvée" };
   }
 
   return {
-    title: `${categoryInfo.label} - AI Blog`,
+    title: categoryInfo.label,
     description: categoryInfo.description,
   };
 }
 
-export default function CategoryPage({ params }: Props) {
-  const category = params.slug as Category;
+export default async function CategoryPage({ params }: Props) {
+  const { slug } = await params;
+  const category = slug as Category;
   const categoryInfo = CATEGORIES[category];
 
   if (!categoryInfo) {
@@ -52,14 +54,14 @@ export default function CategoryPage({ params }: Props) {
             <Breadcrumbs
               items={[
                 { label: "Accueil", href: "/" },
-                { label: "Categories" },
+                { label: "Catégories" },
                 { label: categoryInfo.label },
               ]}
             />
           </div>
 
           <div className="animate-fade-up stagger-1">
-            <span className="category-badge mb-6 inline-block">Categorie</span>
+            <span className="category-badge mb-6 inline-block">Catégorie</span>
           </div>
 
           <h1 className="font-display text-5xl sm:text-6xl text-text-primary mb-6 animate-fade-up stagger-2">
@@ -109,7 +111,7 @@ export default function CategoryPage({ params }: Props) {
           ) : (
             <div className="text-center py-20 border-3 border-border-light">
               <p className="font-body text-text-muted text-lg mb-4">
-                Aucun article dans cette categorie pour le moment.
+                Aucun article dans cette catégorie pour le moment.
               </p>
               <Link href="/blog" className="brutal-btn-secondary">
                 Voir tous les articles

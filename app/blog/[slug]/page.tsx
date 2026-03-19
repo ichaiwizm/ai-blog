@@ -22,7 +22,7 @@ import ArticleActions from "@/components/ArticleActions";
 import CodeBlockEnhancer from "@/components/CodeBlockEnhancer";
 
 interface Props {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
@@ -31,14 +31,15 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props) {
-  const post = getPostBySlug(params.slug);
+  const { slug } = await params;
+  const post = getPostBySlug(slug);
   if (!post) return { title: "Article non trouvé" };
 
   const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://ai-blog.vercel.app";
+    process.env.NEXT_PUBLIC_SITE_URL || "https://codia.wizycode.fr";
 
   return {
-    title: `${post.title} - AI Blog`,
+    title: post.title,
     description: post.description,
     openGraph: {
       title: post.title,
@@ -55,13 +56,14 @@ export async function generateMetadata({ params }: Props) {
       images: post.image ? [post.image] : undefined,
     },
     alternates: {
-      canonical: `${baseUrl}/blog/${params.slug}`,
+      canonical: `${baseUrl}/blog/${slug}`,
     },
   };
 }
 
 export default async function PostPage({ params }: Props) {
-  const post = getPostBySlug(params.slug);
+  const { slug } = await params;
+  const post = getPostBySlug(slug);
 
   if (!post) {
     notFound();
@@ -69,16 +71,16 @@ export default async function PostPage({ params }: Props) {
 
   const { content } = await compileMDXContent(post.content);
   const headings = extractHeadings(post.content);
-  const relatedPosts = getRelatedPosts(params.slug, 3);
+  const relatedPosts = getRelatedPosts(slug, 3);
   const prerequisiteConcepts = post.prerequisites
     ? getConceptsBySlugs(post.prerequisites)
     : [];
   const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://ai-blog.vercel.app";
-  const articleUrl = `${baseUrl}/blog/${params.slug}`;
+    process.env.NEXT_PUBLIC_SITE_URL || "https://codia.wizycode.fr";
+  const articleUrl = `${baseUrl}/blog/${slug}`;
 
   return (
-    <ArticleTracker slug={params.slug}>
+    <ArticleTracker slug={slug}>
       <ReadingProgress />
       <TableOfContents headings={headings} />
 
@@ -165,7 +167,7 @@ export default async function PostPage({ params }: Props) {
 
             {/* Actions (Favorite + Share) */}
             <div className="animate-fade-up stagger-5">
-              <ArticleActions slug={params.slug} title={post.title} url={articleUrl} />
+              <ArticleActions slug={slug} title={post.title} url={articleUrl} />
             </div>
           </div>
         </header>
@@ -200,14 +202,14 @@ export default async function PostPage({ params }: Props) {
 
           {/* Reactions */}
           <div className="mt-16 pt-8 border-t-2 border-border">
-            <Reactions slug={params.slug} />
+            <Reactions slug={slug} />
           </div>
 
           {/* Related Posts */}
           <RelatedPosts posts={relatedPosts} />
 
           {/* Comments */}
-          <Comments slug={params.slug} />
+          <Comments slug={slug} />
 
           {/* Footer */}
           <footer className="mt-16 pt-8 border-t-2 border-border">

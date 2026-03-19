@@ -8,7 +8,7 @@ import FavoriteButton from "@/components/FavoriteButton";
 import { IconByName } from "@/components/icons";
 
 interface Props {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
@@ -17,17 +17,19 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props) {
-  const concept = getConceptBySlug(params.slug);
+  const { slug } = await params;
+  const concept = getConceptBySlug(slug);
   if (!concept) return { title: "Concept non trouvé" };
 
   return {
-    title: `${concept.title} - Concepts - AI Blog`,
+    title: `${concept.title} — Concepts`,
     description: concept.description,
   };
 }
 
 export default async function ConceptPage({ params }: Props) {
-  const concept = getConceptBySlug(params.slug);
+  const { slug } = await params;
+  const concept = getConceptBySlug(slug);
 
   if (!concept) {
     notFound();
